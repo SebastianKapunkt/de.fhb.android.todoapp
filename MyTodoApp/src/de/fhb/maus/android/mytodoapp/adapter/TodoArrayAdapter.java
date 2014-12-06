@@ -25,7 +25,7 @@ public class TodoArrayAdapter extends ArrayAdapter<Todo> {
 	}
 
 	public TodoArrayAdapter(Activity context, ArrayList<Todo> todos) {
-		super(context, R.layout.rowlayout);
+		super(context, R.layout.rowlayout, todos);
 		this.context = context;
 		this.todos = todos;
 	}
@@ -58,10 +58,5 @@ public class TodoArrayAdapter extends ArrayAdapter<Todo> {
 		}
 
 		return rowView;
-	}
-	
-	@Override
-	public int getCount() {
-	    return todos.size();
 	}
 }
