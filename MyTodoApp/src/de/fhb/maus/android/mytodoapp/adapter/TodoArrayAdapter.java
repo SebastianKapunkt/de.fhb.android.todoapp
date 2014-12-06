@@ -59,4 +59,9 @@ public class TodoArrayAdapter extends ArrayAdapter<Todo> {
 
 		return rowView;
 	}
+	
+	@Override
+	public int getCount() {
+	    return todos.size();
+	}
 }
