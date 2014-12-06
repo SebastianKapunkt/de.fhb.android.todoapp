@@ -14,11 +14,18 @@
 
     <ImageButton
         android:id="@+id/isImportant"
-        android:layout_width="34dp"
-        android:layout_height="32dp"
-        android:layout_marginRight="3dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="0dp"
+        android:layout_weight="1"
+        android:adjustViewBounds="true"
         android:contentDescription="@string/isImportant"
-        android:src="@drawable/ic_launcher" />
+        android:padding="1dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/is_not_fav" />
 
     <TextView
         android:id="@+id/todo_name"
