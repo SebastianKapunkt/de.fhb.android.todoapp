@@ -1,5 +1,10 @@
 package de.fhb.maus.android.mytodoapp.data;
 
+import java.text.Format;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class Todo {
 
 	private long id;
@@ -17,12 +22,31 @@ public class Todo {
 		this.isImportant = isImportant;
 		this.maturityDate = maturityDate;
 	}
-	
-	public Todo(){
+
+	public Todo() {
 		// just do nothing
 	}
 
-	/* (non-Javadoc)
+	public String convertTime(long time) {
+		Date date = new Date(time);
+		Format format = new SimpleDateFormat("yyyy MM dd HH:mm:ss");
+		return format.format(date);
+	}
+
+	public long convertTime(String time) {
+		SimpleDateFormat format = new SimpleDateFormat("yyyy MM dd HH:mm:ss");
+		Date d = null;
+		try {
+			d = format.parse(time);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return d.getTime();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
