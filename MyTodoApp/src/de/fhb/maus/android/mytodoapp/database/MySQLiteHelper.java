@@ -86,7 +86,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 	}
 
 	// R - read
-	public Todo getTodo(int id) {
+	public Todo getTodo(long id) {
 		// get reference to readable database
 		SQLiteDatabase db = this.getReadableDatabase();
 
