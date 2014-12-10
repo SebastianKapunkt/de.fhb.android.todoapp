@@ -2,28 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical"
-    android:background="#FFFFFFFF" >
+    android:background="#FFFFFFFF"
+    android:orientation="vertical" >
 
     <ListView
-        android:id="@+id/todo_list"
+        android:id="@android:id/list"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_weight="1.0" />
-
-    <LinearLayout
-        style="@android:style/ButtonBar"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-
-        <Button
-            android:id="@+id/new_game"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:onClick="createNewTodo"
-            android:text="@string/new_todo"
-            android:textColor="#FFFFFFFF" />
-    </LinearLayout>
 
 </LinearLayout>
