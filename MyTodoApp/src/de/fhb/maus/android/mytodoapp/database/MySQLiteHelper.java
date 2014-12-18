@@ -41,8 +41,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 		String CREATE_TODO_TABLE = "CREATE TABLE " + TABLE_TODO + " ( "
 				+ KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + KEY_Name
 				+ " TEXT, " + KEY_DESCRIPTION + " TEXT, " + KEY_ISDONE
-				+ " INTEGER, " + KEY_ISIMPORTANT + " INTEGER, " + KEY_MATURITYDATE
-				+ " INTEGER )";
+				+ " INTEGER, " + KEY_ISIMPORTANT + " INTEGER, "
+				+ KEY_MATURITYDATE + " INTEGER )";
 
 		db.execSQL(CREATE_TODO_TABLE);
 	}
@@ -103,7 +103,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 		// if we got results get the first one
 		if (cursor != null) {
 			cursor.moveToFirst();
-		}else{
+		} else {
 			Log.d("error", "Todo not found");
 		}
 
@@ -172,7 +172,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
 		// updating row
 		int i = db.update(TABLE_TODO, // table
-				values, KEY_ID, // column/value
+				values, // column/value 
+				KEY_ID + " = ?", // selections
 				new String[] { String.valueOf(todo.getId()) }); // selection
 																// args
 
