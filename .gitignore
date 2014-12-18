@@ -1,37 +1,19 @@
-*.pydevproject
-.metadata
-.gradle
-bin/
-tmp/
-*.tmp
-*.bak
-*.swp
-*~.nib
-local.properties
+# Eclipse
+.classpath
+.project
 .settings/
-.loadpath
 
-# External tool builders
-.externalToolBuilders/
+# Intellij
+.idea/
+*.iml
+*.iws
 
-# Locally stored "Eclipse launch configurations"
-*.launch
+# Mac
+.DS_Store
 
-# CDT-specific
-.cproject
-
-# PDT-specific
-.buildpath
-
-# sbteclipse plugin
-.target
-
-# TeXlipse plugin
-.texlipse
-
-# Built application files
-*.apk
-*.ap_
+# Maven
+log/
+target/
 
 # Files for the Dalvik VM
 *.dex
@@ -54,4 +36,4 @@ local.properties
 proguard/
 
 # Log Files
-*.log
+*.log 
