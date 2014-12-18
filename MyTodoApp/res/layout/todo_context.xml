@@ -47,7 +47,32 @@
         android:layout_height="wrap_content"
         android:hint="@string/date"
         android:padding="5dp"
-        android:textSize="18dp" 
-        />
+        android:textSize="18sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1"
+        android:gravity="center|bottom"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/delete_button"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="145dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|bottom"
+            android:onClick="deleteTodoItem"
+            android:text="@string/delete" />
+
+        <Button
+            android:id="@+id/save_button"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="145dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|bottom"
+            android:onClick="saveTodoItem"
+            android:text="@string/save" />
+    </LinearLayout>
 
 </LinearLayout>
