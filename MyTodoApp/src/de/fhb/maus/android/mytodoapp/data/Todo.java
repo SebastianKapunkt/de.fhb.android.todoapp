@@ -29,12 +29,12 @@ public class Todo {
 
 	public String convertTime(long time) {
 		Date date = new Date(time);
-		Format format = new SimpleDateFormat("yyyy MM dd HH:mm:ss");
+		Format format = new SimpleDateFormat("HH:mm:ss dd.MM.yyyy");
 		return format.format(date);
 	}
 
 	public long convertTime(String time) {
-		SimpleDateFormat format = new SimpleDateFormat("yyyy MM dd HH:mm:ss");
+		SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss dd.MM.yyyy");
 		Date d = null;
 		try {
 			d = format.parse(time);
