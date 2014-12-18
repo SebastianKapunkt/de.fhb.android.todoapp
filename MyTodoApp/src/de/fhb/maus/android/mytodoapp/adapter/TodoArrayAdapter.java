@@ -16,6 +16,7 @@ import android.widget.TextView;
 import de.fhb.maus.android.mytodoapp.R;
 import de.fhb.maus.android.mytodoapp.activities.TodoContextActivity;
 import de.fhb.maus.android.mytodoapp.data.Todo;
+import de.fhb.maus.android.mytodoapp.database.MySQLiteHelper;
 
 public class TodoArrayAdapter extends ArrayAdapter<Todo> {
 
@@ -39,6 +40,7 @@ public class TodoArrayAdapter extends ArrayAdapter<Todo> {
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		View rowView = convertView;
+		final MySQLiteHelper db = new MySQLiteHelper(context);
 
 		if (rowView == null) {
 			LayoutInflater inflater = (LayoutInflater) context
@@ -54,13 +56,12 @@ public class TodoArrayAdapter extends ArrayAdapter<Todo> {
 			holder.linearLayout = (LinearLayout) rowView
 					.findViewById(R.id.row_layout);
 			rowView.setTag(holder);
+			
 		}
+		final ViewHolder holder = (ViewHolder) rowView.getTag();
 
-		ViewHolder holder = (ViewHolder) rowView.getTag();
-		holder.todoName.setText(todos.get(position).getName());
-
+		// OnClick Listerner to switch to Context for the selected Item
 		holder.linearLayout.setOnClickListener(new OnClickListener() {
-
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(context, TodoContextActivity.class);
@@ -68,8 +69,25 @@ public class TodoArrayAdapter extends ArrayAdapter<Todo> {
 				context.startActivity(intent);
 			}
 		});
-
+		
+		holder.isImportant.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Todo todo = todos.get(position);
+				todo.setImportant(!todo.isImportant());
+				db.updateTodo(todo);
+				if (todo.isImportant()) {
+					holder.isImportant.setImageResource(R.drawable.is_fav);
+				} else {
+					holder.isImportant.setImageResource(R.drawable.is_not_fav);
+				}
+			}
+		});
+		
+		holder.todoName.setText(todos.get(position).getName());
 		holder.isDoneCheckbox.setChecked(todos.get(position).isDone());
+		
+		// Set Image of Favorite indicator
 		if (todos.get(position).isImportant()) {
 			holder.isImportant.setImageResource(R.drawable.is_fav);
 		} else {
