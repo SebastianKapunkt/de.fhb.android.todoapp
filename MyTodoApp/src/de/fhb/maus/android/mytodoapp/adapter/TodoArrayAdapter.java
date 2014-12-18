@@ -24,6 +24,7 @@ public class TodoArrayAdapter extends ArrayAdapter<Todo> {
 	private final Activity context;
 	private final ArrayList<Todo> todos;
 
+	// ViewHolder for viewholder pattern from listview
 	static class ViewHolder {
 		private TextView todoName;
 		private ImageView isImportant;
@@ -31,6 +32,7 @@ public class TodoArrayAdapter extends ArrayAdapter<Todo> {
 		private LinearLayout linearLayout;
 	}
 
+	// default constructor
 	public TodoArrayAdapter(Activity context, ArrayList<Todo> todos) {
 		super(context, R.layout.rowlayout, todos);
 		this.context = context;
@@ -40,8 +42,10 @@ public class TodoArrayAdapter extends ArrayAdapter<Todo> {
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		View rowView = convertView;
+		// create db for interacting with checkbox and imageview
 		final MySQLiteHelper db = new MySQLiteHelper(context);
 
+		// initialize elements of holder if first time called
 		if (rowView == null) {
 			LayoutInflater inflater = (LayoutInflater) context
 					.getLayoutInflater();
@@ -55,12 +59,14 @@ public class TodoArrayAdapter extends ArrayAdapter<Todo> {
 					.findViewById(R.id.isImportant);
 			holder.linearLayout = (LinearLayout) rowView
 					.findViewById(R.id.row_layout);
+			// set Tag to find holder
 			rowView.setTag(holder);
-			
+
 		}
+		// get the holder applied to the tag
 		final ViewHolder holder = (ViewHolder) rowView.getTag();
 
-		// OnClick Listerner to switch to Context for the selected Item
+		// OnClick listerner: to switch to Context if item is selected
 		holder.linearLayout.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -69,7 +75,8 @@ public class TodoArrayAdapter extends ArrayAdapter<Todo> {
 				context.startActivity(intent);
 			}
 		});
-		
+
+		// add listener to edit important stance and persist changes
 		holder.isImportant.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -83,7 +90,8 @@ public class TodoArrayAdapter extends ArrayAdapter<Todo> {
 				}
 			}
 		});
-		
+
+		// add listener to persist changes
 		holder.isDoneCheckbox.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -92,11 +100,11 @@ public class TodoArrayAdapter extends ArrayAdapter<Todo> {
 				db.updateTodo(todo);
 			}
 		});
-		
+
 		holder.todoName.setText(todos.get(position).getName());
 		holder.isDoneCheckbox.setChecked(todos.get(position).isDone());
-		
-		// Set Image of Favorite indicator
+
+		// set image of importants indicator
 		if (todos.get(position).isImportant()) {
 			holder.isImportant.setImageResource(R.drawable.is_fav);
 		} else {

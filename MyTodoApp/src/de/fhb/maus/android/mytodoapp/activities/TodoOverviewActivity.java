@@ -28,16 +28,21 @@ public class TodoOverviewActivity extends Activity {
 		Log.d("Todos", db.getAllTodos().toString());
 		db.close();
 
+		// get the ListView
 		ListView list = (ListView) findViewById(R.id.todo_list);
+		// get custom adapter
 		TodoArrayAdapter adapter = new TodoArrayAdapter(this, db.getAllTodos());
+		// set the custome adapter to the list View
 		list.setAdapter(adapter);
 
 	}
 
+	// listen to the create Button
 	public void createNewTodo(View view) {
 		startActivity(new Intent(this, TodoContextActivity.class));
 	}
 	
+	// overwrite action of the backbutton from Android
 	public void onBackPressed() {    
 	    startActivity(new Intent(this, LoginActivity.class));
 	}
