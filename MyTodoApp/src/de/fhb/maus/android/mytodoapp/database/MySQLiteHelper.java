@@ -141,8 +141,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 				todo.setId(Integer.parseInt(cursor.getString(0)));
 				todo.setName(cursor.getString(1));
 				todo.setDescription(cursor.getString(2));
-				todo.setDone(cursor.getInt(3) > 0);
-				todo.setImportant(cursor.getInt(4) > 0);
+				todo.setImportant(cursor.getInt(3) > 0);
+				todo.setDone(cursor.getInt(4) > 0);
 				todo.setMaturityDate(cursor.getLong(5));
 
 				// Add todo to todos
