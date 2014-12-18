@@ -3,7 +3,6 @@ package de.fhb.maus.android.mytodoapp.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -22,16 +21,18 @@ public class TodoContextActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.todo_context);
+		// get the id of todo that was send to the activity via intent
 		Intent intent = getIntent();
 		long id = intent.getLongExtra("todo", -1);
-		Log.d("Get Intent", id + "");
 
+		// fill the holder with the view elements
 		holder.todoname = (EditText) findViewById(R.id.todo_edit_name);
 		holder.tododesc = (EditText) findViewById(R.id.todo_edit_desc);
 		holder.isDone = (CheckBox) findViewById(R.id.isDone_context);
 		holder.isImportant = (CheckBox) findViewById(R.id.isImportant_context);
 		holder.datetime = (TextView) findViewById(R.id.datetime);
 
+		// check if the todo exists and then fill the view elements or create new and set default values
 		if (id != -1) {
 			MySQLiteHelper db = new MySQLiteHelper(this);
 			todo = db.getTodo(id);
@@ -44,7 +45,8 @@ public class TodoContextActivity extends Activity {
 		} else {
 			todo = new Todo();
 			// Set current time as default
-			holder.datetime.setText(todo.convertTime(System.currentTimeMillis()));
+			holder.datetime
+					.setText(todo.convertTime(System.currentTimeMillis()));
 			todo.setId(-1);
 			// set Button text to cancel when creating a Todo
 			Button deleteBtn = (Button) findViewById(R.id.delete_button);
@@ -55,6 +57,7 @@ public class TodoContextActivity extends Activity {
 	public void saveTodoItem(View v) {
 		MySQLiteHelper db = new MySQLiteHelper(v.getContext());
 
+		//Build a Todo for persist
 		todo.setName(holder.todoname.getText().toString());
 		todo.setDescription(holder.tododesc.getText().toString());
 		todo.setDone(holder.isDone.isChecked());
@@ -62,6 +65,7 @@ public class TodoContextActivity extends Activity {
 		todo.setMaturityDate(todo.convertTime(holder.datetime.getText()
 				.toString()));
 
+		// decide if update or add (todo exists or not)
 		if (todo.getId() != -1) {
 			db.updateTodo(todo);
 		} else {
@@ -75,16 +79,17 @@ public class TodoContextActivity extends Activity {
 
 	public void deleteTodoItem(View v) {
 
+		// only delete a todo if it exists
 		if (todo.getId() != -1) {
 			MySQLiteHelper db = new MySQLiteHelper(v.getContext());
 			db.deleteTodo(todo);
 			db.close();
 		}
 
-
 		startActivity(new Intent(this, TodoOverviewActivity.class));
 	}
 
+	// used like the ViewHolder pattern from ListAdapter (for easier use)
 	static class ViewHolder {
 		private EditText todoname;
 		private EditText tododesc;
@@ -92,8 +97,9 @@ public class TodoContextActivity extends Activity {
 		private CheckBox isImportant;
 		private TextView datetime;
 	}
-	
-	public void onBackPressed() {    
-	    startActivity(new Intent(this, TodoOverviewActivity.class));
+
+	// overwrite action of the backbutton from Android
+	public void onBackPressed() {
+		startActivity(new Intent(this, TodoOverviewActivity.class));
 	}
 }
