@@ -37,4 +37,8 @@ public class TodoOverviewActivity extends Activity {
 	public void createNewTodo(View view) {
 		startActivity(new Intent(this, TodoContextActivity.class));
 	}
+	
+	public void onBackPressed() {    
+	    startActivity(new Intent(this, LoginActivity.class));
+	}
 }
