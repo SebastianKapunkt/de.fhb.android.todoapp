@@ -1,10 +1,12 @@
 package de.fhb.maus.android.mytodoapp.data;
 
+import android.annotation.SuppressLint;
 import java.text.Format;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+@SuppressLint("SimpleDateFormat")
 public class Todo {
 
 	private long id;
