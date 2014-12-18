@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -42,22 +43,26 @@ public class TodoContextActivity extends Activity {
 			holder.datetime.setText(todo.convertTime(todo.getMaturityDate()));
 		} else {
 			todo = new Todo();
+			// Set current time as default
+			holder.datetime.setText(todo.convertTime(System.currentTimeMillis()));
 			todo.setId(-1);
+			// set Button text to cancel when creating a Todo
+			Button deleteBtn = (Button) findViewById(R.id.delete_button);
+			deleteBtn.setText("cancel");
 		}
 	}
 
 	public void saveTodoItem(View v) {
 		MySQLiteHelper db = new MySQLiteHelper(v.getContext());
 
-		Log.d("Todo", todo.toString());
+		todo.setName(holder.todoname.getText().toString());
+		todo.setDescription(holder.tododesc.getText().toString());
+		todo.setDone(holder.isDone.isChecked());
+		todo.setImportant(holder.isImportant.isChecked());
+		todo.setMaturityDate(todo.convertTime(holder.datetime.getText()
+				.toString()));
 
 		if (todo.getId() != -1) {
-			todo.setName(holder.todoname.getText().toString());
-			todo.setDescription(holder.tododesc.getText().toString());
-			todo.setDone(holder.isDone.isChecked());
-			todo.setImportant(holder.isImportant.isChecked());
-			todo.setMaturityDate(todo.convertTime(holder.datetime.getText()
-					.toString()));
 			db.updateTodo(todo);
 		} else {
 			db.addTodo(todo);
@@ -69,15 +74,13 @@ public class TodoContextActivity extends Activity {
 	}
 
 	public void deleteTodoItem(View v) {
-		MySQLiteHelper db = new MySQLiteHelper(v.getContext());
-
-		Log.d("Todo", todo.toString());
 
 		if (todo.getId() != -1) {
+			MySQLiteHelper db = new MySQLiteHelper(v.getContext());
 			db.deleteTodo(todo);
+			db.close();
 		}
 
-		db.close();
 
 		startActivity(new Intent(this, TodoOverviewActivity.class));
 	}
@@ -88,5 +91,9 @@ public class TodoContextActivity extends Activity {
 		private CheckBox isDone;
 		private CheckBox isImportant;
 		private TextView datetime;
+	}
+	
+	public void onBackPressed() {    
+	    startActivity(new Intent(this, TodoOverviewActivity.class));
 	}
 }
