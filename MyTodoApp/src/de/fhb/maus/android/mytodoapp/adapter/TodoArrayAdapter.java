@@ -84,6 +84,15 @@ public class TodoArrayAdapter extends ArrayAdapter<Todo> {
 			}
 		});
 		
+		holder.isDoneCheckbox.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Todo todo = todos.get(position);
+				todo.setDone(!todo.isDone());
+				db.updateTodo(todo);
+			}
+		});
+		
 		holder.todoName.setText(todos.get(position).getName());
 		holder.isDoneCheckbox.setChecked(todos.get(position).isDone());
 		
