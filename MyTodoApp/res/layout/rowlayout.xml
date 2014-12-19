@@ -2,40 +2,47 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
-    android:padding="9dp"
-    android:clickable="false"
-    android:id="@+id/row_layout" >
+    android:orientation="horizontal" >
 
-    <CheckBox
-        android:id="@+id/isdone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="2dp"
-        android:paddingRight="2dp" />
+    <LinearLayout
+        android:id="@+id/row_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:clickable="false"
+        android:orientation="horizontal" >
 
-    <ImageView
-        android:id="@+id/isImportant"
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:layout_marginBottom="5dp"
-        android:layout_marginLeft="2dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="0dp"
-        android:layout_weight="1"
-        android:adjustViewBounds="true"
-        android:contentDescription="@string/isImportant"
-        android:padding="1dp"
-        android:scaleType="fitCenter"
-        android:clickable="true"
-        android:src="@drawable/is_not_fav" />
+        <CheckBox
+            android:id="@+id/isdone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="2dp"
+            android:paddingBottom="9dp"
+            android:paddingLeft="4dp"
+            android:paddingRight="2dp"
+            android:paddingTop="9dp" />
 
-    <TextView
-        android:id="@+id/todo_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:ems="10"
-        android:text="@string/todo_name" />
+        <ImageView
+            android:id="@+id/isImportant"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginTop="5dp"
+            android:adjustViewBounds="true"
+            android:clickable="true"
+            android:contentDescription="@string/isImportant"
+            android:scaleType="fitCenter"
+            android:src="@drawable/is_not_fav" />
+
+        <TextView
+            android:id="@+id/todo_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:padding="9dp"
+            android:text="@string/todo_name" />
+    </LinearLayout>
 
 </LinearLayout>

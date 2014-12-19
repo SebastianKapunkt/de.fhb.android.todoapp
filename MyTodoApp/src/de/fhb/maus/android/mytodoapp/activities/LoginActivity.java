@@ -13,7 +13,14 @@ public class LoginActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
 		
-
+	 boolean isServerAvaible = false;
+	 
+		
+		if(isServerAvaible){
+			
+		}else{
+			logIn(getCurrentFocus());
+		}
 		
 	}
 

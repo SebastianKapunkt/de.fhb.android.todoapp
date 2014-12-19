@@ -83,34 +83,47 @@ public class TodoArrayAdapter extends ArrayAdapter<Todo> {
 				Todo todo = todos.get(position);
 				todo.setImportant(!todo.isImportant());
 				db.updateTodo(todo);
-				if (todo.isImportant()) {
-					holder.isImportant.setImageResource(R.drawable.is_fav);
-				} else {
-					holder.isImportant.setImageResource(R.drawable.is_not_fav);
-				}
+				// set image of importants indicator
+				switchImage(holder,position);
 			}
 		});
 
-		// add listener to persist changes
+		// add listener to checkbox and persist changes
 		holder.isDoneCheckbox.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				Todo todo = todos.get(position);
 				todo.setDone(!todo.isDone());
 				db.updateTodo(todo);
+				// change behavior if todo is done
+				switchBackground(holder);
 			}
 		});
 
 		holder.todoName.setText(todos.get(position).getName());
 		holder.isDoneCheckbox.setChecked(todos.get(position).isDone());
-
+	
+		// change behavior if todo is done
+		switchBackground(holder);
 		// set image of importants indicator
+		switchImage(holder,position);
+
+		return rowView;
+	}
+
+	protected void switchImage(ViewHolder holder, int position) {
 		if (todos.get(position).isImportant()) {
 			holder.isImportant.setImageResource(R.drawable.is_fav);
 		} else {
 			holder.isImportant.setImageResource(R.drawable.is_not_fav);
 		}
+	}
 
-		return rowView;
+	protected void switchBackground(ViewHolder holder) {
+		if (holder.isDoneCheckbox.isChecked()) {
+			holder.linearLayout.setBackgroundColor(0x55FFFFFF);
+		} else {
+			holder.linearLayout.setBackgroundColor(0xCCFFFFFF);
+		}
 	}
 }
