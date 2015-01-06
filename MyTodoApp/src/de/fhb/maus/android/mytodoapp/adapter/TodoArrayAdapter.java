@@ -27,6 +27,7 @@ public class TodoArrayAdapter extends ArrayAdapter<Todo> {
 	// ViewHolder for viewholder pattern from listview
 	static class ViewHolder {
 		private TextView todoName;
+		private TextView todoDate;
 		private ImageView isImportant;
 		private CheckBox isDoneCheckbox;
 		private LinearLayout linearLayout;
@@ -59,6 +60,7 @@ public class TodoArrayAdapter extends ArrayAdapter<Todo> {
 					.findViewById(R.id.isImportant);
 			holder.linearLayout = (LinearLayout) rowView
 					.findViewById(R.id.row_layout);
+			holder.todoDate = (TextView) rowView.findViewById(R.id.todo_date);
 			// set Tag to find holder
 			rowView.setTag(holder);
 
@@ -84,7 +86,7 @@ public class TodoArrayAdapter extends ArrayAdapter<Todo> {
 				todo.setImportant(!todo.isImportant());
 				db.updateTodo(todo);
 				// set image of importants indicator
-				switchImage(holder,position);
+				switchImage(holder, position);
 			}
 		});
 
@@ -102,11 +104,12 @@ public class TodoArrayAdapter extends ArrayAdapter<Todo> {
 
 		holder.todoName.setText(todos.get(position).getName());
 		holder.isDoneCheckbox.setChecked(todos.get(position).isDone());
-	
+		holder.todoDate.setText(todos.get(position).getMaturityDateAsString());
+
 		// change behavior if todo is done
 		switchBackground(holder);
 		// set image of importants indicator
-		switchImage(holder,position);
+		switchImage(holder, position);
 
 		return rowView;
 	}
