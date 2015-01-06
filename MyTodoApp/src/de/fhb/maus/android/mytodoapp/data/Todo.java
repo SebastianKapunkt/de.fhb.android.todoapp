@@ -1,10 +1,11 @@
 package de.fhb.maus.android.mytodoapp.data;
 
-import android.annotation.SuppressLint;
 import java.text.Format;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import android.annotation.SuppressLint;
 
 @SuppressLint("SimpleDateFormat")
 public class Todo {
@@ -67,7 +68,7 @@ public class Todo {
 
 	public String getMaturityDateAsString() {
 		Date date = new Date(maturityDate);
-		Format format = new SimpleDateFormat("HH:mm:ss dd.MM.yyyy");
+		Format format = new SimpleDateFormat("HH:mm dd.MM.yyyy");
 		return format.format(date);
 	}
 
@@ -95,14 +96,15 @@ public class Todo {
 		this.maturityDate = maturityDate;
 	}
 
-	public long setMaturityDateFromString(String maturityDate) {
-		SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss dd.MM.yyyy");
+	public void setMaturityDateFromString(String maturityDate) {
+		SimpleDateFormat format = new SimpleDateFormat("HH:mm dd.MM.yyyy");
 		Date d = null;
 		try {
 			d = format.parse(maturityDate);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		return d.getTime();
+
+		this.maturityDate = d.getTime();
 	}
 }
