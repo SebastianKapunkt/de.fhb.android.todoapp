@@ -30,6 +30,10 @@
             android:name=".activities.TodoOverviewActivity"
             android:label="@string/app_name" >
         </activity>
+        <activity
+            android:name=".activities.DateTimeActivity"
+            android:label="@string/app_name" >
+        </activity>
     </application>
 
 </manifest>
