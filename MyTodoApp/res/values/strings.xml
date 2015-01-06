@@ -15,5 +15,6 @@
 	<string name="create_todo">create</string>
 	<string name="save">save</string>
 	<string name="delete">delete</string>
+	<string name="todo_date">date</string>
 
 </resources>
