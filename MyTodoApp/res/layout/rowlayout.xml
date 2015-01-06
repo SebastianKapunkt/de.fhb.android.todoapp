@@ -43,6 +43,16 @@
             android:ems="10"
             android:padding="9dp"
             android:text="@string/todo_name" />
+
+        <TextView
+            android:id="@+id/todo_date"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:padding="9dp"
+            android:text="@string/todo_date" />
+
     </LinearLayout>
 
 </LinearLayout>
