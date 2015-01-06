@@ -32,7 +32,8 @@ public class TodoContextActivity extends Activity {
 		holder.isImportant = (CheckBox) findViewById(R.id.isImportant_context);
 		holder.datetime = (TextView) findViewById(R.id.datetime);
 
-		// check if the todo exists and then fill the view elements or create new and set default values
+		// check if the todo exists and then fill the view elements or create
+		// new and set default values
 		if (id != -1) {
 			MySQLiteHelper db = new MySQLiteHelper(this);
 			todo = db.getTodo(id);
@@ -41,12 +42,12 @@ public class TodoContextActivity extends Activity {
 			holder.tododesc.setText(todo.getDescription());
 			holder.isDone.setChecked(todo.isDone());
 			holder.isImportant.setChecked(todo.isImportant());
-			holder.datetime.setText(todo.convertTime(todo.getMaturityDate()));
+			holder.datetime.setText(todo.getMaturityDateAsString());
 		} else {
 			todo = new Todo();
 			// Set current time as default
-			holder.datetime
-					.setText(todo.convertTime(System.currentTimeMillis()));
+			todo.setMaturityDate(System.currentTimeMillis());
+			holder.datetime.setText(todo.getMaturityDateAsString());
 			todo.setId(-1);
 			// set Button text to cancel when creating a Todo
 			Button deleteBtn = (Button) findViewById(R.id.delete_button);
@@ -57,13 +58,12 @@ public class TodoContextActivity extends Activity {
 	public void saveTodoItem(View v) {
 		MySQLiteHelper db = new MySQLiteHelper(v.getContext());
 
-		//Build a Todo for persist
+		// Build a Todo for persist
 		todo.setName(holder.todoname.getText().toString());
 		todo.setDescription(holder.tododesc.getText().toString());
 		todo.setDone(holder.isDone.isChecked());
 		todo.setImportant(holder.isImportant.isChecked());
-		todo.setMaturityDate(todo.convertTime(holder.datetime.getText()
-				.toString()));
+		todo.setMaturityDateFromString(holder.datetime.getText().toString());
 
 		// decide if update or add (todo exists or not)
 		if (todo.getId() != -1) {
