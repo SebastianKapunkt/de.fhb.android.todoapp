@@ -98,7 +98,7 @@ public class TodoArrayAdapter extends ArrayAdapter<Todo> {
 				todo.setDone(!todo.isDone());
 				db.updateTodo(todo);
 				// change behavior if todo is done
-				switchBackground(holder);
+				switchBackground(holder, position);
 			}
 		});
 
@@ -107,7 +107,7 @@ public class TodoArrayAdapter extends ArrayAdapter<Todo> {
 		holder.todoDate.setText(todos.get(position).getMaturityDateAsString());
 
 		// change behavior if todo is done
-		switchBackground(holder);
+		switchBackground(holder, position);
 		// set image of importants indicator
 		switchImage(holder, position);
 
@@ -122,10 +122,12 @@ public class TodoArrayAdapter extends ArrayAdapter<Todo> {
 		}
 	}
 
-	protected void switchBackground(ViewHolder holder) {
+	protected void switchBackground(ViewHolder holder, int position) {
 		if (holder.isDoneCheckbox.isChecked()) {
 			holder.linearLayout.setBackgroundColor(0x55FFFFFF);
-		} else {
+		} else if(todos.get(position).getMaturityDate() < System.currentTimeMillis()){
+			holder.linearLayout.setBackgroundColor(0xCCFFAAAA);
+		} else{
 			holder.linearLayout.setBackgroundColor(0xCCFFFFFF);
 		}
 	}
