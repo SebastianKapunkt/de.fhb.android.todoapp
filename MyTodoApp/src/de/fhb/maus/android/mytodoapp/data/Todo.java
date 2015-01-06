@@ -29,23 +29,6 @@ public class Todo {
 		// just do nothing
 	}
 
-	public String convertTime(long time) {
-		Date date = new Date(time);
-		Format format = new SimpleDateFormat("HH:mm:ss dd.MM.yyyy");
-		return format.format(date);
-	}
-
-	public long convertTime(String time) {
-		SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss dd.MM.yyyy");
-		Date d = null;
-		try {
-			d = format.parse(time);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		return d.getTime();
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -82,6 +65,12 @@ public class Todo {
 		return maturityDate;
 	}
 
+	public String getMaturityDateAsString() {
+		Date date = new Date(maturityDate);
+		Format format = new SimpleDateFormat("HH:mm:ss dd.MM.yyyy");
+		return format.format(date);
+	}
+
 	public void setId(long id) {
 		this.id = id;
 	}
@@ -104,5 +93,16 @@ public class Todo {
 
 	public void setMaturityDate(long maturityDate) {
 		this.maturityDate = maturityDate;
+	}
+
+	public long setMaturityDateFromString(String maturityDate) {
+		SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss dd.MM.yyyy");
+		Date d = null;
+		try {
+			d = format.parse(maturityDate);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return d.getTime();
 	}
 }
