@@ -58,92 +58,50 @@ public class Todo {
 				+ isImportant + ", maturityDate=" + maturityDate + "]";
 	}
 
-	/**
-	 * @return the id
-	 */
 	public long getId() {
 		return id;
 	}
 
-	/**
-	 * @return the name
-	 */
 	public String getName() {
 		return name;
 	}
 
-	/**
-	 * @return the description
-	 */
 	public String getDescription() {
 		return description;
 	}
 
-	/**
-	 * @return the isDone
-	 */
 	public boolean isDone() {
 		return isDone;
 	}
 
-	/**
-	 * @return the isImportant
-	 */
 	public boolean isImportant() {
 		return isImportant;
 	}
 
-	/**
-	 * @return the maturityDate
-	 */
 	public long getMaturityDate() {
 		return maturityDate;
 	}
 
-	/**
-	 * @param id
-	 *            the id to set
-	 */
 	public void setId(long id) {
 		this.id = id;
 	}
 
-	/**
-	 * @param name
-	 *            the name to set
-	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 
-	/**
-	 * @param description
-	 *            the description to set
-	 */
 	public void setDescription(String description) {
 		this.description = description;
 	}
 
-	/**
-	 * @param isDone
-	 *            the isDone to set
-	 */
 	public void setDone(boolean isDone) {
 		this.isDone = isDone;
 	}
 
-	/**
-	 * @param isImportant
-	 *            the isImportant to set
-	 */
 	public void setImportant(boolean isImportant) {
 		this.isImportant = isImportant;
 	}
 
-	/**
-	 * @param maturityDate
-	 *            the maturityDate to set
-	 */
 	public void setMaturityDate(long maturityDate) {
 		this.maturityDate = maturityDate;
 	}
