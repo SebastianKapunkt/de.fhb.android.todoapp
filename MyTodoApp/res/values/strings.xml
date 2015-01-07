@@ -17,5 +17,6 @@
 	<string name="delete">Delete</string>
 	<string name="todo_date">date</string>
 	<string name="cancel"> Cancel </string>
-
+	<string name="sortdate">sort by Date</string>
+	<string name="sortimportant">sort by importance</string>
 </resources>
