@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -23,6 +25,8 @@ public class TodoContextActivity extends Activity {
 	private CheckBox isDone;
 	private CheckBox isImportant;
 	private TextView datetime;
+	private Button delcancel;
+
 	final Context context = this;
 
 	@Override
@@ -35,10 +39,33 @@ public class TodoContextActivity extends Activity {
 
 		// fill the holder with the view elements
 		todoname = (EditText) findViewById(R.id.todo_edit_name);
+		todoname.addTextChangedListener(new TextWatcher() {
+
+			public void onTextChanged(CharSequence s, int start, int before,
+					int count) {
+
+			}
+
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+
+			}
+
+			public void afterTextChanged(Editable s) {
+				for (int i = s.length(); i > 0; i--) {
+
+					if (s.subSequence(i - 1, i).toString().equals("\n"))
+						s.replace(i - 1, i, "");
+
+				}
+			}
+		});
+
 		tododesc = (EditText) findViewById(R.id.todo_edit_desc);
 		isDone = (CheckBox) findViewById(R.id.isDone_context);
 		isImportant = (CheckBox) findViewById(R.id.isImportant_context);
 		datetime = (TextView) findViewById(R.id.datetime);
+		delcancel = (Button) findViewById(R.id.delete_button);
 
 		// check if the todo exists and then fill the view elements or create
 		// new and set default values
@@ -58,8 +85,7 @@ public class TodoContextActivity extends Activity {
 			datetime.setText(todo.getMaturityDateAsString());
 			todo.setId(-1);
 			// set Button text to cancel when creating a Todo
-			Button deleteBtn = (Button) findViewById(R.id.delete_button);
-			deleteBtn.setText("Cancel");
+			delcancel.setText("Cancel");
 		}
 	}
 
@@ -87,45 +113,51 @@ public class TodoContextActivity extends Activity {
 
 	public void deleteTodoItem(View v) {
 
-		// build a Alert Dialog
-		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-				context);
+		if (delcancel.getText().toString().equals("Cancel")) {
+			startActivity(new Intent(context, TodoOverviewActivity.class));
+		} else {
+			// build a Alert Dialog
+			AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+					context);
 
-		// set title
-		alertDialogBuilder.setTitle("Delete Todo");
+			// set title
+			alertDialogBuilder.setTitle("Delete Todo");
 
-		// set dialog message
-		alertDialogBuilder
-				.setMessage("Do you want to delete this Todo?")
-				.setCancelable(false)
-				.setPositiveButton("Yes",
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog, int id) {
-								// only delete a todo if it exists
-								if (todo.getId() != -1) {
-									MySQLiteHelper db = new MySQLiteHelper(
-											context);
-									db.deleteTodo(todo);
-									db.close();
-									startActivity(new Intent(context,
-											TodoOverviewActivity.class));
+			// set dialog message
+			alertDialogBuilder
+					.setMessage("Do you want to delete this Todo?")
+					.setCancelable(false)
+					.setPositiveButton("Yes",
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int id) {
+									// only delete a todo if it exists
+									if (todo.getId() != -1) {
+										MySQLiteHelper db = new MySQLiteHelper(
+												context);
+										db.deleteTodo(todo);
+										db.close();
+										startActivity(new Intent(context,
+												TodoOverviewActivity.class));
+									}
 								}
-							}
-						})
-				.setNegativeButton("No", new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int id) {
-						// if this button is clicked, just close
-						// the dialog box and do nothing
-						dialog.cancel();
-					}
-				});
+							})
+					.setNegativeButton("No",
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int id) {
+									// if this button is clicked, just close
+									// the dialog box and do nothing
+									dialog.cancel();
+								}
+							});
 
-		// create alert dialog
-		AlertDialog alertDialog = alertDialogBuilder.create();
+			// create alert dialog
+			AlertDialog alertDialog = alertDialogBuilder.create();
 
-		// show it
-		alertDialog.show();
-
+			// show it
+			alertDialog.show();
+		}
 	}
 
 	public void editDateTime(View v) {
