@@ -1,6 +1,9 @@
 package de.fhb.maus.android.mytodoapp.activities;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -20,6 +23,7 @@ public class TodoContextActivity extends Activity {
 	private CheckBox isDone;
 	private CheckBox isImportant;
 	private TextView datetime;
+	final Context context = this;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -83,14 +87,45 @@ public class TodoContextActivity extends Activity {
 
 	public void deleteTodoItem(View v) {
 
-		// only delete a todo if it exists
-		if (todo.getId() != -1) {
-			MySQLiteHelper db = new MySQLiteHelper(v.getContext());
-			db.deleteTodo(todo);
-			db.close();
-		}
+		// build a Alert Dialog
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+				context);
 
-		startActivity(new Intent(this, TodoOverviewActivity.class));
+		// set title
+		alertDialogBuilder.setTitle("Delete Todo");
+
+		// set dialog message
+		alertDialogBuilder
+				.setMessage("Do you want to delete this Todo?")
+				.setCancelable(false)
+				.setPositiveButton("Yes",
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int id) {
+								// only delete a todo if it exists
+								if (todo.getId() != -1) {
+									MySQLiteHelper db = new MySQLiteHelper(
+											context);
+									db.deleteTodo(todo);
+									db.close();
+									startActivity(new Intent(context,
+											TodoOverviewActivity.class));
+								}
+							}
+						})
+				.setNegativeButton("No", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						// if this button is clicked, just close
+						// the dialog box and do nothing
+						dialog.cancel();
+					}
+				});
+
+		// create alert dialog
+		AlertDialog alertDialog = alertDialogBuilder.create();
+
+		// show it
+		alertDialog.show();
+
 	}
 
 	public void editDateTime(View v) {
@@ -107,11 +142,6 @@ public class TodoContextActivity extends Activity {
 				// Write your code if there's no result
 			}
 		}
-	}
-
-	// used like the ViewHolder pattern from ListAdapter (for easier use)
-	static class ViewHolder {
-
 	}
 
 	// overwrite action of the backbutton from Android
