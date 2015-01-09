@@ -5,7 +5,7 @@
 	<string name="new_todo">new Todo</string>
 	<string name="email_hint">email</string>
 	<string name="password_hint">password</string>
-	<string name="button_login">Login</string>
+	<string name="login">Login</string>
 	<string name="isImportant">Favorite</string>
 	<string name="isDone">Done</string>
 	<string name="todo_name">name of todo</string>
@@ -18,5 +18,5 @@
 	<string name="todo_date">date</string>
 	<string name="cancel"> Cancel </string>
 	<string name="sortdate">sort by Date</string>
-	<string name="sortimportant">sort by importance</string>
+	<string name="sortimportant">sort by Favorite</string>
 </resources>

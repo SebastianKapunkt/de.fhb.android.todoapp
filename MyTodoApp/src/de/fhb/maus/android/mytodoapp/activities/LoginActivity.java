@@ -12,20 +12,18 @@ public class LoginActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
-		
-	 boolean isServerAvaible = false;
-	 
-		
-		if(isServerAvaible){
-			
-		}else{
+
+		boolean isServerAvaible = true;
+
+		if (isServerAvaible) {
+
+		} else {
 			logIn(getCurrentFocus());
 		}
-		
+
 	}
 
 	public void logIn(View view) {
-		Intent intent = new Intent(this, TodoOverviewActivity.class);
-		startActivity(intent);
+		startActivity(new Intent(this, TodoOverviewActivity.class));
 	}
 }
