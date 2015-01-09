@@ -35,7 +35,7 @@ public class LoginActivity extends Activity {
 		hintPassword.setText("no password set");
 		login.setEnabled(false);
 
-		boolean isServerAvaible = true;
+		boolean isServerAvaible = false;
 
 		if (isServerAvaible) {
 
