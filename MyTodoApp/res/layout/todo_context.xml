@@ -8,9 +8,10 @@
         android:id="@+id/todo_edit_name"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:layout_margin="5dp"
         android:ems="10"
         android:hint="@string/todo_name"
-        android:layout_margin="5dp" >
+        android:maxLength="20" >
 
         <requestFocus />
     </EditText>
@@ -19,10 +20,10 @@
         android:id="@+id/todo_edit_desc"
         android:layout_width="match_parent"
         android:layout_height="100dp"
+        android:layout_margin="5dp"
         android:ems="10"
         android:hint="@string/todo_description"
-        android:inputType="textMultiLine"
-        android:layout_margin="5dp" />
+        android:inputType="textMultiLine" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -32,17 +33,17 @@
             android:id="@+id/isDone_context"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             android:layout_weight="1"
-            android:text="@string/isDone"
-            android:layout_margin="5dp" />
+            android:text="@string/isDone" />
 
         <CheckBox
             android:id="@+id/isImportant_context"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             android:layout_weight="1"
-            android:text="@string/isImportant"
-            android:layout_margin="5dp" />
+            android:text="@string/isImportant" />
     </LinearLayout>
 
     <TextView
@@ -50,12 +51,12 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
-        android:hint="@string/date"
-        android:gravity="center_horizontal"
-        android:padding="5dp"
-        android:textSize="18sp" 
         android:clickable="true"
-        android:onClick="editDateTime"/>
+        android:gravity="center_horizontal"
+        android:hint="@string/date"
+        android:onClick="editDateTime"
+        android:padding="5dp"
+        android:textSize="25sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -70,9 +71,9 @@
             android:layout_width="145dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal|bottom"
+            android:layout_margin="5dp"
             android:onClick="deleteTodoItem"
-            android:text="@string/delete"
-            android:layout_margin="5dp" />
+            android:text="@string/delete" />
 
         <Button
             android:id="@+id/save_button"
@@ -80,9 +81,9 @@
             android:layout_width="145dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal|bottom"
+            android:layout_margin="5dp"
             android:onClick="saveTodoItem"
-            android:text="@string/save"
-            android:layout_margin="5dp" />
+            android:text="@string/save" />
     </LinearLayout>
 
 </LinearLayout>
