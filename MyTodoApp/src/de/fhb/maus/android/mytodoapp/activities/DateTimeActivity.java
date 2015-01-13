@@ -19,6 +19,7 @@ public class DateTimeActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.date_time);
 		timePicker = (TimePicker) findViewById(R.id.timePicker);
+		timePicker.setIs24HourView(true);
 		datePicker = (DatePicker) findViewById(R.id.datePicker);
 
 	}
