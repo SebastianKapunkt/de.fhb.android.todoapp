@@ -30,11 +30,6 @@ public class Todo {
 		// just do nothing
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString() {
 		return "Todo [id=" + id + ", name=" + name + ", description="
