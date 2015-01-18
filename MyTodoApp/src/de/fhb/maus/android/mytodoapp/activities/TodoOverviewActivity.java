@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.ListView;
 import de.fhb.maus.android.mytodoapp.R;
@@ -64,5 +66,12 @@ public class TodoOverviewActivity extends Activity {
 	// overwrite action of the backbutton from Android
 	public void onBackPressed() {
 		startActivity(new Intent(this, LoginActivity.class));
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.todo_overview_menu, menu);
+	    return true;
 	}
 }
