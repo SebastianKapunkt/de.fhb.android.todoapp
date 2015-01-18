@@ -1,5 +1,7 @@
 package de.fhb.maus.android.mytodoapp.activities;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -12,8 +14,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import de.fhb.maus.android.mytodoapp.R;
+import de.fhb.maus.android.mytodoapp.adapter.ContextContactArrayAdapter;
+import de.fhb.maus.android.mytodoapp.adapter.TodoArrayAdapter;
+import de.fhb.maus.android.mytodoapp.comperator.TodoImportantComperator;
+import de.fhb.maus.android.mytodoapp.data.Contact;
 import de.fhb.maus.android.mytodoapp.data.Todo;
 import de.fhb.maus.android.mytodoapp.database.MySQLiteHelper;
 
@@ -26,6 +33,10 @@ public class TodoContextActivity extends Activity {
 	private CheckBox isImportant;
 	private TextView datetime;
 	private Button delcancel;
+	private ListView contactsList;
+	
+	private ContextContactArrayAdapter contactAdapter;
+	private ArrayList<Contact> contacts;
 
 	final Context context = this;
 
@@ -87,6 +98,32 @@ public class TodoContextActivity extends Activity {
 			// set Button text to cancel when creating a Todo
 			delcancel.setText("Cancel");
 		}
+		
+		// get the ListView
+		contactsList = (ListView) findViewById(R.id.context_contacts_list);
+		
+		Contact contact1 = new Contact();
+		contact1.setName("Ich bin der Erste");
+		Contact contact2 = new Contact();
+		contact2.setName("Ich bin der Zweite");
+		Contact contact3 = new Contact();
+		contact3.setName("Ich bin der Dritte");
+		Contact contact4 = new Contact();
+		contact4.setName("Ich bin der Vierte");
+		Contact contact5 = new Contact();
+		contact5.setName("Ich bin der Fünfte");
+		contacts = new ArrayList<Contact>();
+		contacts.add(contact1);
+		contacts.add(contact2);
+		contacts.add(contact3);
+		contacts.add(contact4);
+		contacts.add(contact5);
+
+		// get custom adapter
+		contactAdapter = new ContextContactArrayAdapter(this, contacts);
+
+		// set the custom adapter to the list View
+		contactsList.setAdapter(contactAdapter);
 	}
 
 	public void saveTodoItem(View v) {

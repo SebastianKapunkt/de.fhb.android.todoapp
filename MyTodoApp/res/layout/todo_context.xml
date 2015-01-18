@@ -59,6 +59,26 @@
         android:padding="5dp"
         android:textSize="25sp" />
 
+
+    <ListView 
+        android:id="@+id/context_contacts_list"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginBottom="7dp"
+        android:layout_marginTop="7dp"/>
+    
+    <Button 
+        android:id="@+id/add_contact"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="145dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_margin="5dp"
+        android:onClick="addContact"
+        android:text="@string/add_contact" />
+    
+    
+    
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dip"
