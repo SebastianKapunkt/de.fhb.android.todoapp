@@ -186,6 +186,7 @@ public class TodoContextActivity extends Activity implements AddRemoveContactsDi
 									if (todo.getId() != -1) {
 										MySQLiteHelper db = new MySQLiteHelper(
 												context);
+										db.deleteTodoContacts(todo.getId());
 										db.deleteTodo(todo);
 										db.close();
 										startActivity(new Intent(context,
