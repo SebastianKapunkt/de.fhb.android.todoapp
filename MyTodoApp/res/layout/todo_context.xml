@@ -74,7 +74,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|bottom"
         android:layout_margin="5dp"
-        android:onClick="addContact"
+        android:onClick="addRemoveContacts"
         android:text="@string/add_contact" />
     
     

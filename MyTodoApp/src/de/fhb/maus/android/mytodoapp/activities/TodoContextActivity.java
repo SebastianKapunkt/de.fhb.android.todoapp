@@ -1,6 +1,7 @@
 package de.fhb.maus.android.mytodoapp.activities;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -10,6 +11,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -21,8 +23,10 @@ import de.fhb.maus.android.mytodoapp.adapter.ContextContactArrayAdapter;
 import de.fhb.maus.android.mytodoapp.adapter.TodoArrayAdapter;
 import de.fhb.maus.android.mytodoapp.comperator.TodoImportantComperator;
 import de.fhb.maus.android.mytodoapp.data.Contact;
+import de.fhb.maus.android.mytodoapp.data.ContactsAccessor;
 import de.fhb.maus.android.mytodoapp.data.Todo;
 import de.fhb.maus.android.mytodoapp.database.MySQLiteHelper;
+import de.fhb.maus.android.mytodoapp.fragments.ContactPickerDialogFragment;
 
 public class TodoContextActivity extends Activity {
 
@@ -35,6 +39,7 @@ public class TodoContextActivity extends Activity {
 	private Button delcancel;
 	private ListView contactsList;
 	
+	private ContactsAccessor conAcc;
 	private ContextContactArrayAdapter contactAdapter;
 	private ArrayList<Contact> contacts;
 
@@ -102,28 +107,25 @@ public class TodoContextActivity extends Activity {
 		// get the ListView
 		contactsList = (ListView) findViewById(R.id.context_contacts_list);
 		
-		Contact contact1 = new Contact();
-		contact1.setName("Ich bin der Erste");
-		Contact contact2 = new Contact();
-		contact2.setName("Ich bin der Zweite");
-		Contact contact3 = new Contact();
-		contact3.setName("Ich bin der Dritte");
-		Contact contact4 = new Contact();
-		contact4.setName("Ich bin der Vierte");
-		Contact contact5 = new Contact();
-		contact5.setName("Ich bin der Fünfte");
-		contacts = new ArrayList<Contact>();
-		contacts.add(contact1);
-		contacts.add(contact2);
-		contacts.add(contact3);
-		contacts.add(contact4);
-		contacts.add(contact5);
+		conAcc = new ContactsAccessor(getContentResolver());
+		
+		// get contacts from DB
+		if (id != -1){
+			MySQLiteHelper db = new MySQLiteHelper(this);
+			ArrayList<Long> contactIds = db.getContactsFromTodo(id);
+			contacts = new ArrayList<Contact>();
+			for(long contactId : contactIds){
+				contacts.add(conAcc.readContact(contactId));
+			}
+			// get custom adapter
+			contactAdapter = new ContextContactArrayAdapter(this, contacts);
 
-		// get custom adapter
-		contactAdapter = new ContextContactArrayAdapter(this, contacts);
+			// set the custom adapter to the list View
+			contactsList.setAdapter(contactAdapter);
+		}
+		
 
-		// set the custom adapter to the list View
-		contactsList.setAdapter(contactAdapter);
+		
 	}
 
 	public void saveTodoItem(View v) {
@@ -216,5 +218,29 @@ public class TodoContextActivity extends Activity {
 	// overwrite action of the backbutton from Android
 	public void onBackPressed() {
 		startActivity(new Intent(this, TodoOverviewActivity.class));
+	}
+	
+	public void addRemoveContacts(View v) {
+		ContactPickerDialogFragment contactPicker = new ContactPickerDialogFragment();
+		ContactsAccessor conAcc = new ContactsAccessor(getContentResolver());
+		ArrayList<Contact> allContactsList = (ArrayList<Contact>) conAcc.readAllContactsNames();
+		Collections.sort(allContactsList);
+		ArrayList<String> namesList = new ArrayList<String>();
+		ArrayList<String> checkedList = new ArrayList<String>();
+		for (Contact c : allContactsList){
+			namesList.add(c.getName());
+			boolean check = false;
+			for (Contact c2 : contacts){
+				if(c.getId() == c2.getId()){
+					check = true;
+				}
+			}
+			checkedList.add(check ? "1" : "0");
+		}
+		Bundle names = new Bundle();
+		names.putStringArrayList("names", namesList);
+		names.putStringArrayList("checked", checkedList);
+		contactPicker.setArguments(names);
+		contactPicker.show(getFragmentManager(), "contact_picker");
 	}
 }

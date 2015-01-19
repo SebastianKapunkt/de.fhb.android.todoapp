@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * some class to represent a contact
  */
-public class Contact implements Serializable {
+public class Contact implements Serializable, Comparable<Contact> {
 	
 	/**
 	 * 
@@ -59,6 +59,15 @@ public class Contact implements Serializable {
 			return this.getId() == ((Contact)other).getId();
 		}
 		return false;
+	}
+	
+	public String toString(){
+		return this.getName();
+	}
+
+	@Override
+	public int compareTo(Contact compareContact) {
+		return this.getName().compareTo(compareContact.getName());
 	}
 
 }
