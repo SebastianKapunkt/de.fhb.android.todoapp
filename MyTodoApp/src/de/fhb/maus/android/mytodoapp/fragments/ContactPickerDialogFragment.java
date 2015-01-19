@@ -12,13 +12,18 @@ import de.fhb.maus.android.mytodoapp.R;
 
 public class ContactPickerDialogFragment extends DialogFragment {
 	
-	private ArrayList<Integer> mSelectedItems;
+	public interface AddRemoveContactsDialogListener {
+	    void onFinishAddRemoveContactsDialog(ArrayList<Integer> added, ArrayList<Integer> removed);
+	}
+	private ArrayList<Integer> addedItems;
+	private ArrayList<Integer> removedItems;
 	private String[] contactNames;
 	
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		super.onCreateDialog(savedInstanceState);
-	    mSelectedItems = new ArrayList<Integer>();  // Where we track the selected items
+	    addedItems = new ArrayList<Integer>();
+	    removedItems = new ArrayList<Integer>();
 	    
 	    ArrayList<String> contactNamesList = getArguments().getStringArrayList("names");
 	    contactNames = contactNamesList.toArray(new String[contactNamesList.size()]);
@@ -48,10 +53,17 @@ public class ContactPickerDialogFragment extends DialogFragment {
 	                       boolean isChecked) {
 	                   if (isChecked) {
 	                       // If the user checked the item, add it to the selected items
-	                       mSelectedItems.add(which);
-	                   } else if (mSelectedItems.contains(which)) {
-	                       // Else, if the item is already in the array, remove it 
-	                       mSelectedItems.remove(Integer.valueOf(which));
+	                       if (removedItems.contains(which)) {
+	                    	   removedItems.remove(Integer.valueOf(which));
+	                       } else {
+	                    	   addedItems.add(which);
+	                       }
+	                   } else {
+	                	   if (addedItems.contains(which)) {
+	                    	   addedItems.remove(Integer.valueOf(which));
+	                       } else {
+	                    	   removedItems.add(which);
+	                       }
 	                   }
 	               }
 	           })
@@ -59,15 +71,16 @@ public class ContactPickerDialogFragment extends DialogFragment {
 	           .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 	               @Override
 	               public void onClick(DialogInterface dialog, int id) {
-	                   // User clicked OK, so save the mSelectedItems results somewhere
-	                   // or return them to the component that opened the dialog
+	            	   AddRemoveContactsDialogListener activity = (AddRemoveContactsDialogListener) getActivity();
+	            	   activity.onFinishAddRemoveContactsDialog(addedItems, removedItems);
+	            	   dismiss();
 
 	               }
 	           })
 	           .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
 	               @Override
 	               public void onClick(DialogInterface dialog, int id) {
-
+	            	   dismiss();
 	               }
 	           });
 

@@ -78,7 +78,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 	 */
 
 	// C - create
-	public void addTodo(Todo todo) {
+	public long addTodo(Todo todo) {
 		// get reference to writable database
 		SQLiteDatabase db = this.getWritableDatabase();
 
@@ -91,12 +91,13 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 		values.put(KEY_MATURITYDATE, todo.getMaturityDate());
 
 		// insert
-		db.insert(TABLE_TODO, // table
+		long newId = db.insert(TABLE_TODO, // table
 				null, // nullColumnHack
 				values); // key/value -> keys = column names
 
 		// close
 		db.close();
+		return newId;
 	}
 	
 	public void addContact(long todoId, long contactId){
@@ -301,7 +302,20 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 				+ KEY_CONTACTID + " = ?", // selection
 				new String[] { String.valueOf(todoId),
 					String.valueOf(contactId)}); // selection
-																// args
+												// args
+		// close
+		db.close();
+	}
+	
+	public void deleteTodoContacts(long todoId) {
+		// get reference to writable database
+		SQLiteDatabase db = this.getWritableDatabase();
+
+		// delete
+		db.delete(TABLE_CONTACTS, // table
+				KEY_TODOID + " = ?", // selection
+				new String[] { String.valueOf(todoId)}); // selection
+														// args
 		// close
 		db.close();
 	}

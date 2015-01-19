@@ -27,8 +27,9 @@ import de.fhb.maus.android.mytodoapp.data.ContactsAccessor;
 import de.fhb.maus.android.mytodoapp.data.Todo;
 import de.fhb.maus.android.mytodoapp.database.MySQLiteHelper;
 import de.fhb.maus.android.mytodoapp.fragments.ContactPickerDialogFragment;
+import de.fhb.maus.android.mytodoapp.fragments.ContactPickerDialogFragment.AddRemoveContactsDialogListener;
 
-public class TodoContextActivity extends Activity {
+public class TodoContextActivity extends Activity implements AddRemoveContactsDialogListener{
 
 	private Todo todo;
 	private EditText todoname;
@@ -42,6 +43,7 @@ public class TodoContextActivity extends Activity {
 	private ContactsAccessor conAcc;
 	private ContextContactArrayAdapter contactAdapter;
 	private ArrayList<Contact> contacts;
+	private ArrayList<Contact> allContactsList;
 
 	final Context context = this;
 
@@ -109,20 +111,23 @@ public class TodoContextActivity extends Activity {
 		
 		conAcc = new ContactsAccessor(getContentResolver());
 		
+		contacts = new ArrayList<Contact>();
+		
 		// get contacts from DB
 		if (id != -1){
 			MySQLiteHelper db = new MySQLiteHelper(this);
 			ArrayList<Long> contactIds = db.getContactsFromTodo(id);
-			contacts = new ArrayList<Contact>();
 			for(long contactId : contactIds){
 				contacts.add(conAcc.readContact(contactId));
 			}
-			// get custom adapter
-			contactAdapter = new ContextContactArrayAdapter(this, contacts);
-
-			// set the custom adapter to the list View
-			contactsList.setAdapter(contactAdapter);
+			Collections.sort(contacts);
 		}
+		
+		// get custom adapter
+		contactAdapter = new ContextContactArrayAdapter(this, contacts);
+
+		// set the custom adapter to the list View
+		contactsList.setAdapter(contactAdapter);
 		
 
 		
@@ -142,7 +147,14 @@ public class TodoContextActivity extends Activity {
 		if (todo.getId() != -1) {
 			db.updateTodo(todo);
 		} else {
-			db.addTodo(todo);
+			// add todo and get generated id, needed for contacts
+			todo.setId(db.addTodo(todo));
+		}
+		
+		// instead of comparing all contact ids with current contacts list, just delete and re-add everything
+		db.deleteTodoContacts(todo.getId());
+		for (Contact c : contacts){
+			db.addContact(todo.getId(), c.getId());
 		}
 
 		db.close();
@@ -223,7 +235,7 @@ public class TodoContextActivity extends Activity {
 	public void addRemoveContacts(View v) {
 		ContactPickerDialogFragment contactPicker = new ContactPickerDialogFragment();
 		ContactsAccessor conAcc = new ContactsAccessor(getContentResolver());
-		ArrayList<Contact> allContactsList = (ArrayList<Contact>) conAcc.readAllContactsNames();
+		allContactsList = (ArrayList<Contact>) conAcc.readAllContactsNames();
 		Collections.sort(allContactsList);
 		ArrayList<String> namesList = new ArrayList<String>();
 		ArrayList<String> checkedList = new ArrayList<String>();
@@ -242,5 +254,21 @@ public class TodoContextActivity extends Activity {
 		names.putStringArrayList("checked", checkedList);
 		contactPicker.setArguments(names);
 		contactPicker.show(getFragmentManager(), "contact_picker");
+	}
+
+	@Override
+	public void onFinishAddRemoveContactsDialog(ArrayList<Integer> added, ArrayList<Integer> removed) {
+		Log.i("Contacts","Added Contacts: " + added);
+		Log.i("Contacts","Removed Contacts: " + removed);
+		
+		for(Integer a : added){
+			contacts.add(conAcc.readContact(allContactsList.get(a).getId()));
+		}
+		for(Integer r : removed){
+			contacts.remove(conAcc.readContact(allContactsList.get(r).getId()));
+		}
+		Collections.sort(contacts);
+		contactAdapter.notifyDataSetChanged();
+		
 	}
 }
