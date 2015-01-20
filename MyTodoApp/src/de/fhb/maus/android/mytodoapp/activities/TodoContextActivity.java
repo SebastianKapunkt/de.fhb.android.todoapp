@@ -26,6 +26,7 @@ public class TodoContextActivity extends Activity {
 	private CheckBox isImportant;
 	private TextView datetime;
 	private Button delcancel;
+	MySQLiteHelper db;
 
 	final Context context = this;
 
@@ -36,6 +37,8 @@ public class TodoContextActivity extends Activity {
 		// get the id of todo that was send to the activity via intent
 		Intent intent = getIntent();
 		long id = intent.getLongExtra("todo", -1);
+
+		db = new MySQLiteHelper(context);
 
 		// fill the holder with the view elements
 		todoname = (EditText) findViewById(R.id.todo_edit_name);
@@ -70,7 +73,6 @@ public class TodoContextActivity extends Activity {
 		// check if the todo exists and then fill the view elements or create
 		// new and set default values
 		if (id != -1) {
-			MySQLiteHelper db = new MySQLiteHelper(this);
 			todo = db.getTodo(id);
 			db.close();
 			todoname.setText(todo.getName());
@@ -90,8 +92,6 @@ public class TodoContextActivity extends Activity {
 	}
 
 	public void saveTodoItem(View v) {
-		MySQLiteHelper db = new MySQLiteHelper(v.getContext());
-
 		// Build a Todo for persist
 		todo.setName(todoname.getText().toString());
 		todo.setDescription(tododesc.getText().toString());
@@ -133,8 +133,6 @@ public class TodoContextActivity extends Activity {
 										int id) {
 									// only delete a todo if it exists
 									if (todo.getId() != -1) {
-										MySQLiteHelper db = new MySQLiteHelper(
-												context);
 										db.deleteTodo(todo);
 										db.close();
 										startActivity(new Intent(context,

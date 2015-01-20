@@ -9,15 +9,14 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import de.fhb.maus.android.mytodoapp.R;
 
 public class LoginActivity extends Activity {
 
 	private EditText email;
 	private EditText password;
-	private TextView hintEmail;
-	private TextView hintPassword;
+	private String hintEmail;
+	private String hintPassword;
 	private Button login;
 	boolean passwordlenght;
 	boolean emaillenght;
@@ -30,10 +29,8 @@ public class LoginActivity extends Activity {
 		email = (EditText) findViewById(R.id.email_address);
 		password = (EditText) findViewById(R.id.password);
 		login = (Button) findViewById(R.id.login_button);
-		hintEmail = (TextView) findViewById(R.id.hintemail);
-		hintEmail.setText("no Email set");
-		hintPassword = (TextView) findViewById(R.id.hintpassword);
-		hintPassword.setText("no Password set");
+		hintEmail = "not a valid email";
+		hintPassword = "password need 6 numbers";
 		login.setEnabled(false);
 
 		boolean isServerAvaible = true;
@@ -50,16 +47,10 @@ public class LoginActivity extends Activity {
 					int count) {
 				if (isValidEmail(s)) {
 					emaillenght = true;
-					hintEmail.setText("");
-					hintEmail.setHeight(0);
+					email.setError(null);
 
-				} else if (s.length() > 0) {
-					hintEmail.setText("is not a valid email");
-					hintEmail.setHeight(70);
-					emaillenght = false;
 				} else {
-					hintEmail.setText("no Email set");
-					hintEmail.setHeight(70);
+					email.setError(hintEmail);
 					emaillenght = false;
 				}
 				checkLoginButton();
@@ -84,16 +75,10 @@ public class LoginActivity extends Activity {
 			public void onTextChanged(CharSequence s, int start, int before,
 					int count) {
 				if (s.length() == 6) {
-					hintPassword.setText("");
-					hintPassword.setHeight(0);
+					password.setError(null);
 					passwordlenght = true;
-				} else if (s.length() == 0) {
-					hintPassword.setText("no Password set");
-					hintPassword.setHeight(70);
-					passwordlenght = false;
 				} else {
-					hintPassword.setText("Password is to short");
-					hintPassword.setHeight(70);
+					password.setError(hintPassword);
 					passwordlenght = false;
 				}
 				checkLoginButton();
