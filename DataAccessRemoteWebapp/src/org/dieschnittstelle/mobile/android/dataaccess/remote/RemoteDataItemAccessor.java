@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.dieschnittstelle.mobile.android.dataaccess.model.DataItem;
 import org.dieschnittstelle.mobile.android.dataaccess.model.IDataItemCRUDAccessor;
 import org.dieschnittstelle.mobile.android.dataaccess.model.TodoItem;
 
@@ -23,12 +22,14 @@ public class RemoteDataItemAccessor implements IDataItemCRUDAccessor {
 	 * we assign the ids here
 	 */
 	private static long idCount = 0;
-	
+
 	@Override
 	public List<TodoItem> readAllItems() {
-		fillList();
+		if (idCount == 0) {
+			fillList();
+		}
 		logger.info("readAllItems(): " + itemlist);
-		
+
 		return itemlist;
 	}
 
@@ -43,9 +44,8 @@ public class RemoteDataItemAccessor implements IDataItemCRUDAccessor {
 
 	@Override
 	public boolean deleteItem(final long itemId) {
-		logger.info("deleteItem(): " + itemId);
-
-		boolean removed = itemlist.remove(new DataItem() {
+		logger.info("deleteItem(): " + itemId);	
+		boolean removed = itemlist.remove(new TodoItem() {
 			/**
 			 * 
 			 */
@@ -67,7 +67,7 @@ public class RemoteDataItemAccessor implements IDataItemCRUDAccessor {
 		return itemlist.get(itemlist.indexOf(item)).updateFrom(item);
 	}
 
-	public void fillList(){
+	public void fillList() {
 		itemlist.add(new TodoItem(idCount++, "1", "1d", false, false, 12366456));
 		itemlist.add(new TodoItem(idCount++, "2", "2d", true, false, 12366456));
 		itemlist.add(new TodoItem(idCount++, "3", "3d", false, true, 12366456));

@@ -3,13 +3,16 @@ package de.fhb.maus.android.mytodoapp.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import de.fhb.maus.android.mytodoapp.R;
+import de.fhb.maus.android.mytodoapp.model.Serversync;
 
 public class LoginActivity extends Activity {
 
@@ -26,17 +29,24 @@ public class LoginActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
 
+		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+		
 		email = (EditText) findViewById(R.id.email_address);
 		password = (EditText) findViewById(R.id.password);
 		login = (Button) findViewById(R.id.login_button);
 		hintEmail = "not a valid email";
 		hintPassword = "password need 6 numbers";
 		login.setEnabled(false);
-
+		
 		boolean isServerAvaible = true;
 
 		if (isServerAvaible) {
-
+			if(Serversync.makeDataSynch(this)){
+				Log.d("Server", "sync success");
+			}else{
+				Log.d("Server", "sync failed");
+			}
 		} else {
 			logIn(getCurrentFocus());
 		}
