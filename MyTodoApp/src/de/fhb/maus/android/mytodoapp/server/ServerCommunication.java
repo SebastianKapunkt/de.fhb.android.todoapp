@@ -1,4 +1,4 @@
-package de.fhb.maus.android.mytodoapp.model;
+package de.fhb.maus.android.mytodoapp.server;
 
 import java.io.BufferedReader;
 import java.io.IOException;

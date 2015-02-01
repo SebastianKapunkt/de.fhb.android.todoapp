@@ -12,7 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import de.fhb.maus.android.mytodoapp.R;
-import de.fhb.maus.android.mytodoapp.model.ServerCommunication;
+import de.fhb.maus.android.mytodoapp.server.ServerCommunication;
 
 public class LoginActivity extends Activity {
 
