@@ -159,17 +159,18 @@ public class TodoContextActivity extends Activity {
 	}
 
 	public void editDateTime(View v) {
-		startActivityForResult(new Intent(this, DateTimeActivity.class), 1);
+		Intent intent = new Intent(context, DateTimeActivity.class);
+		intent.putExtra("time", todo.getMaturityDate());
+		startActivityForResult(intent, 1);
 	}
 
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
 		if (requestCode == 1) {
 			if (resultCode == RESULT_OK) {
-				datetime.setText(data.getStringExtra("time"));
-			}
-			if (resultCode == RESULT_CANCELED) {
-				// Write your code if there's no result
+				todo.setMaturityDate(data.getLongExtra("time",
+						System.currentTimeMillis()));
+				datetime.setText(todo.getMaturityDateAsString());
 			}
 		}
 	}
