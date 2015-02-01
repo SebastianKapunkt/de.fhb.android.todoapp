@@ -2,21 +2,24 @@
 <resources>
 
     <string name="app_name">TheTodo</string>
-	<string name="new_todo">new Todo</string>
-	<string name="email_hint">email</string>
-	<string name="password_hint">password</string>
-	<string name="login">Login</string>
-	<string name="isImportant">Favorite</string>
-	<string name="isDone">Done</string>
-	<string name="todo_name">name of todo</string>
-	<string name="action_settings">action settings</string>
-	<string name="date">dd/mm/yy hh:mm</string>
-	<string name="todo_description">description</string>
-	<string name="create_todo">Create</string>
-	<string name="save">Save</string>
-	<string name="delete">Delete</string>
-	<string name="todo_date">date</string>
-	<string name="cancel"> Cancel </string>
-	<string name="sortdate">sort by Date</string>
-	<string name="sortimportant">sort by Favorite</string>
+    <string name="new_todo">new Todo</string>
+    <string name="email_hint">email</string>
+    <string name="password_hint">password</string>
+    <string name="login">Login</string>
+    <string name="isImportant">Favorite</string>
+    <string name="isDone">Done</string>
+    <string name="todo_name">name of todo</string>
+    <string name="action_settings">action settings</string>
+    <string name="date">dd/mm/yy hh:mm</string>
+    <string name="todo_description">description</string>
+    <string name="create_todo">Create</string>
+    <string name="save">Save</string>
+    <string name="delete">Delete</string>
+    <string name="todo_date">date</string>
+    <string name="cancel"> Cancel </string>
+    <string name="sortdate">sort by Date</string>
+    <string name="sortimportant">sort by Favorite</string>
+    <string name="contacts">Contacts</string>
+    <string name="refresh">refresh</string>
+
 </resources>

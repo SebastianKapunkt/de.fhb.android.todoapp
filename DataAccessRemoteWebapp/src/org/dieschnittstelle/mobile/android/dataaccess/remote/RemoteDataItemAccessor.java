@@ -44,23 +44,23 @@ public class RemoteDataItemAccessor implements IDataItemCRUDAccessor {
 
 	@Override
 	public boolean deleteItem(final long itemId) {
-		logger.info("deleteItem(): " + itemId);	
+		logger.info("deleteItem(): " + itemId);
 		boolean removed = false;
 		int i = 0;
 		int found = -1;
-		
+
 		for (TodoItem todoItem : itemlist) {
-			if(todoItem.getId() == itemId){
+			if (todoItem.getId() == itemId) {
 				found = i;
 			}
 			i++;
 		}
 
-		if(found > -1){
+		if (found > -1) {
 			removed = true;
 			itemlist.remove(found);
 		}
-		
+
 		return removed;
 	}
 
@@ -72,14 +72,23 @@ public class RemoteDataItemAccessor implements IDataItemCRUDAccessor {
 	}
 
 	public void fillList() {
-		itemlist.add(new TodoItem(idCount++, "1", "1d", false, false, 12366456));
-		itemlist.add(new TodoItem(idCount++, "2", "2d", true, false, 12366456));
-		itemlist.add(new TodoItem(idCount++, "3", "3d", false, true, 12366456));
-		itemlist.add(new TodoItem(idCount++, "4", "4d", false, false, 12366456));
-		itemlist.add(new TodoItem(idCount++, "5", "5d", true, true, 12366456));
-		itemlist.add(new TodoItem(idCount++, "6", "6d", false, true, 12366456));
-		itemlist.add(new TodoItem(idCount++, "7", "7d", true, false, 12366456));
-		itemlist.add(new TodoItem(idCount++, "8", "8d", true, false, 12366456));
-		itemlist.add(new TodoItem(idCount++, "9", "9d", false, true, 12366456));
+		itemlist.add(new TodoItem(idCount++, "Server Item 1", "1d", false,
+				false, 12366456));
+		itemlist.add(new TodoItem(idCount++, "Server Item 2", "2d", true,
+				false, 34534435));
+		itemlist.add(new TodoItem(idCount++, "Server Item 3", "3d", false,
+				true, 123885834));
+		itemlist.add(new TodoItem(idCount++, "Server Item 4", "4d", false,
+				false, 50405434));
+		itemlist.add(new TodoItem(idCount++, "Server Item 5", "5d", true, true,
+				96787745));
+		itemlist.add(new TodoItem(idCount++, "Server Item 6", "6d", false,
+				true, 1248235));
+		itemlist.add(new TodoItem(idCount++, "Server Item 7", "7d", true,
+				false, 345982312));
+		itemlist.add(new TodoItem(idCount++, "Server Item 8", "8d", true,
+				false, 29349234));
+		itemlist.add(new TodoItem(idCount++, "Server Item 9", "9d", false,
+				true, 435294592));
 	}
 }

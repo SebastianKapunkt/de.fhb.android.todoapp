@@ -16,7 +16,12 @@ import android.widget.TextView;
 import de.fhb.maus.android.mytodoapp.R;
 import de.fhb.maus.android.mytodoapp.data.Todo;
 import de.fhb.maus.android.mytodoapp.database.MySQLiteHelper;
-
+/**
+ * Bearbeiten der Details eines Todos
+ * 
+ * @author Sebastian Kindt
+ *
+ */
 public class TodoContextActivity extends Activity {
 
 	private Todo todo;
@@ -91,6 +96,12 @@ public class TodoContextActivity extends Activity {
 		}
 	}
 
+	/**
+	 * Liest die Werte des Todos aus den Feldern aus und speichert sie in die
+	 * Datenbank
+	 * 
+	 * @param v
+	 */
 	public void saveTodoItem(View v) {
 		// Build a Todo for persist
 		todo.setName(todoname.getText().toString());
@@ -108,14 +119,24 @@ public class TodoContextActivity extends Activity {
 
 		db.close();
 
+		// Beendet Context Aktivitaet und geht zur Overview Aktivitaet zurueck
 		startActivity(new Intent(this, TodoOverviewActivity.class));
 	}
 
+	/**
+	 * Listener fuer den Delete oder Cancel Button Bricht erstellen eines Todos
+	 * ab oder loescht ein besthendes
+	 * 
+	 * @param v
+	 */
 	public void deleteTodoItem(View v) {
-
+		// Wenn Canel button ist, also das Todo noch nicht persitiert wurde dann
+		// breche einfach die Bearbeitung ab und gehe zur fohrigen Aktivitaet
 		if (delcancel.getText().toString().equals("Cancel")) {
 			startActivity(new Intent(context, TodoOverviewActivity.class));
 		} else {
+			// Sonst Loesche Todo aus der Datenbank
+
 			// build a Alert Dialog
 			AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
 					context);
@@ -158,12 +179,20 @@ public class TodoContextActivity extends Activity {
 		}
 	}
 
+	/**
+	 * Aufruf der Aktivitaet zum einstellen des Datums
+	 * 
+	 * @param v
+	 */
 	public void editDateTime(View v) {
 		Intent intent = new Intent(context, DateTimeActivity.class);
 		intent.putExtra("time", todo.getMaturityDate());
 		startActivityForResult(intent, 1);
 	}
 
+	/**
+	 * Persitieren der Aenderung des Datums
+	 */
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
 		if (requestCode == 1) {

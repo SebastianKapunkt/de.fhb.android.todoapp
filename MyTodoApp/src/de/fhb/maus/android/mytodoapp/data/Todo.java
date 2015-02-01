@@ -7,6 +7,12 @@ import java.util.Date;
 
 import android.annotation.SuppressLint;
 
+/**
+ * 
+ * @author Sebastian Kindt
+ *
+ */
+
 @SuppressLint("SimpleDateFormat")
 public class Todo {
 
@@ -61,6 +67,7 @@ public class Todo {
 		return maturityDate;
 	}
 
+	//getter to get Date as String
 	public String getMaturityDateAsString() {
 		Date date = new Date(maturityDate);
 		Format format = new SimpleDateFormat("HH:mm dd.MM.yyyy");
@@ -91,6 +98,7 @@ public class Todo {
 		this.maturityDate = maturityDate;
 	}
 
+	//Setter for case to set Date from String
 	public void setMaturityDateFromString(String maturityDate) {
 		SimpleDateFormat format = new SimpleDateFormat("HH:mm dd.MM.yyyy");
 		Date d = null;

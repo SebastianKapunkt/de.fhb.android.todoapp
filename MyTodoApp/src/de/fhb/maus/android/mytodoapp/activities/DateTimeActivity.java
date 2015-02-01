@@ -10,6 +10,12 @@ import android.widget.DatePicker;
 import android.widget.TimePicker;
 import de.fhb.maus.android.mytodoapp.R;
 
+/**
+ * Aktivitaet fuer die Bearbeitung des Datum eines Todos
+ * 
+ * @author Sebastian Kindt
+ * 
+ */
 public class DateTimeActivity extends Activity {
 
 	private TimePicker timePicker;
@@ -21,21 +27,31 @@ public class DateTimeActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.date_time);
 		Intent intent = getIntent();
-		
+
+		// Calender Objekt zur leichteren Verarbeitung
 		calendar = Calendar.getInstance();
-		calendar.setTimeInMillis(intent.getLongExtra("time", System.currentTimeMillis()));
+		// Einlesen der Zeit aus dem Intent
+		calendar.setTimeInMillis(intent.getLongExtra("time",
+				System.currentTimeMillis()));
 
 		timePicker = (TimePicker) findViewById(R.id.timePicker);
 		timePicker.setIs24HourView(true);
+		datePicker = (DatePicker) findViewById(R.id.datePicker);
+
+		// Setzen der Werte der Picker aus dem Calender Objekt
 		timePicker.setCurrentHour(calendar.get(Calendar.HOUR_OF_DAY));
 		timePicker.setCurrentMinute(calendar.get(Calendar.MINUTE));
-
-		datePicker = (DatePicker) findViewById(R.id.datePicker);
 		datePicker.updateDate(calendar.get(Calendar.YEAR),
 				calendar.get(Calendar.MONTH),
 				calendar.get(Calendar.DAY_OF_MONTH));
 	}
 
+	/**
+	 * Liest die Zeit aus dem Date- und Timepicker. Wandelt diese in
+	 * Millisekunden um, fuegt es dem Intent hinzu und beendet die Aktivität.
+	 * 
+	 * @param v
+	 */
 	public void saveDateTimeChange(View v) {
 		calendar.set(datePicker.getYear(), datePicker.getMonth(),
 				datePicker.getDayOfMonth(), timePicker.getCurrentHour(),
@@ -47,6 +63,11 @@ public class DateTimeActivity extends Activity {
 		finish();
 	}
 
+	/**
+	 * Bricht das Bearbeiten der Zeit ab.
+	 * 
+	 * @param v
+	 */
 	public void cancelDateTimeChange(View v) {
 		Intent returnIntent = new Intent();
 		setResult(RESULT_CANCELED, returnIntent);
