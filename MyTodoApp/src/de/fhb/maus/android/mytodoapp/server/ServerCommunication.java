@@ -22,7 +22,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.content.Context;
 import android.util.Log;
 import de.fhb.maus.android.mytodoapp.data.Todo;
 import de.fhb.maus.android.mytodoapp.database.MySQLiteHelper;
@@ -30,15 +29,12 @@ import de.fhb.maus.android.mytodoapp.database.MySQLiteHelper;
 public class ServerCommunication {
 
 	private static StringBuilder itemsString;
-	private static Context context;
-	private static MySQLiteHelper db;
 	private static String url = "http://192.168.2.101:8080";
+	private static MySQLiteHelper db;
 
-	public static boolean makeDataSynch(Context context) {
+	public static boolean makeDataSynch(MySQLiteHelper db) {
 		itemsString = new StringBuilder();
-		ServerCommunication.context = context;
-		db = new MySQLiteHelper(ServerCommunication.context);
-
+		ServerCommunication.db = db;
 		boolean isSuccessfull = false;
 
 		if (readItemsFromServer()) {
