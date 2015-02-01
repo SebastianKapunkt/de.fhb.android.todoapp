@@ -12,7 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import de.fhb.maus.android.mytodoapp.R;
-import de.fhb.maus.android.mytodoapp.model.Serversync;
+import de.fhb.maus.android.mytodoapp.model.ServerCommunication;
 
 public class LoginActivity extends Activity {
 
@@ -21,35 +21,34 @@ public class LoginActivity extends Activity {
 	private String hintEmail;
 	private String hintPassword;
 	private Button login;
-	boolean passwordlenght;
-	boolean emaillenght;
+	private boolean passwordlenght;
+	private boolean emaillenght;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
 
-		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
-		
+		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
+				.permitAll().build();
+		StrictMode.setThreadPolicy(policy);
+
+		if (ServerCommunication.checkConnection()) {
+			if (ServerCommunication.makeDataSynch(this)) {
+				Log.d("Server", "sync success");
+			} else {
+				Log.d("Server", "sync failed");
+			}
+		} else {
+			logIn(getCurrentFocus());
+		}
+
 		email = (EditText) findViewById(R.id.email_address);
 		password = (EditText) findViewById(R.id.password);
 		login = (Button) findViewById(R.id.login_button);
 		hintEmail = "not a valid email";
 		hintPassword = "password need 6 numbers";
 		login.setEnabled(false);
-		
-		boolean isServerAvaible = true;
-
-		if (isServerAvaible) {
-			if(Serversync.makeDataSynch(this)){
-				Log.d("Server", "sync success");
-			}else{
-				Log.d("Server", "sync failed");
-			}
-		} else {
-			logIn(getCurrentFocus());
-		}
 
 		email.addTextChangedListener(new TextWatcher() {
 

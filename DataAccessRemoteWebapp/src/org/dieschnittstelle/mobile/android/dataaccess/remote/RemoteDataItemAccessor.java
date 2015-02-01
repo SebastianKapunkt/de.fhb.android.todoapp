@@ -45,18 +45,22 @@ public class RemoteDataItemAccessor implements IDataItemCRUDAccessor {
 	@Override
 	public boolean deleteItem(final long itemId) {
 		logger.info("deleteItem(): " + itemId);	
-		boolean removed = itemlist.remove(new TodoItem() {
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = 71193783355593985L;
-
-			@Override
-			public long getId() {
-				return itemId;
+		boolean removed = false;
+		int i = 0;
+		int found = -1;
+		
+		for (TodoItem todoItem : itemlist) {
+			if(todoItem.getId() == itemId){
+				found = i;
 			}
-		});
+			i++;
+		}
 
+		if(found > -1){
+			removed = true;
+			itemlist.remove(found);
+		}
+		
 		return removed;
 	}
 

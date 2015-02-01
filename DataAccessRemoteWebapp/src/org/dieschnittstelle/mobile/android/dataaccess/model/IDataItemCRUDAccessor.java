@@ -29,6 +29,5 @@ public interface IDataItemCRUDAccessor {
 
 	@PUT
 	public TodoItem updateItem(TodoItem item);
-	
 
 }

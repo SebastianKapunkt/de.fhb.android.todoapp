@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.List;
 
 import org.apache.http.HttpEntity;
@@ -25,16 +27,17 @@ import android.util.Log;
 import de.fhb.maus.android.mytodoapp.data.Todo;
 import de.fhb.maus.android.mytodoapp.database.MySQLiteHelper;
 
-public class Serversync {
+public class ServerCommunication {
 
 	private static StringBuilder itemsString;
 	private static Context context;
 	private static MySQLiteHelper db;
+	private static String url = "http://192.168.2.101:8080";
 
 	public static boolean makeDataSynch(Context context) {
 		itemsString = new StringBuilder();
-		Serversync.context = context;
-		db = new MySQLiteHelper(Serversync.context);
+		ServerCommunication.context = context;
+		db = new MySQLiteHelper(ServerCommunication.context);
 
 		boolean isSuccessfull = false;
 
@@ -45,15 +48,15 @@ public class Serversync {
 				if (!fetchWithDatabase()) {
 					isSuccessfull = false;
 				}
-			} catch (JSONException e) {
-				e.printStackTrace();
+			} catch (Exception e) {
+				isSuccessfull = false;
 			}
 		}
 
 		return isSuccessfull;
 	}
 
-	private static boolean fetchWithDatabase() throws JSONException {
+	private static boolean fetchWithDatabase() throws Exception {
 		boolean isDone = false;
 		db.getReadableDatabase();
 
@@ -65,7 +68,7 @@ public class Serversync {
 				isDone = true;
 			}
 		} else {
-			if (putDataToWebserver()) {
+			if (putTodoToWebserver()) {
 				isDone = true;
 			}
 		}
@@ -75,15 +78,14 @@ public class Serversync {
 		return isDone;
 	}
 
-	private static boolean putDataToWebserver() {
+	private static boolean putTodoToWebserver() throws Exception {
 
-		try {
-			deleteTodoOnWebserver(1);
-			deleteTodoOnWebserver(2);
-			deleteTodoOnWebserver(3);
-			deleteTodoOnWebserver(4);
-		} catch (Exception e) {
-			e.printStackTrace();
+		JSONArray items = new JSONArray(itemsString.toString());
+		JSONObject item;
+
+		for (int i = 0; i < items.length(); i++) {
+			item = items.getJSONObject(i);
+			deleteTodoOnWebserver(item.getInt("id"));
 		}
 
 		db.getReadableDatabase();
@@ -105,7 +107,8 @@ public class Serversync {
 			item = items.getJSONObject(i);
 			todo = new Todo(item.getString("name"),
 					item.getString("description"), item.getBoolean("done"),
-					item.getBoolean("important"), item.getInt("maturityDate"));
+					item.getBoolean("important"), Long.parseLong(
+							item.getString("maturityDate"), 10));
 			db.addTodo(todo);
 		}
 
@@ -114,8 +117,8 @@ public class Serversync {
 
 	private static boolean readItemsFromServer() {
 		HttpClient client = new DefaultHttpClient();
-		HttpGet httpGet = new HttpGet(
-				"http://192.168.2.101:8080/DataAccessRemoteWebapp/rest/dataitem");
+		HttpGet httpGet = new HttpGet(url
+				+ "/DataAccessRemoteWebapp/rest/dataitem");
 		try {
 			HttpResponse response = client.execute(httpGet);
 			StatusLine statusLine = response.getStatusLine();
@@ -147,9 +150,8 @@ public class Serversync {
 		String result = "";
 
 		HttpClient httpclient = new DefaultHttpClient();
-		HttpDelete httpDelete = new HttpDelete(
-				"http://192.168.2.101:8080/DataAccessRemoteWebapp/rest/dataitem/itemId="
-						+ id);
+		HttpDelete httpDelete = new HttpDelete(url
+				+ "/DataAccessRemoteWebapp/rest/dataitem/" + id);
 		HttpResponse httpResponse = httpclient.execute(httpDelete);
 		// 9. receive response as inputStream
 		inputStream = httpResponse.getEntity().getContent();
@@ -172,8 +174,8 @@ public class Serversync {
 			HttpClient httpclient = new DefaultHttpClient();
 
 			// 2. make POST request to the given URL
-			HttpPost httpPost = new HttpPost(
-					"http://192.168.2.101:8080/DataAccessRemoteWebapp/rest/dataitem");
+			HttpPost httpPost = new HttpPost(url
+					+ "/DataAccessRemoteWebapp/rest/dataitem");
 
 			String json = "";
 
@@ -183,7 +185,7 @@ public class Serversync {
 			jsonObject.accumulate("description", todo.getDescription());
 			jsonObject.accumulate("done", todo.isDone());
 			jsonObject.accumulate("important", todo.isImportant());
-			jsonObject.accumulate("maturityDate", todo.getMaturityDate());
+			jsonObject.accumulate("maturityDate", todo.getMaturityDate() + "");
 
 			// 4. convert JSONObject to JSON to String
 			json = jsonObject.toString();
@@ -230,5 +232,19 @@ public class Serversync {
 		inputStream.close();
 		return result;
 
+	}
+
+	public static boolean checkConnection() {
+		try {
+			URL myUrl = new URL(url);
+			URLConnection connection = myUrl.openConnection();
+			connection.setConnectTimeout(500);
+			connection.connect();
+			Log.d("Server", "online");
+			return true;
+		} catch (Exception e) {
+			Log.d("Server", "offline");
+			return false;
+		}
 	}
 }
