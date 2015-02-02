@@ -3,7 +3,6 @@ package de.fhb.maus.android.mytodoapp.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -59,7 +58,7 @@ public class TodoOverviewActivity extends Activity {
 	 * 
 	 * @param view
 	 */
-	public void sortByDate(View view) {
+	public void sortByDate(MenuItem view) {
 		adapter.sort(new TodoDateComperator());
 		list.setAdapter(adapter);
 		sortByDate = true;
@@ -71,7 +70,7 @@ public class TodoOverviewActivity extends Activity {
 	 * 
 	 * @param view
 	 */
-	public void sortByImportance(View view) {
+	public void sortByImportance(MenuItem view) {
 		adapter.sort(new TodoImportantComperator());
 		list.setAdapter(adapter);
 		sortByDate = false;
