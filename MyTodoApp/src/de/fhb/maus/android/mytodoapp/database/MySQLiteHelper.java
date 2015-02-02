@@ -11,6 +11,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+/**
+ * Datenbankmanager
+ * 
+ * @author Sebastian Kindt
+ * 
+ */
 public class MySQLiteHelper extends SQLiteOpenHelper {
 
 	// database version
@@ -267,7 +273,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
 		// updating row
 		int i = db.update(TABLE_TODO, // table
-				values, // column/value 
+				values, // column/value
 				KEY_ID + " = ?", // selections
 				new String[] { String.valueOf(todo.getId()) }); // selection
 																// args

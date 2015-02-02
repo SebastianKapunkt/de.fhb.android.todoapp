@@ -18,6 +18,12 @@ import de.fhb.maus.android.mytodoapp.activities.TodoContextActivity;
 import de.fhb.maus.android.mytodoapp.data.Todo;
 import de.fhb.maus.android.mytodoapp.database.MySQLiteHelper;
 
+/**
+ * Adapter fuer die Listview in der Uebersicht
+ * 
+ * @author Sebastian Kindt
+ * 
+ */
 public class TodoArrayAdapter extends ArrayAdapter<Todo> {
 
 	protected static final String SELECTED_TODO = "todo";
@@ -114,6 +120,12 @@ public class TodoArrayAdapter extends ArrayAdapter<Todo> {
 		return rowView;
 	}
 
+	/**
+	 * Aendert das Bild entsprechend des Status der Wichtigkeit
+	 * 
+	 * @param holder
+	 * @param position
+	 */
 	protected void switchImage(ViewHolder holder, int position) {
 		if (todos.get(position).isImportant()) {
 			holder.isImportant.setImageResource(R.drawable.is_fav);
@@ -122,12 +134,19 @@ public class TodoArrayAdapter extends ArrayAdapter<Todo> {
 		}
 	}
 
+	/**
+	 * Veraendert die Hintergrund farbe eines Todos wenn es abgelaufen ist
+	 * 
+	 * @param holder
+	 * @param position
+	 */
 	protected void switchBackground(ViewHolder holder, int position) {
 		if (holder.isDoneCheckbox.isChecked()) {
 			holder.linearLayout.setBackgroundColor(0x55FFFFFF);
-		} else if(todos.get(position).getMaturityDate() < System.currentTimeMillis()){
+		} else if (todos.get(position).getMaturityDate() < System
+				.currentTimeMillis()) {
 			holder.linearLayout.setBackgroundColor(0xCCFFAAAA);
-		} else{
+		} else {
 			holder.linearLayout.setBackgroundColor(0xCCFFFFFF);
 		}
 	}

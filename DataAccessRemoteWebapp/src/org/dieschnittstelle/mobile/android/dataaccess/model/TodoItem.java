@@ -1,20 +1,18 @@
-package de.fhb.maus.android.mytodoapp.data;
+package org.dieschnittstelle.mobile.android.dataaccess.model;
 
-import java.text.Format;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.io.Serializable;
 
-import android.annotation.SuppressLint;
+public class TodoItem implements Serializable {
 
-/**
- * 
- * @author Sebastian Kindt
- *
- */
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 892589568245267958L;
 
-@SuppressLint("SimpleDateFormat")
-public class Todo {
+	/**
+	 * some static id assignment
+	 */
+	private static int ID = 0;
 
 	private long id;
 	private String name;
@@ -23,8 +21,9 @@ public class Todo {
 	private boolean isImportant;
 	private long maturityDate;
 
-	public Todo(String name, String description, boolean isDone,
+	public TodoItem(long id, String name, String description, boolean isDone,
 			boolean isImportant, long maturityDate) {
+		this.id = (id == -1 ? ID++ : id);
 		this.name = name;
 		this.description = description;
 		this.isDone = isDone;
@@ -32,8 +31,18 @@ public class Todo {
 		this.maturityDate = maturityDate;
 	}
 
-	public Todo() {
+	public TodoItem() {
 		// just do nothing
+	}
+
+	public TodoItem updateFrom(TodoItem item) {
+		this.setName(item.getName());
+		this.setDescription(item.getDescription());
+		this.setDone(item.isDone());
+		this.setImportant(item.isImportant());
+		this.setMaturityDate(item.getMaturityDate());
+
+		return this;
 	}
 
 	@Override
@@ -41,6 +50,32 @@ public class Todo {
 		return "Todo [id=" + id + ", name=" + name + ", description="
 				+ description + ", isDone=" + isDone + ", isImportant="
 				+ isImportant + ", maturityDate=" + maturityDate + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (int) (id ^ (id >>> 32));
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (!(obj instanceof TodoItem)) {
+			return false;
+		}
+		TodoItem other = (TodoItem) obj;
+		if (id != other.id) {
+			return false;
+		}
+		return true;
 	}
 
 	public long getId() {
@@ -67,13 +102,6 @@ public class Todo {
 		return maturityDate;
 	}
 
-	//getter to get Date as String
-	public String getMaturityDateAsString() {
-		Date date = new Date(maturityDate);
-		Format format = new SimpleDateFormat("HH:mm dd.MM.yyyy");
-		return format.format(date);
-	}
-
 	public void setId(long id) {
 		this.id = id;
 	}
@@ -96,18 +124,5 @@ public class Todo {
 
 	public void setMaturityDate(long maturityDate) {
 		this.maturityDate = maturityDate;
-	}
-
-	//Setter for case to set Date from String
-	public void setMaturityDateFromString(String maturityDate) {
-		SimpleDateFormat format = new SimpleDateFormat("HH:mm dd.MM.yyyy");
-		Date d = null;
-		try {
-			d = format.parse(maturityDate);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-
-		this.maturityDate = d.getTime();
 	}
 }

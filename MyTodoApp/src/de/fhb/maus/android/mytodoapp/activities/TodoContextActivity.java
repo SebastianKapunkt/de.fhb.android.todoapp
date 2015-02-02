@@ -29,6 +29,12 @@ import de.fhb.maus.android.mytodoapp.database.MySQLiteHelper;
 import de.fhb.maus.android.mytodoapp.fragments.ContactPickerDialogFragment;
 import de.fhb.maus.android.mytodoapp.fragments.ContactPickerDialogFragment.AddRemoveContactsDialogListener;
 
+/**
+ * Bearbeiten der Details eines Todos
+ * 
+ * @author Sebastian Kindt
+ *
+ */
 public class TodoContextActivity extends Activity implements AddRemoveContactsDialogListener{
 
 	private Todo todo;
@@ -45,6 +51,9 @@ public class TodoContextActivity extends Activity implements AddRemoveContactsDi
 	private ArrayList<Contact> contacts;
 	private ArrayList<Contact> allContactsList;
 
+	MySQLiteHelper db;
+
+
 	final Context context = this;
 
 	@Override
@@ -54,6 +63,8 @@ public class TodoContextActivity extends Activity implements AddRemoveContactsDi
 		// get the id of todo that was send to the activity via intent
 		Intent intent = getIntent();
 		long id = intent.getLongExtra("todo", -1);
+
+		db = new MySQLiteHelper(context);
 
 		// fill the holder with the view elements
 		todoname = (EditText) findViewById(R.id.todo_edit_name);
@@ -88,7 +99,6 @@ public class TodoContextActivity extends Activity implements AddRemoveContactsDi
 		// check if the todo exists and then fill the view elements or create
 		// new and set default values
 		if (id != -1) {
-			MySQLiteHelper db = new MySQLiteHelper(this);
 			todo = db.getTodo(id);
 			db.close();
 			todoname.setText(todo.getName());
@@ -133,9 +143,13 @@ public class TodoContextActivity extends Activity implements AddRemoveContactsDi
 		
 	}
 
+	/**
+	 * Liest die Werte des Todos aus den Feldern aus und speichert sie in die
+	 * Datenbank
+	 * 
+	 * @param v
+	 */
 	public void saveTodoItem(View v) {
-		MySQLiteHelper db = new MySQLiteHelper(v.getContext());
-
 		// Build a Todo for persist
 		todo.setName(todoname.getText().toString());
 		todo.setDescription(tododesc.getText().toString());
@@ -159,14 +173,24 @@ public class TodoContextActivity extends Activity implements AddRemoveContactsDi
 
 		db.close();
 
+		// Beendet Context Aktivitaet und geht zur Overview Aktivitaet zurueck
 		startActivity(new Intent(this, TodoOverviewActivity.class));
 	}
 
+	/**
+	 * Listener fuer den Delete oder Cancel Button Bricht erstellen eines Todos
+	 * ab oder loescht ein besthendes
+	 * 
+	 * @param v
+	 */
 	public void deleteTodoItem(View v) {
-
+		// Wenn Canel button ist, also das Todo noch nicht persitiert wurde dann
+		// breche einfach die Bearbeitung ab und gehe zur fohrigen Aktivitaet
 		if (delcancel.getText().toString().equals("Cancel")) {
 			startActivity(new Intent(context, TodoOverviewActivity.class));
 		} else {
+			// Sonst Loesche Todo aus der Datenbank
+
 			// build a Alert Dialog
 			AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
 					context);
@@ -184,8 +208,6 @@ public class TodoContextActivity extends Activity implements AddRemoveContactsDi
 										int id) {
 									// only delete a todo if it exists
 									if (todo.getId() != -1) {
-										MySQLiteHelper db = new MySQLiteHelper(
-												context);
 										db.deleteTodoContacts(todo.getId());
 										db.deleteTodo(todo);
 										db.close();
@@ -212,18 +234,27 @@ public class TodoContextActivity extends Activity implements AddRemoveContactsDi
 		}
 	}
 
+	/**
+	 * Aufruf der Aktivitaet zum einstellen des Datums
+	 * 
+	 * @param v
+	 */
 	public void editDateTime(View v) {
-		startActivityForResult(new Intent(this, DateTimeActivity.class), 1);
+		Intent intent = new Intent(context, DateTimeActivity.class);
+		intent.putExtra("time", todo.getMaturityDate());
+		startActivityForResult(intent, 1);
 	}
 
+	/**
+	 * Persitieren der Aenderung des Datums
+	 */
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
 		if (requestCode == 1) {
 			if (resultCode == RESULT_OK) {
-				datetime.setText(data.getStringExtra("time"));
-			}
-			if (resultCode == RESULT_CANCELED) {
-				// Write your code if there's no result
+				todo.setMaturityDate(data.getLongExtra("time",
+						System.currentTimeMillis()));
+				datetime.setText(todo.getMaturityDateAsString());
 			}
 		}
 	}
