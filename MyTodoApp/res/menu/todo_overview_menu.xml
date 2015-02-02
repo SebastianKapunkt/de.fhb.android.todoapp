@@ -7,6 +7,16 @@
         android:onClick="gotoTodoByContact">
     </item>
     <item
+        android:id="@+id/menu_sortbydate"
+        android:onClick="sortByDate"
+        android:title="@string/sortdate">
+    </item>
+    <item
+        android:id="@+id/menu_sortbyimportant"
+        android:onClick="sortByImportance"
+        android:title="@string/sortimportant">
+    </item>
+    <item
         android:id="@+id/action_refresh"
         android:icon="@drawable/ic_action_refresh"
         android:onClick="updateList"
