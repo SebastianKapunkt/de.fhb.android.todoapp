@@ -227,6 +227,38 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 		return contacts;
 	}
 	
+	public ArrayList<Long> getAllContacts() {
+		ArrayList<Long> contacts = new ArrayList<Long>();
+		// get reference to readable database
+		SQLiteDatabase db = this.getReadableDatabase();
+
+		// build query
+		Cursor cursor = db.query(true, //distinct
+				TABLE_CONTACTS, // table
+				new String[]{ KEY_CONTACTID }, // columns names
+				null, // selections
+				null, // select
+				null, // group by
+				null, // having
+				null, // order by
+				null); // limit
+
+		// if we got results get the first one
+		if (cursor != null && cursor.getCount()>0) {
+			cursor.moveToFirst();
+			do {
+				contacts.add(cursor.getLong(0));
+			} while (cursor.moveToNext());
+		} else {
+			Log.d("Error", "Contacts from Todo not found");
+		}
+
+		// close
+		db.close();
+
+		return contacts;
+	}
+	
 	public ArrayList<Long> getTodosFromContact(long id) {
 		ArrayList<Long> todos = new ArrayList<Long>();
 		// get reference to readable database

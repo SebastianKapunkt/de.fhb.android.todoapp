@@ -25,5 +25,6 @@
 	<string name="pick_contacts">Pick contacts</string>
 	<string name="ok">Okay</string>
     <string name="refresh">refresh</string>
+    <string name="todos">Todos</string>
 
 </resources>

@@ -2,8 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
-        android:id="@+id/menu_contactslist"
-        android:title="@string/contacts">
+        android:id="@+id/menu_todo_by_contact"
+        android:title="@string/contacts"
+        android:onClick="gotoTodoByContact">
     </item>
     <item
         android:id="@+id/action_refresh"

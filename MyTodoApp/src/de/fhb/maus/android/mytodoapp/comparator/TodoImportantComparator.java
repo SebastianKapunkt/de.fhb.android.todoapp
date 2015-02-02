@@ -1,16 +1,16 @@
-package de.fhb.maus.android.mytodoapp.comperator;
+package de.fhb.maus.android.mytodoapp.comparator;
 
 import java.util.Comparator;
 
 import de.fhb.maus.android.mytodoapp.data.Todo;
 
 /**
- * Comperator zum Sortieren von Todos nach Wichtigkeit
+ * Comparator zum Sortieren von Todos nach Wichtigkeit
  * 
  * @author Sebastian Kindt
  * 
  */
-public class TodoImportantComperator implements Comparator<Todo> {
+public class TodoImportantComparator implements Comparator<Todo> {
 
 	@Override
 	public int compare(Todo lhs, Todo rhs) {

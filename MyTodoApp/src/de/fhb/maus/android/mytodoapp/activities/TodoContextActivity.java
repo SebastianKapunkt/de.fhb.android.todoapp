@@ -21,7 +21,7 @@ import android.widget.TextView;
 import de.fhb.maus.android.mytodoapp.R;
 import de.fhb.maus.android.mytodoapp.adapter.ContextContactArrayAdapter;
 import de.fhb.maus.android.mytodoapp.adapter.TodoArrayAdapter;
-import de.fhb.maus.android.mytodoapp.comperator.TodoImportantComperator;
+import de.fhb.maus.android.mytodoapp.comparator.TodoImportantComparator;
 import de.fhb.maus.android.mytodoapp.data.Contact;
 import de.fhb.maus.android.mytodoapp.data.ContactsAccessor;
 import de.fhb.maus.android.mytodoapp.data.Todo;
@@ -264,16 +264,22 @@ public class TodoContextActivity extends Activity implements AddRemoveContactsDi
 		startActivity(new Intent(this, TodoOverviewActivity.class));
 	}
 	
+	/**
+	 * Oeffnet ContactPicker zum Hinzufuegen und Entfernen von Kontakten zu einem Todo
+	 * @param v
+	 */
 	public void addRemoveContacts(View v) {
 		ContactPickerDialogFragment contactPicker = new ContactPickerDialogFragment();
 		ContactsAccessor conAcc = new ContactsAccessor(getContentResolver());
 		allContactsList = (ArrayList<Contact>) conAcc.readAllContactsNames();
+		//Alphabetische Sortierung der Kontakte
 		Collections.sort(allContactsList);
 		ArrayList<String> namesList = new ArrayList<String>();
 		ArrayList<String> checkedList = new ArrayList<String>();
 		for (Contact c : allContactsList){
 			namesList.add(c.getName());
 			boolean check = false;
+			//Falls der Kontakt dem aktuellen Todo schon zugeordnet ist, checke ihn
 			for (Contact c2 : contacts){
 				if(c.getId() == c2.getId()){
 					check = true;
@@ -288,6 +294,9 @@ public class TodoContextActivity extends Activity implements AddRemoveContactsDi
 		contactPicker.show(getFragmentManager(), "contact_picker");
 	}
 
+	/**
+	 * Callback-Methode, die durch Klick auf Okay im ContactPicker aufgerufen wird und dessen Daten uebernimmt
+	 */
 	@Override
 	public void onFinishAddRemoveContactsDialog(ArrayList<Integer> added, ArrayList<Integer> removed) {
 		Log.i("Contacts","Added Contacts: " + added);
