@@ -12,7 +12,7 @@
     <string name="action_settings">action settings</string>
     <string name="date">dd/mm/yy hh:mm</string>
     <string name="todo_description">description</string>
-    <string name="create_todo">Create</string>
+    <string name="create_todo">+</string>
     <string name="save">Save</string>
     <string name="delete">Delete</string>
     <string name="todo_date">date</string>
