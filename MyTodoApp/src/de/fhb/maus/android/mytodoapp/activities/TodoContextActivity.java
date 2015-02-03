@@ -1,5 +1,8 @@
 package de.fhb.maus.android.mytodoapp.activities;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -8,21 +11,31 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import de.fhb.maus.android.mytodoapp.R;
+import de.fhb.maus.android.mytodoapp.adapter.ContextContactArrayAdapter;
+import de.fhb.maus.android.mytodoapp.adapter.TodoArrayAdapter;
+import de.fhb.maus.android.mytodoapp.comparator.TodoImportantComparator;
+import de.fhb.maus.android.mytodoapp.data.Contact;
+import de.fhb.maus.android.mytodoapp.data.ContactsAccessor;
 import de.fhb.maus.android.mytodoapp.data.Todo;
 import de.fhb.maus.android.mytodoapp.database.MySQLiteHelper;
+import de.fhb.maus.android.mytodoapp.fragments.ContactPickerDialogFragment;
+import de.fhb.maus.android.mytodoapp.fragments.ContactPickerDialogFragment.AddRemoveContactsDialogListener;
+
 /**
  * Bearbeiten der Details eines Todos
  * 
  * @author Sebastian Kindt
  *
  */
-public class TodoContextActivity extends Activity {
+public class TodoContextActivity extends Activity implements AddRemoveContactsDialogListener{
 
 	private Todo todo;
 	private EditText todoname;
@@ -31,7 +44,15 @@ public class TodoContextActivity extends Activity {
 	private CheckBox isImportant;
 	private TextView datetime;
 	private Button delcancel;
+	private ListView contactsList;
+	
+	private ContactsAccessor conAcc;
+	private ContextContactArrayAdapter contactAdapter;
+	private ArrayList<Contact> contacts;
+	private ArrayList<Contact> allContactsList;
+
 	MySQLiteHelper db;
+
 
 	final Context context = this;
 
@@ -94,6 +115,32 @@ public class TodoContextActivity extends Activity {
 			// set Button text to cancel when creating a Todo
 			delcancel.setText("Cancel");
 		}
+		
+		// get the ListView
+		contactsList = (ListView) findViewById(R.id.context_contacts_list);
+		
+		conAcc = new ContactsAccessor(getContentResolver());
+		
+		contacts = new ArrayList<Contact>();
+		
+		// get contacts from DB
+		if (id != -1){
+			MySQLiteHelper db = new MySQLiteHelper(this);
+			ArrayList<Long> contactIds = db.getContactsFromTodo(id);
+			for(long contactId : contactIds){
+				contacts.add(conAcc.readContact(contactId));
+			}
+			Collections.sort(contacts);
+		}
+		
+		// get custom adapter
+		contactAdapter = new ContextContactArrayAdapter(this, contacts);
+
+		// set the custom adapter to the list View
+		contactsList.setAdapter(contactAdapter);
+		
+
+		
 	}
 
 	/**
@@ -114,7 +161,14 @@ public class TodoContextActivity extends Activity {
 		if (todo.getId() != -1) {
 			db.updateTodo(todo);
 		} else {
-			db.addTodo(todo);
+			// add todo and get generated id, needed for contacts
+			todo.setId(db.addTodo(todo));
+		}
+		
+		// instead of comparing all contact ids with current contacts list, just delete and re-add everything
+		db.deleteTodoContacts(todo.getId());
+		for (Contact c : contacts){
+			db.addContact(todo.getId(), c.getId());
 		}
 
 		db.close();
@@ -154,6 +208,7 @@ public class TodoContextActivity extends Activity {
 										int id) {
 									// only delete a todo if it exists
 									if (todo.getId() != -1) {
+										db.deleteTodoContacts(todo.getId());
 										db.deleteTodo(todo);
 										db.close();
 										startActivity(new Intent(context,
@@ -207,5 +262,54 @@ public class TodoContextActivity extends Activity {
 	// overwrite action of the backbutton from Android
 	public void onBackPressed() {
 		startActivity(new Intent(this, TodoOverviewActivity.class));
+	}
+	
+	/**
+	 * Oeffnet ContactPicker zum Hinzufuegen und Entfernen von Kontakten zu einem Todo
+	 * @param v
+	 */
+	public void addRemoveContacts(View v) {
+		ContactPickerDialogFragment contactPicker = new ContactPickerDialogFragment();
+		ContactsAccessor conAcc = new ContactsAccessor(getContentResolver());
+		allContactsList = (ArrayList<Contact>) conAcc.readAllContactsNames();
+		//Alphabetische Sortierung der Kontakte
+		Collections.sort(allContactsList);
+		ArrayList<String> namesList = new ArrayList<String>();
+		ArrayList<String> checkedList = new ArrayList<String>();
+		for (Contact c : allContactsList){
+			namesList.add(c.getName());
+			boolean check = false;
+			//Falls der Kontakt dem aktuellen Todo schon zugeordnet ist, checke ihn
+			for (Contact c2 : contacts){
+				if(c.getId() == c2.getId()){
+					check = true;
+				}
+			}
+			checkedList.add(check ? "1" : "0");
+		}
+		Bundle names = new Bundle();
+		names.putStringArrayList("names", namesList);
+		names.putStringArrayList("checked", checkedList);
+		contactPicker.setArguments(names);
+		contactPicker.show(getFragmentManager(), "contact_picker");
+	}
+
+	/**
+	 * Callback-Methode, die durch Klick auf Okay im ContactPicker aufgerufen wird und dessen Daten uebernimmt
+	 */
+	@Override
+	public void onFinishAddRemoveContactsDialog(ArrayList<Integer> added, ArrayList<Integer> removed) {
+		Log.i("Contacts","Added Contacts: " + added);
+		Log.i("Contacts","Removed Contacts: " + removed);
+		
+		for(Integer a : added){
+			contacts.add(conAcc.readContact(allContactsList.get(a).getId()));
+		}
+		for(Integer r : removed){
+			contacts.remove(conAcc.readContact(allContactsList.get(r).getId()));
+		}
+		Collections.sort(contacts);
+		contactAdapter.notifyDataSetChanged();
+		
 	}
 }

@@ -10,8 +10,8 @@ import android.view.View;
 import android.widget.ListView;
 import de.fhb.maus.android.mytodoapp.R;
 import de.fhb.maus.android.mytodoapp.adapter.TodoArrayAdapter;
-import de.fhb.maus.android.mytodoapp.comperator.TodoDateComperator;
-import de.fhb.maus.android.mytodoapp.comperator.TodoImportantComperator;
+import de.fhb.maus.android.mytodoapp.comparator.TodoDateComparator;
+import de.fhb.maus.android.mytodoapp.comparator.TodoImportantComparator;
 import de.fhb.maus.android.mytodoapp.database.MySQLiteHelper;
 
 /**
@@ -38,11 +38,11 @@ public class TodoOverviewActivity extends Activity {
 		// get custom adapter
 		adapter = new TodoArrayAdapter(this, db.getAllTodos());
 
-		// set comperator to adapter
-		adapter.sort(new TodoImportantComperator());
+		// set comparator to adapter
+		adapter.sort(new TodoImportantComparator());
 		sortByDate = false;
 
-		// set the custome adapter to the list View
+		// set the custom adapter to the list View
 		list.setAdapter(adapter);
 
 	}
@@ -51,6 +51,11 @@ public class TodoOverviewActivity extends Activity {
 	public void createNewTodo(View view) {
 		startActivity(new Intent(this, TodoContextActivity.class));
 	}
+	
+
+	public void gotoTodoByContact(MenuItem item) {
+		startActivity(new Intent(this, TodoByContactActivity.class));
+	}
 
 	/**
 	 * Setzt den Entprechenden Comperator auf den Adapter fuer das Sortieren
@@ -58,8 +63,9 @@ public class TodoOverviewActivity extends Activity {
 	 * 
 	 * @param view
 	 */
-	public void sortByDate(View view) {
-		adapter.sort(new TodoDateComperator());
+
+	public void sortByDate(MenuItem item) {
+		adapter.sort(new TodoDateComparator());
 		list.setAdapter(adapter);
 		sortByDate = true;
 	}
@@ -70,18 +76,18 @@ public class TodoOverviewActivity extends Activity {
 	 * 
 	 * @param view
 	 */
-	public void sortByImportance(View view) {
-		adapter.sort(new TodoImportantComperator());
+	public void sortByImportance(MenuItem item) {
+		adapter.sort(new TodoImportantComparator());
 		list.setAdapter(adapter);
 		sortByDate = false;
 	}
 
 	public void updateList(MenuItem item) {
 		if (sortByDate) {
-			adapter.sort(new TodoDateComperator());
+			adapter.sort(new TodoDateComparator());
 			list.setAdapter(adapter);
 		} else {
-			adapter.sort(new TodoImportantComperator());
+			adapter.sort(new TodoImportantComparator());
 			list.setAdapter(adapter);
 		}
 	}
