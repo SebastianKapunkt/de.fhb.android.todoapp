@@ -130,9 +130,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 		todo.setImportant(cursor.getInt(4) > 0);
 		todo.setMaturityDate(cursor.getLong(5));
 		todo.setLocationName(cursor.getString(6));
-		// WAS IST DAMIT NICHT IN ORDNUNG?
-		/*todo.setLocationLatitude(cursor.getDouble(7));
-		todo.setLocationLongitude(cursor.getDouble(8));*/
+		todo.setLocationLatitude(cursor.getDouble(7));
+		todo.setLocationLongitude(cursor.getDouble(8));
 
 		// close
 		db.close();
@@ -163,8 +162,9 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 				todo.setImportant(cursor.getInt(4) > 0);
 				todo.setMaturityDate(cursor.getLong(5));
 				todo.setLocationName(cursor.getString(6));
-				todo.setLocationLatitude(cursor.getDouble(7));
-				todo.setLocationLongitude(cursor.getDouble(8));
+				// WAS IST DAMIT NICHT IN ORDNUNG?
+				/*todo.setLocationLatitude(cursor.getDouble(7));
+				todo.setLocationLongitude(cursor.getDouble(8));*/
 
 				// Add todo to todos
 				todos.add(todo);

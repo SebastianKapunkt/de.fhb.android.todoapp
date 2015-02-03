@@ -97,4 +97,9 @@ public class TodoOverviewActivity extends Activity {
 	public void onBackPressed() {
 		startActivity(new Intent(this, LoginActivity.class));
 	}
+	
+	// listen to the toggle button
+	public void toggleOverview(View view) {
+		startActivity(new Intent(this, TodoLocationOverviewActivity.class));
+	}
 }

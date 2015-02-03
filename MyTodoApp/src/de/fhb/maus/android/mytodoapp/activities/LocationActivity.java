@@ -26,6 +26,12 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 
 import de.fhb.maus.android.mytodoapp.R;
 
+/**
+ * Aktivitaet fuer die Bearbeitung des Orts eines Todos
+ * 
+ * @author Ferdinand Flamenco
+ *
+ */
 public class LocationActivity extends FragmentActivity 
 								implements OnMapReadyCallback, OnMarkerDragListener {
 	
@@ -64,16 +70,19 @@ public class LocationActivity extends FragmentActivity
 			}
 		});
 		
+		// Konfiguriere Marker-Optionen
 		mOptions = new MarkerOptions()
 			.position(new LatLng(intent.getDoubleExtra("locationLatitude", 52.41192),
 									intent.getDoubleExtra("locationLongitude", 12.53126)))
 			.draggable(true);
 		
+		// Erstelle Map
 		FragmentManager fManager = getFragmentManager();
-		MapFragment mapFragment = (MapFragment) fManager.findFragmentById(R.id.map); //R.id.map
+		MapFragment mapFragment = (MapFragment) fManager.findFragmentById(R.id.map);
 		map = mapFragment.getMap();
 		mapFragment.getMapAsync(this);
 		
+		// Konfiguriere Map
 		GoogleMapOptions options = new GoogleMapOptions();
 		options.mapType(GoogleMap.MAP_TYPE_NORMAL)
 						.compassEnabled(false)
@@ -83,6 +92,7 @@ public class LocationActivity extends FragmentActivity
 		map.setMapType(GoogleMap.MAP_TYPE_NORMAL);		
 		map.setOnMarkerDragListener(this);
 		
+		// Fuege der Map einen Marker hinzu
 		marker = map.addMarker(mOptions);
 	}
 	

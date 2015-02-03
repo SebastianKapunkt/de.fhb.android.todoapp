@@ -23,5 +23,6 @@
     <string name="refresh">refresh</string>
     <string name="choose_location">Choose location</string>
     <string name="location_hint">location</string>
+    <string name="toggleoverview">Toggle Overview</string>
     <string name="hello_world">Hello world!</string>
 </resources>

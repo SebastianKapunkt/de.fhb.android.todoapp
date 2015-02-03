@@ -30,11 +30,6 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         
-        
-        <!-- android:name="com.google.android.maps.v2.API_KEY" 
-            android:value="AIzaSyBUky9xjzqZ0usxwNU8JvC-TUG-YXBw_p0"
-            android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" -->
         <meta-data 
             android:name="com.google.android.maps.v2.API_KEY" 
             android:value="AIzaSyBUky9xjzqZ0usxwNU8JvC-TUG-YXBw_p0" />
@@ -66,6 +61,10 @@
         </activity>
         <activity
             android:name=".activities.LocationActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name=".activities.TodoLocationOverviewActivity"
             android:label="@string/app_name" >
         </activity>
     </application>
