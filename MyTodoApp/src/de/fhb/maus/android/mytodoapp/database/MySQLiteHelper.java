@@ -33,10 +33,14 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 	private static final String KEY_ISDONE = "isdone";
 	private static final String KEY_ISIMPORTANT = "isimportant";
 	private static final String KEY_MATURITYDATE = "maturitydate";
+	private static final String KEY_LOCATIONNAME = "locationName";
+	private static final String KEY_LOCATIONLATITUDE = "locationLatitude";
+	private static final String KEY_LOCATIONLONGITUDE = "locationLongitude";
 
 	// table columns
 	private static final String[] COLUMNS = { KEY_ID, KEY_Name,
-			KEY_DESCRIPTION, KEY_ISDONE, KEY_ISIMPORTANT, KEY_MATURITYDATE };
+			KEY_DESCRIPTION, KEY_ISDONE, KEY_ISIMPORTANT, KEY_MATURITYDATE, 
+			KEY_LOCATIONNAME, KEY_LOCATIONLATITUDE, KEY_LOCATIONLONGITUDE };
 
 	public MySQLiteHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERIOSN);
@@ -48,7 +52,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 				+ KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + KEY_Name
 				+ " TEXT, " + KEY_DESCRIPTION + " TEXT, " + KEY_ISDONE
 				+ " INTEGER, " + KEY_ISIMPORTANT + " INTEGER, "
-				+ KEY_MATURITYDATE + " INTEGER )";
+				+ KEY_MATURITYDATE + " INTEGER, " + KEY_LOCATIONNAME + "TEXT, "
+				+ KEY_LOCATIONLATITUDE + "DOUBLE, " + KEY_LOCATIONLONGITUDE + "DOUBLE )";
 
 		db.execSQL(CREATE_TODO_TABLE);
 	}
@@ -81,6 +86,9 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 		values.put(KEY_ISDONE, (todo.isDone()) ? 1 : 0);
 		values.put(KEY_ISIMPORTANT, (todo.isImportant()) ? 1 : 0);
 		values.put(KEY_MATURITYDATE, todo.getMaturityDate());
+		values.put(KEY_LOCATIONNAME, todo.getLocationName());
+		values.put(KEY_LOCATIONLATITUDE, todo.getLocationLatitude());
+		values.put(KEY_LOCATIONLONGITUDE, todo.getLocationLongitude());
 
 		// insert
 		db.insert(TABLE_TODO, // table
@@ -121,6 +129,10 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 		todo.setDone(cursor.getInt(3) > 0);
 		todo.setImportant(cursor.getInt(4) > 0);
 		todo.setMaturityDate(cursor.getLong(5));
+		todo.setLocationName(cursor.getString(6));
+		// WAS IST DAMIT NICHT IN ORDNUNG?
+		/*todo.setLocationLatitude(cursor.getDouble(7));
+		todo.setLocationLongitude(cursor.getDouble(8));*/
 
 		// close
 		db.close();
@@ -150,6 +162,9 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 				todo.setDone(cursor.getInt(3) > 0);
 				todo.setImportant(cursor.getInt(4) > 0);
 				todo.setMaturityDate(cursor.getLong(5));
+				todo.setLocationName(cursor.getString(6));
+				todo.setLocationLatitude(cursor.getDouble(7));
+				todo.setLocationLongitude(cursor.getDouble(8));
 
 				// Add todo to todos
 				todos.add(todo);
@@ -175,6 +190,9 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 		values.put(KEY_ISDONE, (todo.isDone()) ? 1 : 0);
 		values.put(KEY_ISIMPORTANT, (todo.isImportant()) ? 1 : 0);
 		values.put(KEY_MATURITYDATE, todo.getMaturityDate());
+		values.put(KEY_LOCATIONNAME, todo.getLocationName());
+		values.put(KEY_LOCATIONLATITUDE, todo.getLocationLatitude());
+		values.put(KEY_LOCATIONLONGITUDE, todo.getLocationLongitude());
 
 		// updating row
 		int i = db.update(TABLE_TODO, // table

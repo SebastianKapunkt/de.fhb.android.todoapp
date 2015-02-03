@@ -21,5 +21,7 @@
     <string name="sortimportant">sort by Favorite</string>
     <string name="contacts">Contacts</string>
     <string name="refresh">refresh</string>
-
+    <string name="choose_location">Choose location</string>
+    <string name="location_hint">location</string>
+    <string name="hello_world">Hello world!</string>
 </resources>

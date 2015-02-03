@@ -214,9 +214,13 @@ public class ServerCommunication {
 		for (int i = 0; i < items.length(); i++) {
 			item = items.getJSONObject(i);
 			todo = new Todo(item.getString("name"),
-					item.getString("description"), item.getBoolean("done"),
-					item.getBoolean("important"), Long.parseLong(
-							item.getString("maturityDate"), 10));
+					item.getString("description"), 
+					item.getBoolean("done"),
+					item.getBoolean("important"), 
+					Long.parseLong(item.getString("maturityDate"), 10),
+					item.getString("locationName"),
+					item.getDouble("locationLatitude"),
+					item.getDouble("locationLongitude"));
 			db.addTodo(todo);
 		}
 

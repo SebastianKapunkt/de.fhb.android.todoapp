@@ -30,6 +30,7 @@ public class TodoContextActivity extends Activity {
 	private CheckBox isDone;
 	private CheckBox isImportant;
 	private TextView datetime;
+	private TextView locationName;
 	private Button delcancel;
 	MySQLiteHelper db;
 
@@ -73,6 +74,8 @@ public class TodoContextActivity extends Activity {
 		isDone = (CheckBox) findViewById(R.id.isDone_context);
 		isImportant = (CheckBox) findViewById(R.id.isImportant_context);
 		datetime = (TextView) findViewById(R.id.datetime);
+		locationName = (TextView) findViewById(R.id.locationName);
+		
 		delcancel = (Button) findViewById(R.id.delete_button);
 
 		// check if the todo exists and then fill the view elements or create
@@ -85,6 +88,7 @@ public class TodoContextActivity extends Activity {
 			isDone.setChecked(todo.isDone());
 			isImportant.setChecked(todo.isImportant());
 			datetime.setText(todo.getMaturityDateAsString());
+			locationName.setText(todo.getLocationName());
 		} else {
 			todo = new Todo();
 			// Set current time as default
@@ -109,6 +113,7 @@ public class TodoContextActivity extends Activity {
 		todo.setDone(isDone.isChecked());
 		todo.setImportant(isImportant.isChecked());
 		todo.setMaturityDateFromString(datetime.getText().toString());
+		todo.setLocationName(locationName.getText().toString());
 
 		// decide if update or add (todo exists or not)
 		if (todo.getId() != -1) {
@@ -189,9 +194,18 @@ public class TodoContextActivity extends Activity {
 		intent.putExtra("time", todo.getMaturityDate());
 		startActivityForResult(intent, 1);
 	}
+	
+	public void editLocation(View v) {
+		Intent intent = new Intent(context, LocationActivity.class);
+		intent.putExtra("locationName", todo.getLocationName());
+		intent.putExtra("locationLatitude", todo.getLocationLatitude());
+		intent.putExtra("locationLongitude", todo.getLocationLongitude());
+		startActivityForResult(intent, 1);
+		//startActivity(new Intent(this, LocationActivity.class));
+	}
 
 	/**
-	 * Persitieren der Aenderung des Datums
+	 * Persistieren der Aenderung des Datums
 	 */
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
