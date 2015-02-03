@@ -1,4 +1,4 @@
-package org.dieschnittstelle.mobile.android.dataaccess.model;
+package org.dieschnittstelle.mobile.android.dataaccess.remote;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
