@@ -16,6 +16,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 public class TodoByContactActivity extends Activity {
@@ -42,6 +44,17 @@ public class TodoByContactActivity extends Activity {
 
 		// set the custom adapter to the list View
 		list.setAdapter(adapter);
+		list.setOnItemClickListener(new OnItemClickListener(){
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				Contact contact = contacts.get(position);
+				Log.i("Contact",contact.toString());
+				
+			}
+			
+		});
 
 	}
 	
