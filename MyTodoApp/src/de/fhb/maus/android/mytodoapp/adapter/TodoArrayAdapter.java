@@ -69,7 +69,7 @@ public class TodoArrayAdapter extends ArrayAdapter<Todo> {
 					.findViewById(R.id.row_layout);
 			holder.todoDate = (TextView) rowView.findViewById(R.id.todo_date);
 			holder.todoLocationName = (TextView) rowView
-					.findViewById(R.id.locationName);
+					.findViewById(R.id.todo_location);
 			// set Tag to find holder
 			rowView.setTag(holder);
 

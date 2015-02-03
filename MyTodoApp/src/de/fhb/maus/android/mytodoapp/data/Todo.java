@@ -41,7 +41,7 @@ public class Todo {
 	}
 
 	public Todo() {
-		// just do nothing
+		
 	}
 
 	@Override

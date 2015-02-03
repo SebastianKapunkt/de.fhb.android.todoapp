@@ -46,7 +46,8 @@ public class TodoLocationOverviewActivity extends FragmentActivity
 	private ArrayList<Todo> todoList;
 	private ArrayList<Marker> markerList;
 	String locationName = "";
-	Intent markerIntent = new Intent(this, TodoContextActivity.class);
+	//Intent markerIntent = new Intent(this, TodoContextActivity.class);
+	Todo markerTodo;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -70,7 +71,6 @@ public class TodoLocationOverviewActivity extends FragmentActivity
 		
 		// Konfiguriere Marker-Optionen und fuege der Map Marker hinzu
 		todoList = db.getAllTodos();
-		System.out.println("ANZAHL LOCATIONS: " + todoList.size());
 		markerList = new ArrayList<Marker>();
 		
 		for(Todo todo : todoList) {
@@ -80,16 +80,18 @@ public class TodoLocationOverviewActivity extends FragmentActivity
 						.title(todo.getLocationName());
 			
 			markerList.add(map.addMarker(mOptions));
-			
-			map.setOnMarkerClickListener(new OnMarkerClickListener() {
-				@Override
-				public boolean onMarkerClick(Marker marker) {
-					
-				}
-			});
+			markerTodo = todo;
+			map.setOnMarkerClickListener(this);
 		}
 	}
 	
+	@Override
+	public boolean onMarkerClick(Marker marker) {
+		Intent intent = new Intent(this, TodoContextActivity.class);
+		intent.putExtra("todo", markerTodo.getId());
+		startActivity(intent);
+		return true;
+	}
 	
 	@Override
 	public void onMapReady(GoogleMap map) {		
@@ -99,11 +101,5 @@ public class TodoLocationOverviewActivity extends FragmentActivity
 	// listen to the toggle button
 	public void toggleOverview(View view) {
 		startActivity(new Intent(this, TodoOverviewActivity.class));
-	}
-
-	@Override
-	public boolean onMarkerClick(Marker marker) {
-		// TODO Auto-generated method stub
-		return false;
 	}
 }
