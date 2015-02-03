@@ -72,10 +72,13 @@ public class RemoteDataItemAccessor implements IDataItemCRUDAccessor {
 	}
 
 	public void fillList() {
-		itemlist.add(new TodoItem(idCount++, "Server Item 1", "1d", false,
-				false, 12366456));
-		itemlist.add(new TodoItem(idCount++, "Server Item 2", "2d", true,
-				false, 34534435));
+		itemlist.add(new TodoItem(
+				idCount++,
+				"Eclipse verbrennen",
+				"Schritt 1: Eclipse löschen, Schritt 2: Ecipse download Server Ddos'n, Schritt 3: Android Studio runterladen",
+				false, false, 12366456));
+		itemlist.add(new TodoItem(idCount++, "Android Studio installieren",
+				"2d", true, false, 34534435));
 		itemlist.add(new TodoItem(idCount++, "Server Item 3", "3d", false,
 				true, 123885834));
 		itemlist.add(new TodoItem(idCount++, "Server Item 4", "4d", false,
@@ -89,6 +92,24 @@ public class RemoteDataItemAccessor implements IDataItemCRUDAccessor {
 		itemlist.add(new TodoItem(idCount++, "Server Item 8", "8d", true,
 				false, 29349234));
 		itemlist.add(new TodoItem(idCount++, "Server Item 9", "9d", false,
+				true, 435294592));
+		itemlist.add(new TodoItem(idCount++, "Server Item 10", "9d", false,
+				true, 435294592));
+		itemlist.add(new TodoItem(idCount++, "Server Item 11", "9d", false,
+				true, 435294592));
+		itemlist.add(new TodoItem(idCount++, "Server Item 12", "9d", false,
+				true, 435294592));
+		itemlist.add(new TodoItem(idCount++, "Server Item 13", "9d", false,
+				true, 435294592));
+		itemlist.add(new TodoItem(idCount++, "Server Item 14", "9d", false,
+				true, 435294592));
+		itemlist.add(new TodoItem(idCount++, "Server Item 15", "9d", false,
+				true, 435294592));
+		itemlist.add(new TodoItem(idCount++, "Server Item 16", "9d", false,
+				true, 435294592));
+		itemlist.add(new TodoItem(idCount++, "Server Item 17", "9d", false,
+				true, 435294592));
+		itemlist.add(new TodoItem(idCount++, "Server Item 18", "9d", false,
 				true, 435294592));
 	}
 }
