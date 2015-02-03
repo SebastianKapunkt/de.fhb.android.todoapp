@@ -19,7 +19,7 @@ public class ValidationAccessor {
 	@POST
 	public Response authenticate(MyJSONOject json) {
 		long start = System.currentTimeMillis();
-		while(System.currentTimeMillis() - start < 2500){
+		while(System.currentTimeMillis() - start < 1500){
 			
 		}
 		if (validatePasswort(json.password) && validateEmail(json.email)) {
