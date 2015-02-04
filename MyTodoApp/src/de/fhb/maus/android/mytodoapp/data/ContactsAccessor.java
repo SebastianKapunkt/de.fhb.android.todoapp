@@ -1,11 +1,19 @@
 package de.fhb.maus.android.mytodoapp.data;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.fhb.maus.android.mytodoapp.R;
+import android.app.Activity;
 import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.provider.ContactsContract;
+import android.provider.ContactsContract.Contacts;
 import android.util.Log;
 
 public class ContactsAccessor {
@@ -16,9 +24,11 @@ public class ContactsAccessor {
 	 * the content resolver that is obtained from an activity
 	 */
 	private ContentResolver resolver;
+	private Activity context;
 
-	public ContactsAccessor(ContentResolver resolver) {
+	public ContactsAccessor(Activity context, ContentResolver resolver) {
 		this.resolver = resolver;
+		this.context = context;
 	}
 
 
@@ -125,6 +135,19 @@ public class ContactsAccessor {
 		emails.close();
 		
 		return contact;
+	}
+	
+	public Bitmap readContactPicture(boolean preferHighres, long contactId){
+		Bitmap photo = null;
+		Uri contactUri = ContentUris.withAppendedId(Contacts.CONTENT_URI, contactId);
+		InputStream is = ContactsContract.Contacts.openContactPhotoInputStream(resolver, contactUri, preferHighres);
+		// Falls Kontakt Bild hat, gib dieses zurueck, ansonsten Platzhalter
+		if (is != null)
+			photo = BitmapFactory.decodeStream(is);
+		else{
+			photo = BitmapFactory.decodeResource(context.getResources(), R.drawable.contact_placeholder);
+		}
+		return photo;
 	}
 
 }

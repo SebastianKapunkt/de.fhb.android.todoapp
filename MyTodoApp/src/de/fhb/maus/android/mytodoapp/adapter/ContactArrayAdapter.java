@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.ContentUris;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -18,12 +19,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import de.fhb.maus.android.mytodoapp.R;
 import de.fhb.maus.android.mytodoapp.data.Contact;
+import de.fhb.maus.android.mytodoapp.data.ContactsAccessor;
 
 public class ContactArrayAdapter extends ArrayAdapter<Contact>{
 	
 	private final Activity context;
 	private final ArrayList<Contact> contacts;
 	private Drawable contactPlaceholder;
+	private ContactsAccessor conAcc;
 	
 	// ViewHolder for viewholder pattern from listview
 	static class ViewHolder {
@@ -35,7 +38,7 @@ public class ContactArrayAdapter extends ArrayAdapter<Contact>{
 		super(context, R.layout.todo_by_c_contacts_rowlayout, contacts);
 		this.context = context;
 		this.contacts = contacts;
-		contactPlaceholder = context.getResources().getDrawable(R.drawable.contact_placeholder);
+		this.conAcc = new ContactsAccessor(context, context.getContentResolver());
 	}
 	
 	@Override
@@ -59,13 +62,9 @@ public class ContactArrayAdapter extends ArrayAdapter<Contact>{
 		// get the holder applied to the tag
 		final ViewHolder holder = (ViewHolder) rowView.getTag();
 		
-		Uri contactUri = ContentUris.withAppendedId(Contacts.CONTENT_URI, contacts.get(position).getId());
-		InputStream photo = ContactsContract.Contacts.openContactPhotoInputStream(getContext().getContentResolver(), contactUri);
-		if (photo != null)
-			holder.contactPicture.setImageBitmap(BitmapFactory.decodeStream(photo));
-		else{
-			holder.contactPicture.setImageDrawable(contactPlaceholder);
-		}
+
+		Bitmap photo = conAcc.readContactPicture(false, contacts.get(position).getId());
+		holder.contactPicture.setImageBitmap(photo);
 		holder.contactName.setText(contacts.get(position).getName());
 		
 		return rowView;

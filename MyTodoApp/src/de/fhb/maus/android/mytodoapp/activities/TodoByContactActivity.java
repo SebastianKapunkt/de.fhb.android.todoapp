@@ -37,7 +37,7 @@ public class TodoByContactActivity extends Activity {
 		list = (ListView) findViewById(R.id.todo_by_contact_list);
 
 		// get custom adapter
-		conAcc = new ContactsAccessor(getContentResolver());
+		conAcc = new ContactsAccessor(this, getContentResolver());
 		contacts = (ArrayList<Contact>)conAcc.readContacts(db.getAllContacts());
 		adapter = new ContactArrayAdapter(this, contacts);
 		adapter.sort(new ContactNameComparator());
@@ -51,7 +51,9 @@ public class TodoByContactActivity extends Activity {
 					int position, long id) {
 				Contact contact = contacts.get(position);
 				Log.i("Contact",contact.toString());
-				
+				Intent intent = new Intent(TodoByContactActivity.this, ContactTodosActivity.class);
+				intent.putExtra("contact_id", contact.getId());
+				startActivity(intent);
 			}
 			
 		});

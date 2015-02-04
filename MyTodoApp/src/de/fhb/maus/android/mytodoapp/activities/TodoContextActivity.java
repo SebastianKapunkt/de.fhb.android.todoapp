@@ -119,7 +119,7 @@ public class TodoContextActivity extends Activity implements AddRemoveContactsDi
 		// get the ListView
 		contactsList = (ListView) findViewById(R.id.context_contacts_list);
 		
-		conAcc = new ContactsAccessor(getContentResolver());
+		conAcc = new ContactsAccessor(this, getContentResolver());
 		
 		contacts = new ArrayList<Contact>();
 		
@@ -270,7 +270,7 @@ public class TodoContextActivity extends Activity implements AddRemoveContactsDi
 	 */
 	public void addRemoveContacts(View v) {
 		ContactPickerDialogFragment contactPicker = new ContactPickerDialogFragment();
-		ContactsAccessor conAcc = new ContactsAccessor(getContentResolver());
+		ContactsAccessor conAcc = new ContactsAccessor(this, getContentResolver());
 		allContactsList = (ArrayList<Contact>) conAcc.readAllContactsNames();
 		//Alphabetische Sortierung der Kontakte
 		Collections.sort(allContactsList);
