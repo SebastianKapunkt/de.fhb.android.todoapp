@@ -134,7 +134,7 @@ public class TodoContextActivity extends Activity implements AddRemoveContactsDi
 		}
 		
 		// get custom adapter
-		contactAdapter = new ContextContactArrayAdapter(this, contacts);
+		contactAdapter = new ContextContactArrayAdapter(this, contacts, todo);
 
 		// set the custom adapter to the list View
 		contactsList.setAdapter(contactAdapter);

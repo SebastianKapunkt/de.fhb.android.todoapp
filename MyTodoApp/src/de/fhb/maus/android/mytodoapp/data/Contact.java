@@ -7,12 +7,7 @@ import java.util.List;
 /**
  * some class to represent a contact
  */
-public class Contact implements Serializable, Comparable<Contact> {
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 2139670243307764033L;
+public class Contact implements Comparable<Contact> {
 
 	private long id;
 	
