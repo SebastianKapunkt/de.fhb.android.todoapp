@@ -134,6 +134,8 @@ public class ContactsAccessor {
 		}
 		emails.close();
 		
+		contact.setThumbnail(readContactPicture(false, id));
+		
 		return contact;
 	}
 	

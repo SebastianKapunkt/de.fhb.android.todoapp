@@ -20,8 +20,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import de.fhb.maus.android.mytodoapp.R;
 import de.fhb.maus.android.mytodoapp.adapter.ContextContactArrayAdapter;
-import de.fhb.maus.android.mytodoapp.adapter.TodoArrayAdapter;
-import de.fhb.maus.android.mytodoapp.comparator.TodoImportantComparator;
 import de.fhb.maus.android.mytodoapp.data.Contact;
 import de.fhb.maus.android.mytodoapp.data.ContactsAccessor;
 import de.fhb.maus.android.mytodoapp.data.Todo;

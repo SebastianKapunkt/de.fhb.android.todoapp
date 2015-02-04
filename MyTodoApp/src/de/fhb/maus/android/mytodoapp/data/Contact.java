@@ -1,8 +1,9 @@
 package de.fhb.maus.android.mytodoapp.data;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import android.graphics.Bitmap;
 
 /**
  * some class to represent a contact
@@ -13,6 +14,9 @@ public class Contact implements Comparable<Contact> {
 	
 	private String name;
 	
+	private Bitmap thumbnail;
+	
+
 	private List<String> emails = new ArrayList<String>();
 	private List<String> phoneNumbers = new ArrayList<String>();
 	
@@ -47,6 +51,14 @@ public class Contact implements Comparable<Contact> {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public Bitmap getThumbnail() {
+		return thumbnail;
+	}
+
+	public void setThumbnail(Bitmap thumbnail) {
+		this.thumbnail = thumbnail;
 	}
 	
 	public boolean equals(Object other) {

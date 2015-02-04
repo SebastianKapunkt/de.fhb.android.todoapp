@@ -2,7 +2,6 @@ package de.fhb.maus.android.mytodoapp.database;
 
 import java.util.ArrayList;
 
-import de.fhb.maus.android.mytodoapp.data.Contact;
 import de.fhb.maus.android.mytodoapp.data.Todo;
 import android.content.ContentValues;
 import android.content.Context;
@@ -217,6 +216,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 			do {
 				contacts.add(cursor.getLong(1));
 			} while (cursor.moveToNext());
+			cursor.close();
 		} else {
 			Log.d("Error", "Contacts from Todo not found");
 		}
@@ -249,6 +249,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 			do {
 				contacts.add(cursor.getLong(0));
 			} while (cursor.moveToNext());
+			cursor.close();
 		} else {
 			Log.d("Error", "Contacts from Todo not found");
 		}
@@ -280,6 +281,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 			do {
 				todos.add(getTodo(cursor.getLong(0)));
 			} while (cursor.moveToNext());
+			cursor.close();
 		} else {
 			Log.d("error", "Contacts from Todo not found");
 		}

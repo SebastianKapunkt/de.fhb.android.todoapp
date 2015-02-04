@@ -1,25 +1,17 @@
 package de.fhb.maus.android.mytodoapp.activities;
 
-import java.io.InputStream;
-
 import android.app.Activity;
-import android.content.ContentUris;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.provider.ContactsContract.Contacts;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import de.fhb.maus.android.mytodoapp.R;
 import de.fhb.maus.android.mytodoapp.adapter.TodoArrayAdapter;
-import de.fhb.maus.android.mytodoapp.comparator.TodoDateComparator;
 import de.fhb.maus.android.mytodoapp.comparator.TodoImportantComparator;
 import de.fhb.maus.android.mytodoapp.data.Contact;
 import de.fhb.maus.android.mytodoapp.data.ContactsAccessor;

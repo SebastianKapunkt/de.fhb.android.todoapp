@@ -16,8 +16,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import de.fhb.maus.android.mytodoapp.activities.ContactTodosActivity;
-import de.fhb.maus.android.mytodoapp.activities.TodoByContactActivity;
-import de.fhb.maus.android.mytodoapp.activities.TodoContextActivity;
 import de.fhb.maus.android.mytodoapp.data.Contact;
 import de.fhb.maus.android.mytodoapp.data.Todo;
 import de.fhb.maus.android.mytodoapp.R;
@@ -34,6 +32,7 @@ public class ContextContactArrayAdapter extends ArrayAdapter<Contact>{
 	
 	// ViewHolder for viewholder pattern from listview
 	static class ViewHolder {
+		private ImageView contactPicture;
 		private TextView contactName;
 		private ImageView contactEmail;
 		private ImageView contactSMS;
@@ -61,6 +60,7 @@ public class ContextContactArrayAdapter extends ArrayAdapter<Contact>{
 			rowView = inflater.inflate(R.layout.context_contact_rowlayout, parent, false);
 
 			ViewHolder holder = new ViewHolder();
+			holder.contactPicture = (ImageView) rowView.findViewById(R.id.context_contact_picture);
 			holder.contactName = (TextView) rowView.findViewById(R.id.context_contact_name);
 			holder.contactEmail = (ImageView) rowView.findViewById(R.id.sendEmail);
 			holder.contactSMS = (ImageView) rowView.findViewById(R.id.sendSMS);
@@ -71,6 +71,9 @@ public class ContextContactArrayAdapter extends ArrayAdapter<Contact>{
 		}
 		// get the holder applied to the tag
 		final ViewHolder holder = (ViewHolder) rowView.getTag();
+		
+		holder.contactPicture.setImageBitmap(contacts.get(position).getThumbnail());
+		holder.contactName.setText(contacts.get(position).getName());
 		
 		if (contacts.get(position).getPhoneNumbers().size() > 0)
 			holder.contactSMS.setImageDrawable(smsIcon);
@@ -129,8 +132,6 @@ public class ContextContactArrayAdapter extends ArrayAdapter<Contact>{
 				
 			}
 		});
-
-		holder.contactName.setText(contacts.get(position).getName());
 		
 
 		return rowView;
