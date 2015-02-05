@@ -25,4 +25,9 @@
     <string name="todo_location">location</string>
     <string name="toggleoverview">Toggle Overview</string>
     <string name="hello_world">Hello world!</string>
+    <string name="ok">Okay</string>
+    <string name="add_contact">Add Contact</string>
+    <string name="contact_name">Contact\'s Name</string>
+    <string name="pick_contacts">Pick contacts</string>
+    <string name="todos">Todos</string>
 </resources>

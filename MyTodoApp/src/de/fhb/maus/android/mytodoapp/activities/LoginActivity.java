@@ -67,7 +67,7 @@ public class LoginActivity extends Activity {
 			Log.d("Server", "no connection");
 
 			// Melde es dem Nutzer
-			Toast.makeText(getApplicationContext(), "Server not avaible",
+			Toast.makeText(getApplicationContext(), "Server not available",
 					Toast.LENGTH_LONG).show();
 
 			// dann gehe zur Overview ueber

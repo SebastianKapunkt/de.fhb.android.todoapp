@@ -1,16 +1,16 @@
-package de.fhb.maus.android.mytodoapp.comperator;
+package de.fhb.maus.android.mytodoapp.comparator;
 
 import java.util.Comparator;
 
 import de.fhb.maus.android.mytodoapp.data.Todo;
 
 /**
- * Comperator zum Sortieren von Todos nach Datum
+ * Comparator zum Sortieren von Todos nach Datum
  * 
  * @author Sebastian Kindt
  * 
  */
-public class TodoDateComperator implements Comparator<Todo> {
+public class TodoDateComparator implements Comparator<Todo> {
 
 	@Override
 	public int compare(Todo lhs, Todo rhs) {

@@ -3,6 +3,7 @@ package de.fhb.maus.android.mytodoapp.activities;
 import java.io.IOException;
 import java.util.List;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
@@ -12,6 +13,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.app.FragmentManager;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 
@@ -34,14 +36,16 @@ import de.fhb.maus.android.mytodoapp.R;
  */
 public class LocationActivity extends FragmentActivity 
 								implements OnMapReadyCallback, OnMarkerDragListener {
-	
+
 	private MarkerOptions mOptions;
 	private Marker marker;
 	private GoogleMap map;
 	EditText locInfo;
 	private static final String TAG = "LocationAddress";
+	private static final String UNKNOWN_LOCATION = "Unknown location";
 	String geoCodeResult = "";
 	String locationName = "";
+	boolean markerWasDragged;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -49,6 +53,7 @@ public class LocationActivity extends FragmentActivity
 		setContentView(R.layout.location);
 		Intent intent = getIntent();
 		
+		// Eingabefeld fuer die Location
 		locInfo = (EditText)findViewById(R.id.locinfo);
 		if(intent.hasExtra("locationName")) {
 			locInfo.setText(intent.getStringExtra("locationName"));
@@ -57,12 +62,10 @@ public class LocationActivity extends FragmentActivity
 
 			public void onTextChanged(CharSequence s, int start, int before,
 					int count) {
-
 			}
 
 			public void beforeTextChanged(CharSequence s, int start, int count,
 					int after) {
-
 			}
 
 			public void afterTextChanged(Editable s) {
@@ -83,6 +86,7 @@ public class LocationActivity extends FragmentActivity
 		mapFragment.getMapAsync(this);
 		
 		// Konfiguriere Map
+		markerWasDragged = false;
 		GoogleMapOptions options = new GoogleMapOptions();
 		options.mapType(GoogleMap.MAP_TYPE_NORMAL)
 						.compassEnabled(false)
@@ -109,7 +113,9 @@ public class LocationActivity extends FragmentActivity
 	public void saveLocationChange(View v) {
 		Intent returnIntent = new Intent();
 		
-		geoCode();
+		if(markerWasDragged) {
+			geoCode();
+		}
 		
 		returnIntent.putExtra("locationName", locationName);
 		returnIntent.putExtra("locationLatitude", marker.getPosition().latitude);
@@ -135,9 +141,21 @@ public class LocationActivity extends FragmentActivity
 				for(int i = 0; i < address.getMaxAddressLineIndex(); i++) {
 					sb.append(address.getAddressLine(i)).append("\n");
 				}
-				sb.append(address.getLocality()).append("\n");
-				sb.append(address.getPostalCode()).append("\n");
-				sb.append(address.getCountryName());
+				if(!address.getLocality().equals(null)) {
+					sb.append(address.getLocality()).append("\n");
+				}
+				if(!address.getPostalCode().equals(null)) {
+					sb.append(address.getPostalCode()).append("\n");
+				}
+				if(!address.getCountryName().equals(null)) {
+					sb.append(address.getCountryName());
+				}
+				if(address.getLocality().equals(null)
+						&& address.getPostalCode().equals(null)
+						&& address.getCountryName().equals(null)) {
+					sb.append(UNKNOWN_LOCATION);
+				}
+				
 				geoCodeResult = sb.toString();
 				locationName = geoCodeResult;
 			}
@@ -160,19 +178,16 @@ public class LocationActivity extends FragmentActivity
 
 	@Override
 	public void onMarkerDrag(Marker marker) {
-		//locInfo.setText(locationName);
-		//locInfo.setText("Marker at: " + marker.getPosition().toString() + " [DragStart]");
 	}
 
 	@Override
 	public void onMarkerDragEnd(Marker marker) {
 		geoCode();
 		locInfo.setText(locationName);
-		
+		markerWasDragged = true;
 	}
 
 	@Override
 	public void onMarkerDragStart(Marker marker) {
-		//locInfo.setText(locationName);	
 	}
 }
