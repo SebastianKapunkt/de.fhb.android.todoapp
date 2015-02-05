@@ -90,7 +90,7 @@ public class TodoOverviewActivity extends Activity {
 	 * Setzt den Entsprechenden Comperator auf den Adapter fuer das Sortieren
 	 * nach Wichtigkeit
 	 * 
-	 * @param view
+	 * @param item
 	 */
 	public void sortByImportance(MenuItem item) {
 		adapter.sort(new TodoImportantComparator());
@@ -120,7 +120,11 @@ public class TodoOverviewActivity extends Activity {
 		startActivity(new Intent(this, LoginActivity.class));
 	}
 	
-	// listen to the toggle button
+	/**
+	 * Wechselt auf die Kartenansicht
+	 * 
+	 * @param item
+	 */
 	public void gotoLocationOverview(MenuItem item) {
 		startActivity(new Intent(this, TodoLocationOverviewActivity.class));
 	}

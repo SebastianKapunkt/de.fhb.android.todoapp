@@ -106,9 +106,12 @@ public class LocationActivity extends FragmentActivity
 		marker = map.addMarker(mOptions);
 	}
 	
+	/**
+	 * @inheritDoc
+	 */
 	@Override
-	public void onMapReady(GoogleMap map) {		
-		//marker = map.addMarker(mOptions);
+	public void onMapReady(GoogleMap map) {	
+		
 	}
 	
 	/**
@@ -131,7 +134,7 @@ public class LocationActivity extends FragmentActivity
 	}
 	
 	/**
-	 * Bestimmt aus den Koordinaten des Markers die entsprechende Adresse.
+	 * Bestimmt aus den Koordinaten des Markers die entsprechende Adresse
 	 */
 	public void geoCode() {
 		Geocoder gCoder = new Geocoder(this);
@@ -184,10 +187,18 @@ public class LocationActivity extends FragmentActivity
 		finish();
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	@Override
 	public void onMarkerDrag(Marker marker) {
 	}
 
+	/**
+	 * Schreibt den Adresse ins Textfeld, nachdem der Marker bewegt wurde
+	 * 
+	 * @param marker
+	 */
 	@Override
 	public void onMarkerDragEnd(Marker marker) {
 		geoCode();
@@ -195,6 +206,9 @@ public class LocationActivity extends FragmentActivity
 		markerWasDragged = true;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	@Override
 	public void onMarkerDragStart(Marker marker) {
 	}

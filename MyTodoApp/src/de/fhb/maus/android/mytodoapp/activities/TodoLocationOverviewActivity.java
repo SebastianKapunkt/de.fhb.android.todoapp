@@ -72,6 +72,11 @@ public class TodoLocationOverviewActivity extends FragmentActivity
 		}
 	}
 	
+	/**
+	 * Wechselt in das Kontextmenue der dem Marker entsprechenden Todo
+	 * 
+	 * @param marker
+	 */
 	@Override
 	public boolean onMarkerClick(Marker marker) {
 		Intent intent = new Intent(this, TodoContextActivity.class);
@@ -80,12 +85,19 @@ public class TodoLocationOverviewActivity extends FragmentActivity
 		return true;
 	}
 	
+	/**
+	 * @inheritDoc
+	 */
 	@Override
 	public void onMapReady(GoogleMap map) {		
 		
 	}
 	
-	// listen to the toggle button
+	/**
+	 * Wechselt auf die Todoansicht
+	 * 
+	 * @param item
+	 */
 	public void gotoTodoOverview(View view) {
 		startActivity(new Intent(this, TodoOverviewActivity.class));
 	}
