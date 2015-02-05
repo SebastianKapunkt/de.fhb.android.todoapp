@@ -72,11 +72,4 @@ public class ContactTodosActivity extends Activity {
 		inflater.inflate(R.menu.contact_todos_menu, menu);
 		return true;
 	}
-
-	/**
-	 * Ueberschreibe Back-Button Funktion
-	 */
-	public void onBackPressed() {
-		startActivity(new Intent(this, TodoOverviewActivity.class));
-	}
 }
