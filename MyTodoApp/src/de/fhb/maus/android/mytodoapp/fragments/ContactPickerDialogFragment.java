@@ -10,8 +10,14 @@ import android.os.Bundle;
 import android.util.Log;
 import de.fhb.maus.android.mytodoapp.R;
 
+/**
+ * ContactPicker, der Auswahl der einem Todo zugeordneten Kontakte ermoeglicht
+ * @author Daniel Weis
+ *
+ */
 public class ContactPickerDialogFragment extends DialogFragment {
 	
+	// Aufrufende Activity muss dieses Interface mit der Callback-Methode implementieren
 	public interface AddRemoveContactsDialogListener {
 	    void onFinishAddRemoveContactsDialog(ArrayList<Integer> added, ArrayList<Integer> removed);
 	}
@@ -25,11 +31,13 @@ public class ContactPickerDialogFragment extends DialogFragment {
 	    addedItems = new ArrayList<Integer>();
 	    removedItems = new ArrayList<Integer>();
 	    
+	    //Uebergebene Argumente holen
 	    ArrayList<String> contactNamesList = getArguments().getStringArrayList("names");
 	    contactNames = contactNamesList.toArray(new String[contactNamesList.size()]);
 	    Log.i("contactNames", "Names: " + contactNames);
 	    
 	    ArrayList<String> checkedNamesList = getArguments().getStringArrayList("checked");
+	    //Umwandlung von ArrayList<String> zu boolean[]
 	    boolean[] checkedNames = new boolean[checkedNamesList.size()];
 	    for(int i = 0; i < checkedNamesList.size();i++){
 	    	if(checkedNamesList.get(i) == "1"){
@@ -42,17 +50,16 @@ public class ContactPickerDialogFragment extends DialogFragment {
 	    
 	    
 	    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-	    // Set the dialog title
+	    // Dialog-Titel setzen
 	    builder.setTitle(R.string.pick_contacts)
-	    // Specify the list array, the items to be selected by default (null for none),
-	    // and the listener through which to receive callbacks when items are selected
+	    // MultiChoice-Listener einrichten
 	           .setMultiChoiceItems(contactNames, checkedNames,
 	                      new DialogInterface.OnMultiChoiceClickListener() {
 	               @Override
 	               public void onClick(DialogInterface dialog, int which,
 	                       boolean isChecked) {
-	                   if (isChecked) {
-	                       // If the user checked the item, add it to the selected items
+	                   //Aenderungen in die Listen fuer hinzugefuegte/entfernte Kontakte uebernehmen
+	            	   if (isChecked) {
 	                       if (removedItems.contains(which)) {
 	                    	   removedItems.remove(Integer.valueOf(which));
 	                       } else {
@@ -67,9 +74,13 @@ public class ContactPickerDialogFragment extends DialogFragment {
 	                   }
 	               }
 	           })
-	    // Set the action buttons
+	    // Action Buttons setzen
 	           .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-	               @Override
+	               
+	        	   /**
+	        	    * Rufe Callback-Methode in der aufrufenden Activity auf und schliesse Dialog
+	        	    */
+	        	   @Override
 	               public void onClick(DialogInterface dialog, int id) {
 	            	   AddRemoveContactsDialogListener activity = (AddRemoveContactsDialogListener) getActivity();
 	            	   activity.onFinishAddRemoveContactsDialog(addedItems, removedItems);
@@ -78,7 +89,11 @@ public class ContactPickerDialogFragment extends DialogFragment {
 	               }
 	           })
 	           .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-	               @Override
+	               
+	        	   /**
+	        	    * Schliesse Dialog und tu nichts
+	        	    */
+	        	   @Override
 	               public void onClick(DialogInterface dialog, int id) {
 	            	   dismiss();
 	               }

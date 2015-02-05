@@ -2,6 +2,7 @@ package org.dieschnittstelle.mobile.android.dataaccess.remote;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.apache.log4j.Logger;
 import org.dieschnittstelle.mobile.android.dataaccess.model.IDataItemCRUDAccessor;
@@ -72,23 +73,21 @@ public class RemoteDataItemAccessor implements IDataItemCRUDAccessor {
 	}
 
 	public void fillList() {
-		itemlist.add(new TodoItem(idCount++, "Server Item 1", "1d", false,
-				false, 12366456));
-		itemlist.add(new TodoItem(idCount++, "Server Item 2", "2d", true,
-				false, 34534435));
-		itemlist.add(new TodoItem(idCount++, "Server Item 3", "3d", false,
-				true, 123885834));
-		itemlist.add(new TodoItem(idCount++, "Server Item 4", "4d", false,
-				false, 50405434));
-		itemlist.add(new TodoItem(idCount++, "Server Item 5", "5d", true, true,
-				96787745));
-		itemlist.add(new TodoItem(idCount++, "Server Item 6", "6d", false,
-				true, 1248235));
-		itemlist.add(new TodoItem(idCount++, "Server Item 7", "7d", true,
-				false, 345982312));
-		itemlist.add(new TodoItem(idCount++, "Server Item 8", "8d", true,
-				false, 29349234));
-		itemlist.add(new TodoItem(idCount++, "Server Item 9", "9d", false,
-				true, 435294592));
+		Random rnd = new Random();
+		itemlist.add(new TodoItem(
+				idCount++,
+				"Eclipse verbrennen",
+				"Schritt 1: Eclipse löschen, Schritt 2: Ecipse download Server Ddos'n, Schritt 3: Android Studio runterladen",
+				false, true, 1423242000000l));
+		itemlist.add(new TodoItem(idCount++, "Android Studio installieren",
+				"2d", false, true, 1423242060000l));
+
+		for (int i = 0; i < 20; i++) {
+			itemlist.add(new TodoItem(idCount++, "Server Item " + i, i
+					+ " description", rnd.nextInt(2) == 1 ? true : false, rnd
+					.nextInt(2) == 1 ? true : false, rnd
+					.nextInt(Integer.MAX_VALUE) + 1422500000000l));
+
+		}
 	}
 }
