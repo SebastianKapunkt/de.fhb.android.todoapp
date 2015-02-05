@@ -136,17 +136,24 @@ public class LocationActivity extends FragmentActivity
 			if(addressList != null && addressList.size() > 0) {
 				Address address = addressList.get(0);
 				StringBuilder sb = new StringBuilder();
-				for(int i = 0; i < address.getMaxAddressLineIndex(); i++) {
+				/*for(int i = 0; i < address.getMaxAddressLineIndex(); i++) {
 					sb.append(address.getAddressLine(i)).append("\n");
-				}
+				}*/
 				
-				sb.append(address.getPostalCode()).append("\n");
-				sb.append(address.getLocality()).append("\n");
-				sb.append(address.getCountryName());
-				if(address.getLocality().equals(null)
-						&& address.getPostalCode().equals(null)
-						&& address.getCountryName().equals(null)) {
+				if(address.getLocality() == null)  {
 					sb.append(UNKNOWN_LOCATION);
+				}
+				else {
+					if(address.getLocality().contains("Unnamed")) {
+						String str = address.getLocality();
+						String[] strparts = str.split("Unnamed ");
+						sb.append(strparts[1]);
+					}
+					else {
+						//sb.append(address.getPostalCode()).append("\n");
+						sb.append(address.getLocality()).append("\n");
+						//sb.append(address.getCountryName());
+					}
 				}
 				
 				geoCodeResult = sb.toString();

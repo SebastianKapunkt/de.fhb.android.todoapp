@@ -121,7 +121,7 @@ public class TodoOverviewActivity extends Activity {
 	}
 	
 	// listen to the toggle button
-	public void toggleOverview(View view) {
+	public void toggleOverview(MenuItem item) {
 		startActivity(new Intent(this, TodoLocationOverviewActivity.class));
 	}
 }

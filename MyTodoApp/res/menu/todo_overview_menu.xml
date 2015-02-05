@@ -4,17 +4,22 @@
     <item
         android:id="@+id/menu_todo_by_contact"
         android:title="@string/contacts"
-        android:onClick="gotoTodoByContact">
+        android:onClick="gotoTodoByContact" >
     </item>
     <item
         android:id="@+id/menu_sortbydate"
         android:onClick="sortByDate"
-        android:title="@string/sortdate">
+        android:title="@string/sortdate" >
     </item>
     <item
         android:id="@+id/menu_sortbyimportant"
         android:onClick="sortByImportance"
-        android:title="@string/sortimportant">
+        android:title="@string/sortimportant" >
+    </item>
+    <item
+        android:id="@+id/menu_toggle_overview"
+        android:onClick="toggleOverview"
+        android:title="@string/toggleoverview" >
     </item>
     <item
         android:id="@+id/action_refresh"
@@ -22,6 +27,6 @@
         android:onClick="updateList"
         android:orderInCategory="100"
         android:showAsAction="always"
-        android:title="@string/refresh"/>
+        android:title="@string/refresh" />
 
 </menu>
