@@ -139,15 +139,10 @@ public class LocationActivity extends FragmentActivity
 				for(int i = 0; i < address.getMaxAddressLineIndex(); i++) {
 					sb.append(address.getAddressLine(i)).append("\n");
 				}
-				if(!address.getLocality().equals(null)) {
-					sb.append(address.getLocality()).append("\n");
-				}
-				if(!address.getPostalCode().equals(null)) {
-					sb.append(address.getPostalCode()).append("\n");
-				}
-				if(!address.getCountryName().equals(null)) {
-					sb.append(address.getCountryName());
-				}
+				
+				sb.append(address.getPostalCode()).append("\n");
+				sb.append(address.getLocality()).append("\n");
+				sb.append(address.getCountryName());
 				if(address.getLocality().equals(null)
 						&& address.getPostalCode().equals(null)
 						&& address.getCountryName().equals(null)) {

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="app_name">TheTodo</string>
     <string name="new_todo">new Todo</string>
     <string name="email_hint">email</string>
@@ -12,7 +11,7 @@
     <string name="action_settings">action settings</string>
     <string name="date">dd/mm/yy hh:mm</string>
     <string name="todo_description">description</string>
-    <string name="create_todo">Create</string>
+    <string name="create_todo">+</string>
     <string name="save">Save</string>
     <string name="delete">Delete</string>
     <string name="todo_date">date</string>
@@ -20,6 +19,7 @@
     <string name="sortdate">sort by Date</string>
     <string name="sortimportant">sort by Favorite</string>
     <string name="contacts">Contacts</string>
+    <string name="add_remove_contact">Add/Remove Contacts</string>
     <string name="refresh">refresh</string>
     <string name="locationName">Choose location</string>
     <string name="todo_location">location</string>
@@ -30,4 +30,8 @@
     <string name="contact_name">Contact\'s Name</string>
     <string name="pick_contacts">Pick contacts</string>
     <string name="todos">Todos</string>
+    <string name="choose_location">Choose location</string>
+	<string name="contact_picture">Contact\'s Picture</string>
+    <string name="todo_details">Todo details</string>
+    <string name="choose_date">Choose date</string>
 </resources>

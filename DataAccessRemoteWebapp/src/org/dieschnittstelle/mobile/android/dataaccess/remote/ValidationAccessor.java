@@ -1,4 +1,4 @@
-package org.dieschnittstelle.mobile.android.dataaccess.model;
+package org.dieschnittstelle.mobile.android.dataaccess.remote;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
@@ -19,6 +19,7 @@ public class ValidationAccessor {
 	@POST
 	public Response authenticate(MyJSONOject json) {
 		long start = System.currentTimeMillis();
+		//Schleife zu Demonstrationszwecken
 		while(System.currentTimeMillis() - start < 1500){
 			
 		}

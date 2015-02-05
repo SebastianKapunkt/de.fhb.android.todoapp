@@ -32,7 +32,7 @@ import de.fhb.maus.android.mytodoapp.fragments.ContactPickerDialogFragment.AddRe
 /**
  * Bearbeiten der Details eines Todos
  * 
- * @author Sebastian Kindt
+ * @author Sebastian Kindt, Daniel Weis
  *
  */
 public class TodoContextActivity extends Activity implements AddRemoveContactsDialogListener{
@@ -61,13 +61,14 @@ public class TodoContextActivity extends Activity implements AddRemoveContactsDi
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.todo_context);
-		// get the id of todo that was send to the activity via intent
+		
+		// ID des Todos aus Intent holen
 		Intent intent = getIntent();
 		long id = intent.getLongExtra("todo", -1);
 
 		db = new MySQLiteHelper(context);
 
-		// fill the holder with the view elements
+		// Holder mit View-Elementen fuellen
 		todoname = (EditText) findViewById(R.id.todo_edit_name);
 		todoname.addTextChangedListener(new TextWatcher() {
 
@@ -99,8 +100,7 @@ public class TodoContextActivity extends Activity implements AddRemoveContactsDi
 		
 		delcancel = (Button) findViewById(R.id.delete_button);
 
-		// check if the todo exists and then fill the view elements or create
-		// new and set default values
+		// Ueberpruefe, ob Todo existiert, ansonsten erstelle neues mit Default Werten
 		if (id != -1) {
 			todo = db.getTodo(id);
 			db.close();
@@ -112,22 +112,22 @@ public class TodoContextActivity extends Activity implements AddRemoveContactsDi
 			locationName.setText(todo.getLocationName());
 		} else {
 			todo = new Todo();
-			// Set current time as default
+			// Aktuelle Zeit als Default
 			todo.setMaturityDate(System.currentTimeMillis());
 			datetime.setText(todo.getMaturityDateAsString());
 			todo.setId(-1);
-			// set Button text to cancel when creating a Todo
+			// Button Text "Cancel" anstatt "Delete" beim Erstellen eines neuen Todos
 			delcancel.setText("Cancel");
 		}
 		
-		// get the ListView
+
 		contactsList = (ListView) findViewById(R.id.context_contacts_list);
 		
-		conAcc = new ContactsAccessor(getContentResolver());
+		conAcc = new ContactsAccessor(this, getContentResolver());
 		
 		contacts = new ArrayList<Contact>();
 		
-		// get contacts from DB
+		// Kontakte aus DB holen, falls bereits bestehendes Todo
 		if (id != -1){
 			MySQLiteHelper db = new MySQLiteHelper(this);
 			ArrayList<Long> contactIds = db.getContactsFromTodo(id);
@@ -137,10 +137,8 @@ public class TodoContextActivity extends Activity implements AddRemoveContactsDi
 			Collections.sort(contacts);
 		}
 		
-		// get custom adapter
-		contactAdapter = new ContextContactArrayAdapter(this, contacts);
 
-		// set the custom adapter to the list View
+		contactAdapter = new ContextContactArrayAdapter(this, contacts, todo);
 		contactsList.setAdapter(contactAdapter);
 		
 
@@ -154,23 +152,18 @@ public class TodoContextActivity extends Activity implements AddRemoveContactsDi
 	 * @param v
 	 */
 	public void saveTodoItem(View v) {
-		// Build a Todo for persist
-		todo.setName(todoname.getText().toString());
-		todo.setDescription(tododesc.getText().toString());
-		todo.setDone(isDone.isChecked());
-		todo.setImportant(isImportant.isChecked());
-		todo.setMaturityDateFromString(datetime.getText().toString());
-		todo.setLocationName(locationName.getText().toString());
 
-		// decide if update or add (todo exists or not)
+		fillTodoItem();
+
+		// Neues oder existierendes Todo?
 		if (todo.getId() != -1) {
 			db.updateTodo(todo);
 		} else {
-			// add todo and get generated id, needed for contacts
+			// Todo hinzufuegen und ID holen, wird für Speicherung der Kontakte gebraucht
 			todo.setId(db.addTodo(todo));
 		}
 		
-		// instead of comparing all contact ids with current contacts list, just delete and re-add everything
+		// Anstatt Abgleich der Kontakte Löschen und Wiedereinfügen
 		db.deleteTodoContacts(todo.getId());
 		for (Contact c : contacts){
 			db.addContact(todo.getId(), c.getId());
@@ -181,29 +174,37 @@ public class TodoContextActivity extends Activity implements AddRemoveContactsDi
 		// Beendet Context Aktivitaet und geht zur Overview Aktivitaet zurueck
 		startActivity(new Intent(this, TodoOverviewActivity.class));
 	}
+	
+	public void fillTodoItem(){
+		// Todo-Objekt aus eingegebenen Daten erstellen
+		todo.setName(todoname.getText().toString());
+		todo.setDescription(tododesc.getText().toString());
+		todo.setDone(isDone.isChecked());
+		todo.setImportant(isImportant.isChecked());
+		todo.setMaturityDateFromString(datetime.getText().toString());
+		todo.setLocationName(locationName.getText().toString());
+	}
 
 	/**
-	 * Listener fuer den Delete oder Cancel Button Bricht erstellen eines Todos
-	 * ab oder loescht ein besthendes
+	 * Listener fuer den Delete oder Cancel Button bricht Erstellen eines Todos
+	 * ab oder loescht ein bestehendes
 	 * 
 	 * @param v
 	 */
 	public void deleteTodoItem(View v) {
-		// Wenn Canel button ist, also das Todo noch nicht persitiert wurde dann
-		// breche einfach die Bearbeitung ab und gehe zur fohrigen Aktivitaet
+		// Wenn Cancel Button, also das Todo noch nicht persistiert wurde dann
+		// breche einfach die Bearbeitung ab und gehe zur vorigen Aktivitaet
 		if (delcancel.getText().toString().equals("Cancel")) {
 			startActivity(new Intent(context, TodoOverviewActivity.class));
 		} else {
 			// Sonst Loesche Todo aus der Datenbank
 
-			// build a Alert Dialog
+			// Alert, ob wirklich geloescht werden soll
 			AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
 					context);
 
-			// set title
 			alertDialogBuilder.setTitle("Delete Todo");
 
-			// set dialog message
 			alertDialogBuilder
 					.setMessage("Do you want to delete this Todo?")
 					.setCancelable(false)
@@ -211,7 +212,7 @@ public class TodoContextActivity extends Activity implements AddRemoveContactsDi
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
 										int id) {
-									// only delete a todo if it exists
+									// Todo nur loeschen, falls es existiert
 									if (todo.getId() != -1) {
 										db.deleteTodoContacts(todo.getId());
 										db.deleteTodo(todo);
@@ -225,22 +226,18 @@ public class TodoContextActivity extends Activity implements AddRemoveContactsDi
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
 										int id) {
-									// if this button is clicked, just close
-									// the dialog box and do nothing
+									// Nichts tun und Dialogbox schliessen
 									dialog.cancel();
 								}
 							});
 
-			// create alert dialog
 			AlertDialog alertDialog = alertDialogBuilder.create();
-
-			// show it
 			alertDialog.show();
 		}
 	}
 
 	/**
-	 * Aufruf der Aktivitaet zum einstellen des Datums
+	 * Aufruf der Aktivitaet zum Einstellen des Datums
 	 * 
 	 * @param v
 	 */
@@ -280,7 +277,7 @@ public class TodoContextActivity extends Activity implements AddRemoveContactsDi
 		}
 	}
 
-	// overwrite action of the backbutton from Android
+	// Back Button Funktion ueberschreiben
 	public void onBackPressed() {
 		startActivity(new Intent(this, TodoOverviewActivity.class));
 	}
@@ -291,7 +288,7 @@ public class TodoContextActivity extends Activity implements AddRemoveContactsDi
 	 */
 	public void addRemoveContacts(View v) {
 		ContactPickerDialogFragment contactPicker = new ContactPickerDialogFragment();
-		ContactsAccessor conAcc = new ContactsAccessor(getContentResolver());
+		ContactsAccessor conAcc = new ContactsAccessor(this, getContentResolver());
 		allContactsList = (ArrayList<Contact>) conAcc.readAllContactsNames();
 		//Alphabetische Sortierung der Kontakte
 		Collections.sort(allContactsList);
@@ -300,7 +297,7 @@ public class TodoContextActivity extends Activity implements AddRemoveContactsDi
 		for (Contact c : allContactsList){
 			namesList.add(c.getName());
 			boolean check = false;
-			//Falls der Kontakt dem aktuellen Todo schon zugeordnet ist, checke ihn
+			//Falls der Kontakt dem aktuellen Todo schon zugeordnet ist, markiere ihn
 			for (Contact c2 : contacts){
 				if(c.getId() == c2.getId()){
 					check = true;

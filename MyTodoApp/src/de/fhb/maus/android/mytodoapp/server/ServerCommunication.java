@@ -39,7 +39,7 @@ public class ServerCommunication {
 	// Json objekt das alle Todos vom Server enthealt
 	private static StringBuilder todoJsonObjektString;
 	// IP des Servers
-	private static String url = "http://192.168.2.101:8080";
+	private static String url = "http://192.168.0.12:8080";
 	private static MySQLiteHelper db;
 
 	/**

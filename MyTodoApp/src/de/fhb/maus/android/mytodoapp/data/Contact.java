@@ -1,23 +1,22 @@
 package de.fhb.maus.android.mytodoapp.data;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.graphics.Bitmap;
+
 /**
- * some class to represent a contact
+ * Klasse, um ID, Name, Thumbnail, Email-Adressen und Telefonnummern eines Kontakts zu halten
  */
-public class Contact implements Serializable, Comparable<Contact> {
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 2139670243307764033L;
+public class Contact implements Comparable<Contact> {
 
 	private long id;
 	
 	private String name;
 	
+	private Bitmap thumbnail;
+	
+
 	private List<String> emails = new ArrayList<String>();
 	private List<String> phoneNumbers = new ArrayList<String>();
 	
@@ -54,6 +53,14 @@ public class Contact implements Serializable, Comparable<Contact> {
 		this.name = name;
 	}
 	
+	public Bitmap getThumbnail() {
+		return thumbnail;
+	}
+
+	public void setThumbnail(Bitmap thumbnail) {
+		this.thumbnail = thumbnail;
+	}
+	
 	public boolean equals(Object other) {
 		if (other.getClass() == this.getClass()) {
 			return this.getId() == ((Contact)other).getId();
@@ -65,6 +72,9 @@ public class Contact implements Serializable, Comparable<Contact> {
 		return this.getName();
 	}
 
+	/**
+	 * Vergleiche Kontakte anhand ihres Namens
+	 */
 	@Override
 	public int compareTo(Contact compareContact) {
 		return this.getName().compareTo(compareContact.getName());
