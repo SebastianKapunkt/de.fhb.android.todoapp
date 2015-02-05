@@ -5,47 +5,6 @@
     android:background="@drawable/background"
     android:orientation="vertical" >
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dip"
-        android:layout_weight="0.12"
-        android:gravity="center_vertical"
-        android:orientation="horizontal" >
-
-        <Button
-            android:id="@+id/date_button"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="1dp"
-            android:layout_weight="1"
-            android:background="#CCFFFFFF"
-            android:onClick="sortByDate"
-            android:text="@string/sortdate" />
-
-        <Button
-            android:id="@+id/import_button"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="1dp"
-            android:layout_weight="1"
-            android:background="#CCFFFFFF"
-            android:onClick="sortByImportance"
-            android:text="@string/sortimportant" />
-        
-        <Button
-	        android:id="@+id/toggle_button"
-	        style="?android:attr/buttonStyleSmall"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="1dp"
-            android:layout_weight="1"
-            android:background="#CCFFFFFF"
-	        android:onClick="toggleOverview"
-	        android:text="@string/toggleoverview" />
-    </LinearLayout>
-
     <ListView
         android:id="@+id/todo_list"
         android:layout_width="fill_parent"

@@ -23,7 +23,8 @@
     <string name="refresh">refresh</string>
     <string name="locationName">Choose location</string>
     <string name="todo_location">location</string>
-    <string name="toggleoverview">Toggle Overview</string>
+    <string name="todooverview">Todo Overview</string>
+    <string name="mapoverview">Map</string>
     <string name="hello_world">Hello world!</string>
     <string name="ok">Okay</string>
     <string name="add_contact">Add Contact</string>

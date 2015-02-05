@@ -24,6 +24,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|bottom"
         android:layout_margin="5dp"
-        android:onClick="toggleOverview"
-        android:text="@string/toggleoverview" />
+        android:onClick="gotoTodoOverview"
+        android:text="@string/todooverview" />
 </RelativeLayout>

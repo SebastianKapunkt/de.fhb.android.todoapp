@@ -25,11 +25,10 @@ import de.fhb.maus.android.mytodoapp.database.MySQLiteHelper;
  */
 public class ContactTodosActivity extends Activity {
 
-	public static final String SELECTED_TODO = "todo";
 	private ListView list;
 	private TodoArrayAdapter adapter;
 	private Contact contact;
-	MySQLiteHelper db = new MySQLiteHelper(this);
+	private MySQLiteHelper db = new MySQLiteHelper(this);
 	private ContactsAccessor conAcc;
 
 	public void onCreate(Bundle saveInstanceState) {

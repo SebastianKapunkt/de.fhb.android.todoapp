@@ -52,7 +52,7 @@ public class TodoContextActivity extends Activity implements AddRemoveContactsDi
 	private ArrayList<Contact> contacts;
 	private ArrayList<Contact> allContactsList;
 
-	MySQLiteHelper db;
+	private MySQLiteHelper db;
 
 
 	final Context context = this;

@@ -28,7 +28,7 @@ public class TodoOverviewActivity extends Activity {
 	public static final String SELECTED_TODO = "todo";
 	private ListView list;
 	private TodoArrayAdapter adapter;
-	MySQLiteHelper db = new MySQLiteHelper(this);
+	private MySQLiteHelper db = new MySQLiteHelper(this);
 	private boolean sortByDate;
 
 	public void onCreate(Bundle saveInstanceState) {
@@ -121,7 +121,7 @@ public class TodoOverviewActivity extends Activity {
 	}
 	
 	// listen to the toggle button
-	public void toggleOverview(MenuItem item) {
+	public void gotoLocationOverview(MenuItem item) {
 		startActivity(new Intent(this, TodoLocationOverviewActivity.class));
 	}
 }

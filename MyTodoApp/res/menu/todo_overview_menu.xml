@@ -18,8 +18,8 @@
     </item>
     <item
         android:id="@+id/menu_toggle_overview"
-        android:onClick="toggleOverview"
-        android:title="@string/toggleoverview" >
+        android:onClick="gotoLocationOverview"
+        android:title="@string/mapoverview" >
     </item>
     <item
         android:id="@+id/action_refresh"

@@ -32,7 +32,7 @@ public class TodoByContactActivity extends Activity {
 	
 	private ListView list;
 	private ContactArrayAdapter adapter;
-	MySQLiteHelper db = new MySQLiteHelper(this);
+	private MySQLiteHelper db = new MySQLiteHelper(this);
 	
 	private ArrayList<Contact> contacts;
 	private ContactsAccessor conAcc;

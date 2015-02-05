@@ -22,7 +22,7 @@ import de.fhb.maus.android.mytodoapp.database.MySQLiteHelper;
 /**
  * Uebersicht ueber die Orte, an denen es Todos gibt
  * 
- * @author Ferdinand Flamenco
+ * @author Per Militzer
  *
  */
 public class TodoLocationOverviewActivity extends FragmentActivity 
@@ -30,12 +30,10 @@ public class TodoLocationOverviewActivity extends FragmentActivity
 	
 	private MarkerOptions mOptions;
 	private GoogleMap map;
-	MySQLiteHelper db = new MySQLiteHelper(this);
+	private MySQLiteHelper db = new MySQLiteHelper(this);
 	private ArrayList<Todo> todoList;
 	private ArrayList<Marker> markerList;
-	String locationName = "";
-	//Intent markerIntent = new Intent(this, TodoContextActivity.class);
-	Todo markerTodo;
+	private Todo markerTodo;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -61,6 +59,7 @@ public class TodoLocationOverviewActivity extends FragmentActivity
 		todoList = db.getAllTodos();
 		markerList = new ArrayList<Marker>();
 		
+		// Erstelle fuer jedes Todo einen Marker auf der Map
 		for(Todo todo : todoList) {
 			mOptions = new MarkerOptions()
 						.position(todo.getLocationCoordinates())
@@ -83,11 +82,11 @@ public class TodoLocationOverviewActivity extends FragmentActivity
 	
 	@Override
 	public void onMapReady(GoogleMap map) {		
-		//marker = map.addMarker(mOptions);
+		
 	}
 	
 	// listen to the toggle button
-	public void toggleOverview(View view) {
+	public void gotoTodoOverview(View view) {
 		startActivity(new Intent(this, TodoOverviewActivity.class));
 	}
 }

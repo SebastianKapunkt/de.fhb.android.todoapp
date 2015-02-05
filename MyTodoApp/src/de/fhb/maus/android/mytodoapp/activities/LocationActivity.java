@@ -29,7 +29,7 @@ import de.fhb.maus.android.mytodoapp.R;
 /**
  * Aktivitaet fuer die Bearbeitung des Orts eines Todos
  * 
- * @author Ferdinand Flamenco
+ * @author Per Militzer
  *
  */
 public class LocationActivity extends FragmentActivity 
@@ -38,12 +38,12 @@ public class LocationActivity extends FragmentActivity
 	private MarkerOptions mOptions;
 	private Marker marker;
 	private GoogleMap map;
-	EditText locInfo;
+	private EditText locInfo;
 	private static final String TAG = "LocationAddress";
 	private static final String UNKNOWN_LOCATION = "Unknown location";
-	String geoCodeResult = "";
-	String locationName = "";
-	boolean markerWasDragged;
+	private String geoCodeResult = "";
+	private String locationName = "";
+	private boolean markerWasDragged;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -72,10 +72,18 @@ public class LocationActivity extends FragmentActivity
 		});
 		
 		// Konfiguriere Marker-Optionen
-		mOptions = new MarkerOptions()
-			.position(new LatLng(intent.getDoubleExtra("locationLatitude", 52.41192),
-									intent.getDoubleExtra("locationLongitude", 12.53126)))
-			.draggable(true);
+		if(intent.hasExtra("locationLatitude") && intent.hasExtra("locationLongitude")) {
+			mOptions = new MarkerOptions()
+				.position(new LatLng(
+						intent.getDoubleExtra("locationLatitude", 52.41192),
+						intent.getDoubleExtra("locationLongitude", 12.53126)))
+				.draggable(true);
+		}
+		else {
+			mOptions = new MarkerOptions()
+				.position(new LatLng(102.41192, 102.53126))
+				.draggable(true);
+		}
 		
 		// Erstelle Map
 		FragmentManager fManager = getFragmentManager();
