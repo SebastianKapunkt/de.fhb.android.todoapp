@@ -19,6 +19,7 @@ public class ValidationAccessor {
 	@POST
 	public Response authenticate(MyJSONOject json) {
 		long start = System.currentTimeMillis();
+		//Schleife zu Demonstrationszwecken
 		while(System.currentTimeMillis() - start < 1500){
 			
 		}

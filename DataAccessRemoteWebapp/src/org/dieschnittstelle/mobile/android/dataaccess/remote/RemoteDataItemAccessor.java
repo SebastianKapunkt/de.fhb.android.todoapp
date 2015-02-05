@@ -77,10 +77,10 @@ public class RemoteDataItemAccessor implements IDataItemCRUDAccessor {
 		itemlist.add(new TodoItem(
 				idCount++,
 				"Eclipse verbrennen",
-				"Schritt 1: Eclipse lÃ¶schen, Schritt 2: Ecipse download Server Ddos'n, Schritt 3: Android Studio runterladen",
+				"Schritt 1: Eclipse löschen, Schritt 2: Eclipse Download-Server DDOS'n, Schritt 3: Android Studio runterladen",
 				false, true, 1423242000000l));
 		itemlist.add(new TodoItem(idCount++, "Android Studio installieren",
-				"2d", false, true, 1423242060000l));
+				"Installieren Sie das hervorragende Android Studio und erfreuen Sie sich an dessen fortgeschrittenen Features", false, true, 1423242060000l));
 
 		for (int i = 0; i < 20; i++) {
 			itemlist.add(new TodoItem(idCount++, "Server Item " + i, i

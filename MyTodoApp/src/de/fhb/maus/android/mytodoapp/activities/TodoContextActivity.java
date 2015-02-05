@@ -146,12 +146,7 @@ public class TodoContextActivity extends Activity implements AddRemoveContactsDi
 	 * @param v
 	 */
 	public void saveTodoItem(View v) {
-		// Todo-Objekt aus eingegebenen Daten erstellen
-		todo.setName(todoname.getText().toString());
-		todo.setDescription(tododesc.getText().toString());
-		todo.setDone(isDone.isChecked());
-		todo.setImportant(isImportant.isChecked());
-		todo.setMaturityDateFromString(datetime.getText().toString());
+		fillTodoItem();
 
 		// Neues oder existierendes Todo?
 		if (todo.getId() != -1) {
@@ -171,6 +166,15 @@ public class TodoContextActivity extends Activity implements AddRemoveContactsDi
 
 		// Beendet Context Aktivitaet und geht zur Overview Aktivitaet zurueck
 		startActivity(new Intent(this, TodoOverviewActivity.class));
+	}
+	
+	public void fillTodoItem(){
+		// Todo-Objekt aus eingegebenen Daten erstellen
+		todo.setName(todoname.getText().toString());
+		todo.setDescription(tododesc.getText().toString());
+		todo.setDone(isDone.isChecked());
+		todo.setImportant(isImportant.isChecked());
+		todo.setMaturityDateFromString(datetime.getText().toString());
 	}
 
 	/**

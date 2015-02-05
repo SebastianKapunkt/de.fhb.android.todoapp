@@ -27,5 +27,7 @@
 	<string name="ok">Okay</string>
     <string name="refresh">refresh</string>
     <string name="todos">Todos</string>
+    <string name="todo_details">Todo details</string>
+    <string name="choose_date">Choose date</string>
 
 </resources>

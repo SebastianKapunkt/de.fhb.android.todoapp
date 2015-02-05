@@ -9,7 +9,6 @@
         android:id="@+id/todo_list"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_marginBottom="7dp"
         android:layout_marginTop="7dp"
         android:divider="@android:color/transparent"
         android:dividerHeight="7.0sp" />
@@ -21,15 +20,16 @@
         android:layout_centerInParent="true"
         android:gravity="center" >
 
-        <Button
+        <ImageButton
             android:id="@+id/button1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/roundedbutton"
+            android:layout_marginBottom="5dp"
             android:gravity="center"
             android:onClick="createNewTodo"
-            android:text="@string/create_todo"
-            android:textSize="35sp" />
+            style="?android:attr/borderlessButtonStyle"
+            android:src="@drawable/add" 
+            android:contentDescription="@string/create_todo"/>
     </RelativeLayout>
 
 </RelativeLayout>

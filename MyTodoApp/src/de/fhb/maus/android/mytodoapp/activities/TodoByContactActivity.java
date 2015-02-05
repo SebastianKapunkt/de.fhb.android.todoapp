@@ -1,13 +1,8 @@
 package de.fhb.maus.android.mytodoapp.activities;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 
-import de.fhb.maus.android.mytodoapp.R;
-import de.fhb.maus.android.mytodoapp.adapter.ContactArrayAdapter;
-import de.fhb.maus.android.mytodoapp.database.MySQLiteHelper;
-import de.fhb.maus.android.mytodoapp.data.Contact;
-import de.fhb.maus.android.mytodoapp.data.ContactsAccessor;
-import de.fhb.maus.android.mytodoapp.comparator.ContactNameComparator;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,9 +11,16 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+import de.fhb.maus.android.mytodoapp.R;
+import de.fhb.maus.android.mytodoapp.adapter.ContactArrayAdapter;
+import de.fhb.maus.android.mytodoapp.comparator.ContactNameComparator;
+import de.fhb.maus.android.mytodoapp.data.Contact;
+import de.fhb.maus.android.mytodoapp.data.ContactsAccessor;
+import de.fhb.maus.android.mytodoapp.database.MySQLiteHelper;
 
 
 /**
@@ -38,6 +40,19 @@ public class TodoByContactActivity extends Activity {
 	public void onCreate(Bundle saveInstanceState) {
 		super.onCreate(saveInstanceState);
 		setContentView(R.layout.todo_by_contact);
+		
+		try {
+			ViewConfiguration config = ViewConfiguration.get(this);
+			Field menuKeyField = ViewConfiguration.class
+					.getDeclaredField("sHasPermanentMenuKey");
+
+			if (menuKeyField != null) {
+				menuKeyField.setAccessible(true);
+				menuKeyField.setBoolean(config, false);
+			}
+		} catch (Exception e) {
+			// presumably, not relevant
+		}
 
 		list = (ListView) findViewById(R.id.todo_by_contact_list);
 

@@ -3,22 +3,22 @@ package de.fhb.maus.android.mytodoapp.adapter;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import de.fhb.maus.android.mytodoapp.R;
 import de.fhb.maus.android.mytodoapp.activities.ContactTodosActivity;
+import de.fhb.maus.android.mytodoapp.activities.TodoContextActivity;
 import de.fhb.maus.android.mytodoapp.data.Contact;
 import de.fhb.maus.android.mytodoapp.data.Todo;
-import de.fhb.maus.android.mytodoapp.R;
 
 /**
  * Adapter fuer Liste der Kontakte auf der Todo-Detail-Seite
@@ -27,7 +27,7 @@ import de.fhb.maus.android.mytodoapp.R;
  */
 public class ContextContactArrayAdapter extends ArrayAdapter<Contact>{
 	
-	private final Activity context;
+	private final TodoContextActivity context;
 	private final ArrayList<Contact> contacts;
 	private final Drawable smsIcon;
 	private final Drawable smsIconGrey;
@@ -43,7 +43,7 @@ public class ContextContactArrayAdapter extends ArrayAdapter<Contact>{
 		private ImageView contactSMS;
 	}
 	
-	public ContextContactArrayAdapter(Activity context, ArrayList<Contact> contacts, Todo todo){
+	public ContextContactArrayAdapter(TodoContextActivity context, ArrayList<Contact> contacts, Todo todo){
 		super(context, R.layout.context_contact_rowlayout, contacts);
 		this.context = context;
 		this.contacts = contacts;
@@ -121,6 +121,7 @@ public class ContextContactArrayAdapter extends ArrayAdapter<Contact>{
 				List<String> emails = contacts.get(position).getEmails();
 				if (emails.size() > 0){
 					Intent intent = new Intent(Intent.ACTION_SENDTO);
+					context.fillTodoItem();
 					String uriText = "mailto:" + Uri.encode(emails.get(0)) + 
 					          "?subject=" + Uri.encode("Todo: " + todo.getName()) + 
 					          "&body=" + Uri.encode(todo.getDescription());
@@ -144,6 +145,7 @@ public class ContextContactArrayAdapter extends ArrayAdapter<Contact>{
 				List<String> phoneNumbers = contacts.get(position).getPhoneNumbers();
 				if (phoneNumbers.size() > 0){
 					Intent intent = new Intent(android.content.Intent.ACTION_VIEW);
+					context.fillTodoItem();
 					intent.setType("vnd.android-dir/mms-sms");
 					intent.putExtra("address", phoneNumbers.get(0));         
 					intent.putExtra("sms_body","Todo: " + todo.getName() + "\n" + todo.getDescription());
