@@ -11,11 +11,9 @@ import de.fhb.maus.android.mytodoapp.comparator.ContactNameComparator;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ListView;
 
 public class TodoByContactActivity extends Activity {

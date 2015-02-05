@@ -1,33 +1,21 @@
 package de.fhb.maus.android.mytodoapp.activities;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Intent;
-import android.location.Address;
-import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.app.FragmentManager;
-import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
 
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
-import com.google.android.gms.maps.GoogleMap.OnMarkerDragListener;
 import com.google.android.gms.maps.GoogleMapOptions;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 
 import de.fhb.maus.android.mytodoapp.R;
-import de.fhb.maus.android.mytodoapp.adapter.TodoArrayAdapter;
 import de.fhb.maus.android.mytodoapp.data.Todo;
 import de.fhb.maus.android.mytodoapp.database.MySQLiteHelper;
 

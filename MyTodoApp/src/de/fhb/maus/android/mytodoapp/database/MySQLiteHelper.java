@@ -2,7 +2,6 @@ package de.fhb.maus.android.mytodoapp.database;
 
 import java.util.ArrayList;
 
-import de.fhb.maus.android.mytodoapp.data.Contact;
 import de.fhb.maus.android.mytodoapp.data.Todo;
 import android.content.ContentValues;
 import android.content.Context;
