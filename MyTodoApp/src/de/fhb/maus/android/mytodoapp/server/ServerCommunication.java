@@ -150,7 +150,7 @@ public class ServerCommunication {
 		if (db.getAllTodos().isEmpty()) {
 			// wenn nicht dann werden die werden die Todos vom Server an die
 			// Lokale Datenbank uebergeben
-			putTodosToLokalDatabase();
+			putTodosToLocalDatabase();
 			// Wenn die Datenbank danach nicht mehr leer ist dann war der
 			// ablgeich erfolgreich
 			if (!db.getAllTodos().isEmpty()) {
@@ -204,7 +204,7 @@ public class ServerCommunication {
 	 * 
 	 * @throws JSONException
 	 */
-	private static void putTodosToLokalDatabase() throws JSONException {
+	private static void putTodosToLocalDatabase() throws JSONException {
 		JSONArray items = new JSONArray(todoJsonObjektString.toString());
 		JSONObject item;
 		Todo todo;
