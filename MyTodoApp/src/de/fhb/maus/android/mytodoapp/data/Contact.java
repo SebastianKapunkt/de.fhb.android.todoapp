@@ -6,7 +6,7 @@ import java.util.List;
 import android.graphics.Bitmap;
 
 /**
- * some class to represent a contact
+ * Klasse, um ID, Name, Thumbnail, Email-Adressen und Telefonnummern eines Kontakts zu halten
  */
 public class Contact implements Comparable<Contact> {
 
@@ -72,6 +72,9 @@ public class Contact implements Comparable<Contact> {
 		return this.getName();
 	}
 
+	/**
+	 * Vergleiche Kontakte anhand ihres Namens
+	 */
 	@Override
 	public int compareTo(Contact compareContact) {
 		return this.getName().compareTo(compareContact.getName());

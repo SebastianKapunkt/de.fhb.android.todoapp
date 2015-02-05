@@ -20,6 +20,11 @@ import de.fhb.maus.android.mytodoapp.data.Contact;
 import de.fhb.maus.android.mytodoapp.data.Todo;
 import de.fhb.maus.android.mytodoapp.R;
 
+/**
+ * Adapter fuer Liste der Kontakte auf der Todo-Detail-Seite
+ * @author Daniel Weis
+ *
+ */
 public class ContextContactArrayAdapter extends ArrayAdapter<Contact>{
 	
 	private final Activity context;
@@ -30,7 +35,7 @@ public class ContextContactArrayAdapter extends ArrayAdapter<Contact>{
 	private final Drawable emailIconGrey;
 	private final Todo todo;
 	
-	// ViewHolder for viewholder pattern from listview
+	// ViewHolder fuer ViewHolder Pattern
 	static class ViewHolder {
 		private ImageView contactPicture;
 		private TextView contactName;
@@ -53,7 +58,7 @@ public class ContextContactArrayAdapter extends ArrayAdapter<Contact>{
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		View rowView = convertView;
 
-		// initialize elements of holder if first time called
+		// Holder-Elemente bei erstem Aufruf initialisieren
 		if (rowView == null) {
 			LayoutInflater inflater = (LayoutInflater) context
 					.getLayoutInflater();
@@ -65,27 +70,34 @@ public class ContextContactArrayAdapter extends ArrayAdapter<Contact>{
 			holder.contactEmail = (ImageView) rowView.findViewById(R.id.sendEmail);
 			holder.contactSMS = (ImageView) rowView.findViewById(R.id.sendSMS);
 			
-			// set Tag to find holder
+			// Tag setzen, um Holder zu finden
 			rowView.setTag(holder);
 
 		}
-		// get the holder applied to the tag
 		final ViewHolder holder = (ViewHolder) rowView.getTag();
 		
+		
+		// Kontaktdaten setzen
 		holder.contactPicture.setImageBitmap(contacts.get(position).getThumbnail());
 		holder.contactName.setText(contacts.get(position).getName());
 		
+		// Pruefen, ob Kontakt mind. eine Telefonnummer hat
 		if (contacts.get(position).getPhoneNumbers().size() > 0)
 			holder.contactSMS.setImageDrawable(smsIcon);
 		else
 			holder.contactSMS.setImageDrawable(smsIconGrey);
 		
+		// Pruefen, ob Kontakt mind. eine Email-Adresse hat
 		if (contacts.get(position).getEmails().size() > 0)
 			holder.contactEmail.setImageDrawable(emailIcon);
 		else
 			holder.contactEmail.setImageDrawable(emailIconGrey);
 		
 		holder.contactName.setOnClickListener(new OnClickListener() {
+					
+			/**
+			 * Bei Klick auf Kontakt-Namen Liste der ihm zugeordneten Todos zeigen
+			 */
 			@Override
 			public void onClick(View v) {
 				Contact contact = contacts.get(position);
@@ -98,8 +110,12 @@ public class ContextContactArrayAdapter extends ArrayAdapter<Contact>{
 		});
 		
 		
-		// OnClick listener: to send email
 		holder.contactEmail.setOnClickListener(new OnClickListener() {
+			
+			/**
+			 * Bei Klick auf Email Email-Client starten und Daten uebergeben.
+			 * Ermoeglicht Auswahl des bevorzugten Clients.
+			 */
 			@Override
 			public void onClick(View v) {
 				List<String> emails = contacts.get(position).getEmails();
@@ -117,8 +133,12 @@ public class ContextContactArrayAdapter extends ArrayAdapter<Contact>{
 			}
 		});
 		
-		// OnClick listener: to send SMS
+		
 		holder.contactSMS.setOnClickListener(new OnClickListener() {
+			
+			/**
+			 * Bei Klick auf SMS Nachrichten starten und Daten uebergeben.
+			 */
 			@Override
 			public void onClick(View v) {
 				List<String> phoneNumbers = contacts.get(position).getPhoneNumbers();

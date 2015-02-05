@@ -12,12 +12,17 @@ import android.widget.TextView;
 import de.fhb.maus.android.mytodoapp.R;
 import de.fhb.maus.android.mytodoapp.data.Contact;
 
+/**
+ * Adapter fuer Liste aller Kontakte, denen Todos zugeordnet sind
+ * @author Daniel Weis
+ *
+ */
 public class ContactArrayAdapter extends ArrayAdapter<Contact>{
 	
 	private final Activity context;
 	private final ArrayList<Contact> contacts;
 	
-	// ViewHolder for viewholder pattern from listview
+	// ViewHolder fuer das ViewHolder-Pattern
 	static class ViewHolder {
 		private ImageView contactPicture;
 		private TextView contactName;
@@ -33,7 +38,7 @@ public class ContactArrayAdapter extends ArrayAdapter<Contact>{
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		View rowView = convertView;
 
-		// initialize elements of holder if first time called
+		// Holder-Elemente bei erstem Aufruf initialisieren
 		if (rowView == null) {
 			LayoutInflater inflater = (LayoutInflater) context
 					.getLayoutInflater();
@@ -43,13 +48,13 @@ public class ContactArrayAdapter extends ArrayAdapter<Contact>{
 			
 			holder.contactName = (TextView) rowView.findViewById(R.id.todo_by_c_contact_name);
 			holder.contactPicture = (ImageView) rowView.findViewById(R.id.todo_by_c_contact_picture);
-			// set Tag to find holder
+			// Tag setzen, um Holder zu finden
 			rowView.setTag(holder);
 
 		}
-		// get the holder applied to the tag
 		final ViewHolder holder = (ViewHolder) rowView.getTag();
 		
+		//Kontaktdaten einfuegen
 		holder.contactPicture.setImageBitmap(contacts.get(position).getThumbnail());
 		holder.contactName.setText(contacts.get(position).getName());
 		

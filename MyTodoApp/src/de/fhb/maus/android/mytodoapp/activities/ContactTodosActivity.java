@@ -20,7 +20,7 @@ import de.fhb.maus.android.mytodoapp.database.MySQLiteHelper;
 /**
  * Ueberblick ueber die Todos eines gewaehlten Kontakts
  * 
- * @author Sebastian Kindt, Daniel Weis
+ * @author Daniel Weis
  * 
  */
 public class ContactTodosActivity extends Activity {
@@ -34,33 +34,35 @@ public class ContactTodosActivity extends Activity {
 
 	public void onCreate(Bundle saveInstanceState) {
 		super.onCreate(saveInstanceState);
+		
+		// Hole Kontakt-ID aus Intent und Kontakt-Daten von ContactsAccessor
 		Intent intent = getIntent();
 		long contactId = intent.getLongExtra("contact_id", -1);
 		conAcc = new ContactsAccessor(this, this.getContentResolver());
 		contact = conAcc.readContact(contactId);
+		
 		setContentView(R.layout.contact_todos);
 		
 		ImageView contactPic = (ImageView) findViewById(R.id.contact_picture_large);
 		TextView contactName = (TextView) findViewById(R.id.contact_todos_contact_name);
 		
+		// Hole hochaufgeloestes Bild
 		Bitmap photo = conAcc.readContactPicture(true, contactId);
 		contactPic.setImageBitmap(photo);
+		
 		contactName.setText(contact.getName());
 		
-		// get the ListView
 		list = (ListView) findViewById(R.id.contact_todo_list);
 
-		// get custom adapter
 		adapter = new TodoArrayAdapter(this, db.getTodosFromContact(contactId));
-
-		// set comparator to adapter
 		adapter.sort(new TodoImportantComparator());
-
-		// set the custom adapter to the list View
 		list.setAdapter(adapter);
 
 	}
-
+	/**
+	 * Zurueck zur Todo-Uebersicht
+	 * @param item
+	 */
 	public void gotoTodoOverview(MenuItem item) {
 		startActivity(new Intent(this, TodoOverviewActivity.class));
 	}
@@ -72,7 +74,9 @@ public class ContactTodosActivity extends Activity {
 		return true;
 	}
 
-	// overwrite action of the backbutton from Android
+	/**
+	 * Ueberschreibe Back-Button Funktion
+	 */
 	public void onBackPressed() {
 		startActivity(new Intent(this, TodoOverviewActivity.class));
 	}

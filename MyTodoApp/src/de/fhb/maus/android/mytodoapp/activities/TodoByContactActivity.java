@@ -20,6 +20,12 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
+
+/**
+ * Liste aller Kontakte, denen Todos zugeordnet sind
+ * @author Daniel Weis
+ *
+ */
 public class TodoByContactActivity extends Activity {
 	
 	private ListView list;
@@ -33,19 +39,20 @@ public class TodoByContactActivity extends Activity {
 		super.onCreate(saveInstanceState);
 		setContentView(R.layout.todo_by_contact);
 
-		// get the ListView
 		list = (ListView) findViewById(R.id.todo_by_contact_list);
 
-		// get custom adapter
 		conAcc = new ContactsAccessor(this, getContentResolver());
 		contacts = (ArrayList<Contact>)conAcc.readContacts(db.getAllContacts());
 		adapter = new ContactArrayAdapter(this, contacts);
 		adapter.sort(new ContactNameComparator());
 
-		// set the custom adapter to the list View
 		list.setAdapter(adapter);
 		list.setOnItemClickListener(new OnItemClickListener(){
 
+			
+			/**
+			 * Ruft Liste aller Todos des gewaehlten Kontakts auf
+			 */
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
@@ -69,6 +76,10 @@ public class TodoByContactActivity extends Activity {
 		return true;
 	}
 	
+	/**
+	 * Zurueck zur Todo-Uebersicht
+	 * @param item
+	 */
 	public void gotoTodoOverview(MenuItem item) {
 		startActivity(new Intent(this, TodoOverviewActivity.class));
 	}

@@ -13,21 +13,21 @@ import android.util.Log;
 /**
  * Datenbankmanager
  * 
- * @author Sebastian Kindt
+ * @author Sebastian Kindt, Daniel Weis
  * 
  */
 public class MySQLiteHelper extends SQLiteOpenHelper {
 
-	// database version
+	// Datenbank-Version
 	private static final int DATABASE_VERSION = 2;
-	// database name
+	// Datenbank-Name
 	private static final String DATABASE_NAME = "TodoDB";
 
-	// table names
+	// Tabellen-Namen
 	private static final String TABLE_TODO = "todos";
 	private static final String TABLE_CONTACTS = "contacts";
 
-	// Todo table columns names
+	// Spalten-Namen der Todo-Tabelle
 	private static final String KEY_ID = "id";
 	private static final String KEY_Name = "name";
 	private static final String KEY_DESCRIPTION = "description";
@@ -35,11 +35,11 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 	private static final String KEY_ISIMPORTANT = "isimportant";
 	private static final String KEY_MATURITYDATE = "maturitydate";
 	
-	// Contacts table column names
+	// Spalten-Namen der Contact-Tabelle
 	private static final String KEY_TODOID = "todoid";
 	private static final String KEY_CONTACTID = "contactid";	
 
-	// table columns
+	// Namen aller Spalten
 	private static final String[] COLUMNS_TODO = { KEY_ID, KEY_Name,
 			KEY_DESCRIPTION, KEY_ISDONE, KEY_ISIMPORTANT, KEY_MATURITYDATE };
 	private static final String[] COLUMNS_CONTACTS = { KEY_TODOID, KEY_CONTACTID };
@@ -65,21 +65,23 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 		db.execSQL(CREATE_CONTACTS_TABLE);
 	}
 
+	/**
+	 * Upgradet Datenbank bei Versions-Aenderungen
+	 */
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		// drop older todos table if exists
+		// Loesche bereits existierende Daten
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_TODO);
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_CONTACTS);
 
-		// create fresh todo table
+		// Erstelle neue Datenbank
 		this.onCreate(db);
 	}
 
 	// ---------------------------------------------------------------------
 
 	/**
-	 * CRUD operations (create "add", read "get", update, delete) book + get all
-	 * books
+	 * CRUD Operationen
 	 */
 
 	// C - create
@@ -105,21 +107,26 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 		return newId;
 	}
 	
+	/**
+	 * Kontakt einfuegen
+	 * @param todoId
+	 * @param contactId
+	 */
 	public void addContact(long todoId, long contactId){
-		// get reference to writable database
+		// Datenbank-Referenz holen
 		SQLiteDatabase db = this.getWritableDatabase();
 
-		// create ContentValues to add key "column"/value
+		// ContentValues mit einzufuegenden Werten erstellen
 		ContentValues values = new ContentValues();
 		values.put(KEY_TODOID, todoId);
 		values.put(KEY_CONTACTID, contactId);
 
-		// insert
-		db.insert(TABLE_CONTACTS, // table
+		// Einfuegen
+		db.insert(TABLE_CONTACTS, // Tabelle
 				null, // nullColumnHack
-				values); // key/value -> keys = column names
+				values); // Werte
 
-		// close
+		// Schliessen
 		db.close();
 	}
 
@@ -195,22 +202,27 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 		return todos;
 	}
 	
+	/**
+	 * Alle dem gewaehlten Todo zugeordneten Kontakt-IDs holen
+	 * @param id Todo-ID
+	 * @return Liste der zugeordneten Kontakt-IDs
+	 */
 	public ArrayList<Long> getContactsFromTodo(long id) {
 		ArrayList<Long> contacts = new ArrayList<Long>();
-		// get reference to readable database
+		// Datenbank-Referenz holen
 		SQLiteDatabase db = this.getReadableDatabase();
 
-		// build query
-		Cursor cursor = db.query(TABLE_CONTACTS, // table
-				COLUMNS_CONTACTS, // columns names
-				KEY_TODOID + " = ?", // selections
-				new String[] { String.valueOf(id) }, // select
+		// Query bauen
+		Cursor cursor = db.query(TABLE_CONTACTS, // Tabelle
+				COLUMNS_CONTACTS, // Spalten-Namen
+				KEY_TODOID + " = ?", // Selection
+				new String[] { String.valueOf(id) }, // Selection-Argumente
 				null, // group by
 				null, // having
 				null, // order by
 				null); // limit
 
-		// if we got results get the first one
+		// Falls Kontakte gefunden wurden, fuege sie der Liste hinzu
 		if (cursor != null && cursor.getCount()>0) {
 			cursor.moveToFirst();
 			do {
@@ -221,29 +233,32 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 			Log.d("Error", "Contacts from Todo not found");
 		}
 
-		// close
 		db.close();
 
 		return contacts;
 	}
 	
+	/**
+	 * Alle einem beliebigen Todo zugeordneten Kontakte holen
+	 * @return
+	 */
 	public ArrayList<Long> getAllContacts() {
 		ArrayList<Long> contacts = new ArrayList<Long>();
-		// get reference to readable database
+		// Datenbank-Referenz holen
 		SQLiteDatabase db = this.getReadableDatabase();
 
-		// build query
-		Cursor cursor = db.query(true, //distinct
-				TABLE_CONTACTS, // table
-				new String[]{ KEY_CONTACTID }, // columns names
-				null, // selections
-				null, // select
+		// Query bauen
+		Cursor cursor = db.query(true, //distinct, keine IDs mehrfach
+				TABLE_CONTACTS, // Tabelle
+				new String[]{ KEY_CONTACTID }, // Spalten-Namen
+				null, // Selection
+				null, // Selection-Argumente
 				null, // group by
 				null, // having
 				null, // order by
 				null); // limit
 
-		// if we got results get the first one
+		// Falls Kontakte gefunden wurden, fuege sie der Liste hinzu
 		if (cursor != null && cursor.getCount()>0) {
 			cursor.moveToFirst();
 			do {
@@ -251,31 +266,35 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 			} while (cursor.moveToNext());
 			cursor.close();
 		} else {
-			Log.d("Error", "Contacts from Todo not found");
+			Log.d("Error", "No contacts found");
 		}
 
-		// close
 		db.close();
 
 		return contacts;
 	}
 	
+	/**
+	 * Alle dem gewaehlten Kontakt zugeordneten Todo-IDs holen
+	 * @param id Kontakt-ID
+	 * @return Liste der zugeordneten Todo-IDs
+	 */
 	public ArrayList<Todo> getTodosFromContact(long id) {
 		ArrayList<Todo> todos = new ArrayList<Todo>();
-		// get reference to readable database
+		// Datenbank-Referenz holen
 		SQLiteDatabase db = this.getReadableDatabase();
 
-		// build query
-		Cursor cursor = db.query(TABLE_CONTACTS, // table
-				COLUMNS_CONTACTS, // columns names
-				KEY_CONTACTID + " = ?", // selections
-				new String[] { String.valueOf(id) }, // select
+		// Query bauen
+		Cursor cursor = db.query(TABLE_CONTACTS, // Tabelle
+				COLUMNS_CONTACTS, // Spalten-Namen
+				KEY_CONTACTID + " = ?", // Selection
+				new String[] { String.valueOf(id) }, // Selection-Argumente
 				null, // group by
 				null, // having
 				null, // order by
 				null); // limit
 
-		// if we got results get the first one
+		// Falls Todos gefunden wurden, fuege sie der Liste hinzu
 		if (cursor != null && cursor.getCount()>0) {
 			cursor.moveToFirst();
 			do {
@@ -283,10 +302,9 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 			} while (cursor.moveToNext());
 			cursor.close();
 		} else {
-			Log.d("error", "Contacts from Todo not found");
+			Log.d("error", "Todos from Contact not found");
 		}
 
-		// close
 		db.close();
 
 		return todos;
@@ -332,31 +350,38 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 		db.close();
 	}
 	
+	/**
+	 * Zuordnung eines Kontakts zu einem Todo entfernen
+	 * @param todoId
+	 * @param contactId
+	 */
 	public void deleteContact(long todoId, long contactId) {
-		// get reference to writable database
+		// Datenbank-Referenz holen
 		SQLiteDatabase db = this.getWritableDatabase();
 
-		// delete
-		db.delete(TABLE_CONTACTS, // table
+		// Loeschen
+		db.delete(TABLE_CONTACTS, // Tabelle
 				KEY_TODOID + " = ? AND "
-				+ KEY_CONTACTID + " = ?", // selection
+				+ KEY_CONTACTID + " = ?", // Selection
 				new String[] { String.valueOf(todoId),
-					String.valueOf(contactId)}); // selection
-												// args
-		// close
+					String.valueOf(contactId)}); // Selection-Argumente
+
 		db.close();
 	}
 	
+	/**
+	 * Alle einem Todo zugeordneten Kontakte entfernen
+	 * @param todoId
+	 */
 	public void deleteTodoContacts(long todoId) {
-		// get reference to writable database
+		// Datenbank-Referenz holen
 		SQLiteDatabase db = this.getWritableDatabase();
 
-		// delete
-		db.delete(TABLE_CONTACTS, // table
-				KEY_TODOID + " = ?", // selection
-				new String[] { String.valueOf(todoId)}); // selection
-														// args
-		// close
+		// Loeschen
+		db.delete(TABLE_CONTACTS, // Tabelle
+				KEY_TODOID + " = ?", // Selection
+				new String[] { String.valueOf(todoId)}); // Selection-Argumente
+
 		db.close();
 	}
 }
