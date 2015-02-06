@@ -93,7 +93,7 @@
         android:layout_height="wrap_content"
         android:gravity="center|bottom"
         android:orientation="horizontal" 
-        android:layout_alignParentBottom="true" >
+        android:layout_below="@id/context_contacts_list" >
 
         <Button
             android:id="@+id/delete_button"
