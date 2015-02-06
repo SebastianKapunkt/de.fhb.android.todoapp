@@ -13,8 +13,8 @@ import javax.ws.rs.Produces;
 
 
 @Path("/dataitem")
-@Consumes({ "application/json" })
-@Produces({ "application/json" })
+@Consumes({ "application/json; charset=UTF-8" })
+@Produces({ "application/json; charset=UTF-8" })
 public interface IDataItemCRUDAccessor {
 	
 	@GET

@@ -18,6 +18,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.protocol.HTTP;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -39,7 +40,7 @@ public class ServerCommunication {
 	// Json objekt das alle Todos vom Server enthealt
 	private static StringBuilder todoJsonObjektString;
 	// IP des Servers
-	private static String url = "http://192.168.2.101:8080";
+	private static String url = "http://192.168.0.12:8080";
 	private static MySQLiteHelper db;
 
 	/**
@@ -113,11 +114,11 @@ public class ServerCommunication {
 
 			Log.d("Json", json);
 
-			StringEntity se = new StringEntity(json);
+			StringEntity se = new StringEntity(json, HTTP.UTF_8);
 
 			httpPost.setEntity(se);
 			httpPost.setHeader("Accept", "application/json");
-			httpPost.setHeader("Content-type", "application/json");
+			httpPost.setHeader("Content-type", "application/json; charset=utf-8");
 
 			HttpResponse httpResponse = httpclient.execute(httpPost);
 			int code = httpResponse.getStatusLine().getStatusCode();
@@ -319,7 +320,7 @@ public class ServerCommunication {
 		json = jsonObject.toString();
 
 		// 5. set json to StringEntity
-		StringEntity se = new StringEntity(json);
+		StringEntity se = new StringEntity(json, HTTP.UTF_8);
 
 		// 6. set httpPost Entity
 		httpPost.setEntity(se);

@@ -40,7 +40,6 @@ public class LocationActivity extends FragmentActivity
 	private GoogleMap map;
 	private EditText locInfo;
 	private static final String TAG = "LocationAddress";
-	private static final String UNKNOWN_LOCATION = "Unknown location";
 	private String geoCodeResult = "";
 	private String locationName = "";
 	private boolean markerWasDragged;
