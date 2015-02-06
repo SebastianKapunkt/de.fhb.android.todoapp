@@ -150,7 +150,7 @@ public class LocationActivity extends FragmentActivity
 				StringBuilder sb = new StringBuilder();
 				
 				if(address.getLocality() == null)  {
-					sb.append(UNKNOWN_LOCATION);
+					sb.append(address.getCountryName());
 				}
 				else {
 					if(address.getLocality().contains("Unnamed")) {
