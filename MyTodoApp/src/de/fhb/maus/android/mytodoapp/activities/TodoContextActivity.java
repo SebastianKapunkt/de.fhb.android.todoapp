@@ -276,11 +276,6 @@ public class TodoContextActivity extends Activity implements AddRemoveContactsDi
 			}
 		}
 	}
-
-	// Back Button Funktion ueberschreiben
-	public void onBackPressed() {
-		startActivity(new Intent(this, TodoOverviewActivity.class));
-	}
 	
 	/**
 	 * Oeffnet ContactPicker zum Hinzufuegen und Entfernen von Kontakten zu einem Todo

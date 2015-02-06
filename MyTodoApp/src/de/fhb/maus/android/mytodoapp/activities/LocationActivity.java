@@ -147,9 +147,6 @@ public class LocationActivity extends FragmentActivity
 			if(addressList != null && addressList.size() > 0) {
 				Address address = addressList.get(0);
 				StringBuilder sb = new StringBuilder();
-				/*for(int i = 0; i < address.getMaxAddressLineIndex(); i++) {
-					sb.append(address.getAddressLine(i)).append("\n");
-				}*/
 				
 				if(address.getLocality() == null)  {
 					sb.append(UNKNOWN_LOCATION);

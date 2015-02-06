@@ -68,8 +68,6 @@ public class TodoArrayAdapter extends ArrayAdapter<Todo> {
 			holder.linearLayout = (LinearLayout) rowView
 					.findViewById(R.id.row_layout);
 			holder.todoDate = (TextView) rowView.findViewById(R.id.todo_date);
-			holder.todoLocationName = (TextView) rowView
-					.findViewById(R.id.todo_location);
 			// set Tag to find holder
 			rowView.setTag(holder);
 
@@ -114,7 +112,6 @@ public class TodoArrayAdapter extends ArrayAdapter<Todo> {
 		holder.todoName.setText(todos.get(position).getName());
 		holder.isDoneCheckbox.setChecked(todos.get(position).isDone());
 		holder.todoDate.setText(todos.get(position).getMaturityDateAsString());
-		holder.todoLocationName.setText(todos.get(position).getLocationName());
 
 		// change behavior if todo is done
 		switchBackground(holder, position);
