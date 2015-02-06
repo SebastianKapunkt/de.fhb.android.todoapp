@@ -36,7 +36,6 @@ public class TodoArrayAdapter extends ArrayAdapter<Todo> {
 		private TextView todoDate;
 		private ImageView isImportant;
 		private CheckBox isDoneCheckbox;
-		private TextView todoLocationName;
 		private LinearLayout linearLayout;
 	}
 
