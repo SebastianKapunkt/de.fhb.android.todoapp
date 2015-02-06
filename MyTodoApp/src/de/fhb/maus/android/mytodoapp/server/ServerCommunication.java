@@ -39,7 +39,7 @@ public class ServerCommunication {
 	// Json objekt das alle Todos vom Server enthealt
 	private static StringBuilder todoJsonObjektString;
 	// IP des Servers
-	private static String url = "http://192.168.0.12:8080";
+	private static String url = "http://192.168.2.101:8080";
 	private static MySQLiteHelper db;
 
 	/**
@@ -311,6 +311,9 @@ public class ServerCommunication {
 		jsonObject.accumulate("done", todo.isDone());
 		jsonObject.accumulate("important", todo.isImportant());
 		jsonObject.accumulate("maturityDate", todo.getMaturityDate() + "");
+		jsonObject.accumulate("locationName", todo.getLocationName());
+		jsonObject.accumulate("locationLatitude", todo.getLocationLatitude());
+		jsonObject.accumulate("locationLongitude", todo.getLocationLongitude());
 
 		// 4. convert JSONObject to JSON to String
 		json = jsonObject.toString();
