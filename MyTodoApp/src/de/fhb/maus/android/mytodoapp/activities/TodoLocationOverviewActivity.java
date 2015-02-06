@@ -59,6 +59,7 @@ public class TodoLocationOverviewActivity extends FragmentActivity
 		// Konfiguriere Marker-Optionen und fuege der Map Marker hinzu
 		todoList = db.getAllTodos();
 		markerList = new ArrayList<Marker>();
+		map.setOnMarkerClickListener(this);
 		
 		// Erstelle fuer jedes Todo mit einer Position einen Marker auf der Map
 		for(Todo todo : todoList) {
@@ -70,8 +71,6 @@ public class TodoLocationOverviewActivity extends FragmentActivity
 							.title(todo.getLocationName());
 				
 				markerList.add(map.addMarker(mOptions));
-				markerTodo = todo;
-				map.setOnMarkerClickListener(this);
 			}
 		}
 	}
@@ -83,6 +82,12 @@ public class TodoLocationOverviewActivity extends FragmentActivity
 	 */
 	@Override
 	public boolean onMarkerClick(Marker marker) {
+		for(Todo todo : todoList) {
+			if((Double)todo.getLocationLatitude() == marker.getPosition().latitude
+					&& (Double)todo.getLocationLongitude() == marker.getPosition().longitude) {
+				markerTodo = todo;
+			}
+		}
 		Intent intent = new Intent(this, TodoContextActivity.class);
 		intent.putExtra("todo", markerTodo.getId());
 		startActivity(intent);
