@@ -55,6 +55,7 @@ public class LocationActivity extends FragmentActivity
 		locInfo = (EditText)findViewById(R.id.locinfo);
 		if(intent.hasExtra("locationName")) {
 			locInfo.setText(intent.getStringExtra("locationName"));
+			locationName = locInfo.getText().toString();
 		}
 		locInfo.addTextChangedListener(new TextWatcher() {
 
