@@ -20,15 +20,21 @@ public class TodoItem implements Serializable {
 	private boolean isDone;
 	private boolean isImportant;
 	private long maturityDate;
+	private String locationName;
+	private double locationLatitude;
+	private double locationLongitude;
 
 	public TodoItem(long id, String name, String description, boolean isDone,
-			boolean isImportant, long maturityDate) {
+			boolean isImportant, long maturityDate, String locationName, double locationLatitude, double locationLongitude) {
 		this.id = (id == -1 ? ID++ : id);
 		this.name = name;
 		this.description = description;
 		this.isDone = isDone;
 		this.isImportant = isImportant;
 		this.maturityDate = maturityDate;
+		this.locationName = locationName;
+		this.locationLatitude = locationLatitude;
+		this.locationLongitude = locationLongitude;
 	}
 
 	public TodoItem() {
@@ -41,15 +47,21 @@ public class TodoItem implements Serializable {
 		this.setDone(item.isDone());
 		this.setImportant(item.isImportant());
 		this.setMaturityDate(item.getMaturityDate());
+		this.setLocationName(item.getLocationName());
+		this.setLocationLatitude(item.getLocationLatitude());
+		this.setLocationLongitude(item.getLocationLongitude());
 
 		return this;
 	}
 
 	@Override
 	public String toString() {
-		return "Todo [id=" + id + ", name=" + name + ", description="
-				+ description + ", isDone=" + isDone + ", isImportant="
-				+ isImportant + ", maturityDate=" + maturityDate + "]";
+		return "Todo [id=" + id + ", name=" + name + ", description=" + description
+				+ ", isDone=" + isDone + ", isImportant=" + isImportant
+				+ ", maturityDate=" + maturityDate
+				+ ", locationName=" + locationName
+				+ ", locationCoordinates=" + locationLatitude + ","
+				+ locationLongitude + "]";
 	}
 
 	@Override
@@ -101,6 +113,18 @@ public class TodoItem implements Serializable {
 	public long getMaturityDate() {
 		return maturityDate;
 	}
+	
+	public String getLocationName() {
+		return locationName;
+	}
+	
+	public double getLocationLatitude() {
+		return locationLatitude;
+	}
+	
+	public double getLocationLongitude() {
+		return locationLongitude;
+	}
 
 	public void setId(long id) {
 		this.id = id;
@@ -124,5 +148,17 @@ public class TodoItem implements Serializable {
 
 	public void setMaturityDate(long maturityDate) {
 		this.maturityDate = maturityDate;
+	}
+	
+	public void setLocationName(String locationName) {
+		this.locationName = locationName;
+	}
+	
+	public void setLocationLatitude(double locationLatitude) {
+		this.locationLatitude = locationLatitude;
+	}
+	
+	public void setLocationLongitude(double locationLongitude) {
+		this.locationLongitude = locationLongitude;
 	}
 }
