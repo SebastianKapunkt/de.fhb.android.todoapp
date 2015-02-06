@@ -161,9 +161,7 @@ public class LocationActivity extends FragmentActivity
 						sb.append(strparts[1]);
 					}
 					else {
-						//sb.append(address.getPostalCode()).append("\n");
-						sb.append(address.getLocality()).append("\n");
-						//sb.append(address.getCountryName());
+						sb.append(address.getLocality());
 					}
 				}
 				
