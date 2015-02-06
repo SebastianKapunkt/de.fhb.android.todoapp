@@ -252,8 +252,7 @@ public class TodoContextActivity extends Activity implements AddRemoveContactsDi
 		intent.putExtra("locationName", todo.getLocationName());
 		intent.putExtra("locationLatitude", todo.getLocationLatitude());
 		intent.putExtra("locationLongitude", todo.getLocationLongitude());
-		startActivityForResult(intent, 1);
-		//startActivity(new Intent(this, LocationActivity.class));
+		startActivityForResult(intent, 2);
 	}
 
 	/**
@@ -264,15 +263,17 @@ public class TodoContextActivity extends Activity implements AddRemoveContactsDi
 		if (requestCode == 1) {
 			if (resultCode == RESULT_OK) {
 				todo.setMaturityDate(data.getLongExtra("time",
-						System.currentTimeMillis()));
+						System.currentTimeMillis()));				
+				datetime.setText(todo.getMaturityDateAsString());				
+			}
+		}
+		if (requestCode == 2) {
+			if (resultCode == RESULT_OK) {
 				todo.setLocationName(data.getStringExtra("locationName"));
 				todo.setLocationCoordinates(new LatLng(
 						data.getDoubleExtra("locationLatitude", 52.41192),
 						data.getDoubleExtra("locationLongitude", 12.53126)));
-				
-				datetime.setText(todo.getMaturityDateAsString());
-				locationName.setText(todo.getLocationName());
-				
+				locationName.setText(todo.getLocationName());			
 			}
 		}
 	}
