@@ -2,11 +2,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
-        android:id="@+id/menu_todo_by_contact"
-        android:title="@string/contacts"
-        android:onClick="gotoTodoByContact" >
-    </item>
-    <item
         android:id="@+id/menu_sortbydate"
         android:onClick="sortByDate"
         android:title="@string/sortdate" >
@@ -15,6 +10,11 @@
         android:id="@+id/menu_sortbyimportant"
         android:onClick="sortByImportance"
         android:title="@string/sortimportant" >
+    </item>
+    <item
+        android:id="@+id/menu_todo_by_contact"
+        android:title="@string/contacts"
+        android:onClick="gotoTodoByContact" >
     </item>
     <item
         android:id="@+id/menu_toggle_overview"

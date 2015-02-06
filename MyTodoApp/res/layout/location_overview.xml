@@ -18,12 +18,15 @@
 		android:layout_height="match_parent" />
 
 	<Button
-        android:id="@+id/toggle_button"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="145dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal|bottom"
-        android:layout_margin="5dp"
-        android:onClick="gotoTodoOverview"
-        android:text="@string/todooverview" />
+	    android:id="@+id/toggle_button"
+	    style="?android:attr/buttonStyleSmall"
+	    android:layout_width="145dp"
+	    android:layout_height="wrap_content"
+	    android:layout_alignEnd="@+id/map"
+	    android:layout_alignRight="@+id/map"
+	    android:layout_alignTop="@+id/map"
+	    android:layout_margin="5dp"
+	    android:onClick="gotoTodoOverview"
+	    android:text="@string/todooverview" />
+
 </RelativeLayout>
