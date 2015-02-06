@@ -1,6 +1,7 @@
 package de.fhb.maus.android.mytodoapp.activities;
 
 import java.util.ArrayList;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -59,16 +60,19 @@ public class TodoLocationOverviewActivity extends FragmentActivity
 		todoList = db.getAllTodos();
 		markerList = new ArrayList<Marker>();
 		
-		// Erstelle fuer jedes Todo einen Marker auf der Map
+		// Erstelle fuer jedes Todo mit einer Position einen Marker auf der Map
 		for(Todo todo : todoList) {
-			mOptions = new MarkerOptions()
-						.position(todo.getLocationCoordinates())
-						.draggable(false)
-						.title(todo.getLocationName());
-			
-			markerList.add(map.addMarker(mOptions));
-			markerTodo = todo;
-			map.setOnMarkerClickListener(this);
+			if((Double)todo.getLocationLatitude() != null
+					&& (Double)todo.getLocationLongitude() != null) {
+				mOptions = new MarkerOptions()
+							.position(todo.getLocationCoordinates())
+							.draggable(false)
+							.title(todo.getLocationName());
+				
+				markerList.add(map.addMarker(mOptions));
+				markerTodo = todo;
+				map.setOnMarkerClickListener(this);
+			}
 		}
 	}
 	
